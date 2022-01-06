@@ -9,6 +9,8 @@ class PlayerObject(GameObject):
 
     health = 100
     state = 'active'
+    width = 0
+    height = 0
 
     #movement as tupel: positive = x/y+, negative = x/y-
     movement = [0,0]
@@ -19,7 +21,8 @@ class PlayerObject(GameObject):
     #Constructor currently generates a rectangle for us
     def __init__(self, color, width, height, start):
         GameObject.__init__(self)
-
+        self.height = height
+        self.width = width
         #player rectangle image
         self.image = pygame.Surface([width,height])
         self.image.set_at(start, color)
@@ -33,21 +36,21 @@ class PlayerObject(GameObject):
         newPosX = self.rect.x + self.movement[0]
         newPosY = self.rect.y + self.movement[1]
 
-        if newPosX > self.borderX[0] and newPosX < self.borderX[1]:
+        if newPosX > self.borderX[0] and newPosX < self.borderX[1]-self.width:
             self.rect.x = newPosX
         elif newPosX < self.borderX[0]:
             #hit left edge, bounce from border
             self.movement[0] = 4
-        elif newPosX > self.borderX[1]:
+        elif newPosX > self.borderX[1]-self.width:
             #hit right edge, bounce from border
             self.movement[0] = -4
 
-        if newPosY > self.borderY[0] and newPosY < self.borderY[1]:
+        if newPosY > self.borderY[0] and newPosY < self.borderY[1]-self.height:
             self.rect.y = newPosY
         elif newPosY < self.borderY[0]:
             #hit top edge, bounce from border
             self.movement[1] = 4
-        elif newPosY > self.borderY[1]:
+        elif newPosY > self.borderY[1]-self.height:
             #hit bottom edge, bounce from border
             self.movement[1] = -4
 
