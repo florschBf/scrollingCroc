@@ -1,4 +1,5 @@
 import sys
+import os
 
 import pygame
 from pygame.locals import *
@@ -6,10 +7,14 @@ from pygame.sprite import Sprite
 
 from controller.PlayerController import PlayerController
 from gameObjects.PlayerObject import PlayerObject
+from scenes.Startmenu import Startmenu
 
 
 pygame.init()
 print ('hello pygame')
+
+#center screen
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 #setting a few defaults, consider using a settings file later on
 FPS = 60
@@ -44,7 +49,7 @@ my_player.setBorderY(gameboard.get_height())
 print(my_player.borderX)
 print(my_player.borderY)
 
-
+startmenu = Startmenu
 controller = PlayerController(my_player)
 
 
@@ -78,3 +83,6 @@ while True:
     pygame.display.flip()
     controller.update()
     frames.tick(FPS)
+
+    #start menu on launch to select game mode
+    startmenu.render()
