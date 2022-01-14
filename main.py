@@ -16,7 +16,7 @@ FPS = 60
 frames = pygame.time.Clock()
 width = 1280
 height = 720
-gameSpeed = 10 #variable to control overall game speed for difficulty settings later on
+gameSpeed = 10 #variable to control overall game speed for difficulty settings later on, multiplier on non-player-obj-movement
 
 #testcolor
 black = (0,0,0)
