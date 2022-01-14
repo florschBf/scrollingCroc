@@ -9,7 +9,7 @@ from controller.SceneController import SceneController
 pygame.init()
 print('hello pygame')
 scene = SceneController()
-scene.launch('tutorial')
+scene.launch('start_menu')
 
 
 #startmenu = Startmenu(green)
