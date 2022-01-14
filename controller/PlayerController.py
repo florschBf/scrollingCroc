@@ -3,8 +3,8 @@ from pygame.key import *
 
 class PlayerController:
 
-    #movement settings - switch up to change player move behaviour
-    #drag slows down when not accelerating, responsiveness controls quickness of controls
+    '''movement settings - switch up to change player move behaviour
+    drag slows down when not accelerating, responsiveness controls quickness of controls'''
     responsiveness = 1
     drag = 0.5
     maxSpeed = 15

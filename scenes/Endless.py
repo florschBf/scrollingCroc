@@ -1,0 +1,2 @@
+class Endless:
+    pass
