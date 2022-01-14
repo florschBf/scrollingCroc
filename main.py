@@ -49,7 +49,7 @@ my_player.setBorderY(gameboard.get_height())
 print(my_player.borderX)
 print(my_player.borderY)
 
-startmenu = Startmenu
+startmenu = Startmenu(green)
 controller = PlayerController(my_player)
 
 
@@ -77,6 +77,9 @@ while True:
 
     #print(new_pos)
     gameboard.fill(black)
+
+    #start menu on launch to select game mode
+    gameboard.blit(startmenu.render(), (screen_width/2 - (start_rect[2]/2), 300))
     pygame.sprite.Group.update(activeSprites)
     pygame.sprite.Group.draw(activeSprites, gameboard)
     pygame.draw.circle(gameboard, (white), new_pos, 15)
@@ -84,5 +87,3 @@ while True:
     controller.update()
     frames.tick(FPS)
 
-    #start menu on launch to select game mode
-    startmenu.render()
