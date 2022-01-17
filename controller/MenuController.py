@@ -37,3 +37,6 @@ class MenuController:
                 print('stopped going left')
 
         print(event.type)
+
+    def update(self):
+        pass

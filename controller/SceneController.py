@@ -28,9 +28,15 @@ class SceneController:
         pygame.display.set_caption("Scrolling Croc V0.1")
 
         # preloading scenes - is that smart?
-        self.menu = Startmenu(self.gameBoard, (200, 200, 200))
+        # hard-coding colors here, consider themes / settings file
+        self.menu = Startmenu(self.gameBoard, (150, 60, 255), (255, 255, 255))
         self.tut = Tutorial(self.gameBoard)
         self.play = Play(self.gameBoard)
+        self.endless = Endless(self.gameBoard)
+        self.options = Options(self.gameBoard)
+
+        # starting state is menu
+        self.state = 0
 
     def launch(self, scene):
         """
@@ -53,6 +59,8 @@ class SceneController:
             self.state = 3
         elif scene == "options":
             self.state = 4
+        else:  # that shouldn't happen
+            pass
 
     def update(self):
         """
@@ -70,6 +78,9 @@ class SceneController:
             self.tut.render()
         elif self.state == 2:
             self.play.render()
+        else:
+            # invalid state, don't know what to render || close? rendering start_menu I guess
+            self.menu.render()
 
         # start menu on launch to select game mode
         # gameboard.blit(startmenu.render(), (screen_width/2 - (start_rect[2]/2), 300))
@@ -85,6 +96,6 @@ class SceneController:
         :return: not returning anything
         """
         if self.state == 0:
-            self.menu.controller.printMyEvent(event)  # this makes NO sense at all
+            self.menu.controller.handle(event)  # this makes NO sense at all
         elif self.state == 1:
             self.tut.controller.handle(event)
