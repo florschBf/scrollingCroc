@@ -24,19 +24,16 @@ class Tutorial:
         self.activeSprites = pygame.sprite.Group()
 
         #we need a player
-        self.my_player = PlayerObject(self.green, 25, 25, (350,350))
+        self.my_player = PlayerObject(self.green, 25, 25, (350, 350))
         self.my_player.setColor(self.green)
         self.my_player.add(self.activeSprites)
 
-        #player needs to know game borders
+        # player needs to know game borders
         self.my_player.setBorderX(self.gameboard.get_width())
         self.my_player.setBorderY(self.gameboard.get_height())
-        print(self.my_player.borderX)
-        print(self.my_player.borderY)
 
-        #and we need a controller
+        # and we need a controller
         self.controller = PlayerController(self.my_player)
-
 
     def render(self):
         new_pos_x = self.ball.__getattribute__("center")[0] - self.ball_speed[0]

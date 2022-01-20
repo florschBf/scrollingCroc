@@ -12,14 +12,15 @@ scene = SceneController()
 scene.launch('start_menu')
 
 
-#startmenu = Startmenu(green)
+# startmenu = Startmenu(green)
 
-#Core loop here
+# Core loop here
 while True:
-    #game happening
-    #still
-    pygame.display.update() #refresh every rendered frame
-    #quit condition
+    # game happening
+    # still
+    scene.update()
+    pygame.display.update()  # refresh every rendered frame
+    # quit condition
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -27,5 +28,5 @@ while True:
         else:
             scene.handle(event)
 
-    scene.update()
+
 

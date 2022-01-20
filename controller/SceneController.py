@@ -1,7 +1,6 @@
 import os
 
 import pygame
-from pygame.locals import *
 
 from scenes.Tutorial import Tutorial
 from scenes.Startmenu import Startmenu
@@ -17,7 +16,6 @@ class SceneController:
         # setting a few defaults for screen size, consider using a settings file later on
         width = 1280
         height = 720
-
         # we need a surface to play on
         self.gameBoard = pygame.display.set_mode((width, height))
         self.gameBoard.fill((15, 15, 15))
@@ -68,7 +66,6 @@ class SceneController:
         triggers scene render according to state we're in
         :return: nth
         """
-        # bit of general background for now
         self.gameBoard.fill((15, 15, 15))
 
         # check state and call render
@@ -79,7 +76,7 @@ class SceneController:
         elif self.state == 2:
             self.play.render()
         else:
-            # invalid state, don't know what to render || close? rendering start_menu I guess
+            # invalid state, don't know what to render || close? rendering start_menu I guess, should never happen
             self.menu.render()
 
         # start menu on launch to select game mode
@@ -96,6 +93,6 @@ class SceneController:
         :return: not returning anything
         """
         if self.state == 0:
-            self.menu.controller.handle(event)  # this makes NO sense at all
+            self.menu.controller.handle(event)
         elif self.state == 1:
             self.tut.controller.handle(event)

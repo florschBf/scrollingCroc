@@ -1,6 +1,6 @@
 import pygame.font
 
-from uiObjects.TextRenderer import TextRenderer
+from gameObjects.MenuSelector import MenuSelector
 from controller.MenuController import MenuController
 
 
@@ -13,18 +13,15 @@ class Startmenu:
     item3 = 'Endless'
     item4 = 'Options'
 
-
     def __init__(self, surface, color, selector_color):
         # we render here
         self.menu_display = surface
-        # selected holds the currently selected menu item as a position
-        self.selected = 0
         # main color for font - consider color schemes or accents for later
         self.main_color = color
         self.selector_color = selector_color
         # menu needs a visible selector to show selected item
         # ball standing in as selector for now
-        self.selector = pygame.draw.circle(self.menu_display, self.selector_color, (100, 50), 30)
+        self.selector = MenuSelector(15, 15, self.selector_color)
 
         # creating all menu items as surfaces and rendering them on the main surface
         self.text_item1 = self.font_renderer.render(self.item1, True, self.main_color)
@@ -34,11 +31,18 @@ class Startmenu:
         self.text_items = [self.text_item1, self.text_item2, self.text_item3, self.text_item4]
 
         # we need a menu controller to handle player input
-        self.controller = MenuController()
+        self.controller = MenuController(self.selector, self)
+
+        # we collect active sprites in a group to draw them to surface
+        self.activeSprites = pygame.sprite.Group()
+        self.selector.add(self.activeSprites)
 
     def render(self):
-        start_screen = True
-        print('menu rendering')
+
+        # render sprites
+        pygame.sprite.Group.update(self.activeSprites)
+        pygame.sprite.Group.draw(self.activeSprites, self.menu_display)
+
         # rendering menu items to surface
         self.menu_display.blit(self.text_item1, (
             self.menu_display.get_width() / 2 - 30, self.menu_display.get_height() / 2 - 120, 30, 30))
@@ -49,12 +53,5 @@ class Startmenu:
         self.menu_display.blit(self.text_item4, (
             self.menu_display.get_width() / 2 - 30, self.menu_display.get_height() / 2 - 30, 30, 30))
 
-        # running controller update to get menu movements
+        # running controller update to get menu player input
         self.controller.update()
-
-        self.set_selector_pos(self.selector, self.selected)
-
-    def set_selector_pos(self, selector, text_item):
-        # get height and with of selected item
-        selected_item = self.text_items[text_item]
-        print("hello")
