@@ -1,10 +1,11 @@
 import pygame.font
 
+from scenes.Scene import Scene
 from gameObjects.MenuSelector import MenuSelector
 from controller.MenuController import MenuController
 
 
-class Startmenu:
+class Startmenu(Scene):
     pygame.font.init()
     menu_font = pygame.font.get_default_font()  # getting default font for now just to render sth
     font_renderer = pygame.font.SysFont(menu_font, 30)
@@ -13,7 +14,10 @@ class Startmenu:
     item3 = 'Endless'
     item4 = 'Options'
 
-    def __init__(self, surface, color, selector_color):
+    def __init__(self, surface, color, selector_color, scene_controller):
+        # our scene controller
+        super().__init__()
+        self.scene_controller = scene_controller
         # we render here
         self.menu_display = surface
         # main color for font - consider color schemes or accents for later

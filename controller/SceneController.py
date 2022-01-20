@@ -27,11 +27,11 @@ class SceneController:
 
         # preloading scenes - is that smart?
         # hard-coding colors here, consider themes / settings file
-        self.menu = Startmenu(self.gameBoard, (150, 60, 255), (255, 255, 255))
-        self.tut = Tutorial(self.gameBoard)
-        self.play = Play(self.gameBoard)
-        self.endless = Endless(self.gameBoard)
-        self.options = Options(self.gameBoard)
+        self.menu = Startmenu(self.gameBoard, (150, 60, 255), (255, 255, 255), self)
+        self.tut = Tutorial(self.gameBoard, self)
+        self.play = Play(self.gameBoard, self)
+        self.endless = Endless(self.gameBoard, self)
+        self.options = Options(self.gameBoard, self)
 
         # starting state is menu
         self.state = 0
@@ -78,9 +78,6 @@ class SceneController:
         else:
             # invalid state, don't know what to render || close? rendering start_menu I guess, should never happen
             self.menu.render()
-
-        # start menu on launch to select game mode
-        # gameboard.blit(startmenu.render(), (screen_width/2 - (start_rect[2]/2), 300))
 
         # tell pygame to update the display and stick to selected FPS
         pygame.display.flip()
