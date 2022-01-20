@@ -1,7 +1,8 @@
-import pygame
-from pygame.key import *
+import pygame.key
+
 
 class PlayerController:
+
 
     '''movement settings - switch up to change player move behaviour
     drag slows down when not accelerating, responsiveness controls quickness of controls'''
@@ -14,18 +15,18 @@ class PlayerController:
     falling = False
 
     def __init__(self, player):
-        '''
+        """
         Constructor for player controller
         :param player: Player object that will be controlled with inputs
-        '''
+        """
         self.player = player
 
-    def handle(self,event):
-        '''
+    def handle(self, event):
+        """
         Methode zum Verarbeiten von Keyboard, Maus und Controller-Input
         :param event: Player Input
         :return:
-        '''
+        """
         #Get keypress
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
@@ -60,6 +61,12 @@ class PlayerController:
                 self.falling = False
 
     def update(self):
+        """
+        Movement is realized through a changing speed tuple variable
+        Increased on acceleration/rise
+        Decreased on decelerate/fall
+        :return:
+        """
         speed = self.player.getSpeed()
         print(speed)
         #x movement
