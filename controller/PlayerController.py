@@ -14,12 +14,13 @@ class PlayerController:
     rising = False
     falling = False
 
-    def __init__(self, player):
+    def __init__(self, player, scene):
         """
         Constructor for player controller
         :param player: Player object that will be controlled with inputs
         """
         self.player = player
+        self.scene = scene
 
     def handle(self, event):
         """
@@ -59,6 +60,11 @@ class PlayerController:
             elif event.key == pygame.K_DOWN:
                 print('stopped going down')
                 self.falling = False
+            elif event.key == pygame.K_ESCAPE:
+                print('back to menu')
+                # THIS LEAVES THE SCENE BELOW INTACT - WIE PAUSE
+                # TODO implement sth like oncreate / onresume / onpause / ondestroy
+                self.scene.scene_controller.launch("start_menu")
 
     def update(self):
         """

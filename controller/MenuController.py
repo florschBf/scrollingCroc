@@ -18,20 +18,33 @@ class MenuController:
         :param event: the player input to handle
         :return: None
         """
-        #Get keypress
+        # Get keypress - TODO decide on keydown / up handling here in menu
+        # TODO implement mouse support
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
                 print('moving selector up')
-                self.selector.next_item()
+                self.selector.prev_item()
                 self.selectorNeedsMoving = True
 
             elif event.key == pygame.K_DOWN:
                 print('moving selector down')
-                self.selector.prev_item()
+                self.selector.next_item()
                 self.selectorNeedsMoving = True
 
             elif event.key == pygame.K_RETURN:
                 print('pew pew')
+                selected = self.selector.get_selected()
+
+                if selected == 0:
+                    scene = "tutorial"
+                elif selected == 1:
+                    scene = "play"
+                elif selected == 2:
+                    scene = "endless"
+                elif selected == 3:
+                    scene = "options"
+
+                self.menu.scene_controller.launch(scene)
 
         print(event.type)
 
@@ -46,8 +59,11 @@ class MenuController:
         # get position of selected item
         print("trying to move selector...")
         text_item = self.selector.get_selected()
-        selected_item = self.menu.text_items[text_item]
-        print(selected_item.get_rect().x, selected_item.get_rect().y)
-
-        self.selector.setPos(450, 450)
-
+        if text_item == 0:
+            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 120)
+        elif text_item == 1:
+            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 90)
+        elif text_item == 2:
+            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 60)
+        elif text_item == 3:
+            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 30)

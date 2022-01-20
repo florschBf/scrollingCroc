@@ -1,14 +1,19 @@
 import pygame.draw
+
+from scenes.Scene import Scene
 from gameObjects.PlayerObject import PlayerObject
 from controller.PlayerController import PlayerController
 
-class Tutorial:
+class Tutorial(Scene):
     #testcolors
     black = (0,0,0)
     white = (255,255,255)
     green = (14,237,0)
 
-    def __init__(self, display):
+    def __init__(self, display, scene_controller):
+        #my scene controller
+        super().__init__()
+        self.scene_controller = scene_controller
 
         #this is where we're displaying our scene
         self.gameboard = display
@@ -33,7 +38,7 @@ class Tutorial:
         self.my_player.setBorderY(self.gameboard.get_height())
 
         # and we need a controller
-        self.controller = PlayerController(self.my_player)
+        self.controller = PlayerController(self.my_player, self)
 
     def render(self):
         new_pos_x = self.ball.__getattribute__("center")[0] - self.ball_speed[0]
