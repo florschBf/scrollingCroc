@@ -49,5 +49,5 @@ class MenuController:
         selected_item = self.menu.text_items[text_item]
         print(selected_item.get_rect().x, selected_item.get_rect().y)
 
-        self.selector.rect.x = selected_item.get_rect().x - 50
-        self.selector.rect.y = selected_item.get_rect().y
+        self.selector.setPos(450, 450)
+

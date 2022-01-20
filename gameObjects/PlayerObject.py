@@ -33,7 +33,6 @@ class PlayerObject(GameObject):
 
     # UPDATE CALLED EVERY FRAME ON SPRITES
     def update(self):
-
         # Handle movement every frame
         new_pos_x = self.rect.x + self.movement[0]
         new_pos_y = self.rect.y + self.movement[1]

@@ -16,8 +16,7 @@ class MenuSelector(UiObject):
         self.width = width
         # selector rectangle image
         self.image = pygame.Surface([width, height])
-        # self.image.set_colorkey(color)
-        self.image.set_at((0, 0), color)
+        self.image.fill(color)
 
         #image position on screen, update using rect.x and rect.y
         self.rect = self.image.get_rect()
@@ -37,3 +36,10 @@ class MenuSelector(UiObject):
     def get_selected(self):
         # return currently selected item
         return self.position
+
+    def setPos(self, x, y):
+        self.rect.x = x
+        self.rect.y = y
+
+    def setColor (self, color):
+        self.image.fill(color)
