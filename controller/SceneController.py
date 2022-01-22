@@ -35,10 +35,12 @@ class SceneController:
 
         # starting state is menu
         self.state = 0
+        self.prevState = 0
 
     def launch(self, scene):
         """
-        Method to set state to launch selected scene
+        Method to set state to launch selected scene without previous scene input
+        e.g start of game (launch) or when desired for other reasons, like omitting onpause (should not do that)
         :param scene: viable Strings:
             start_menu
             tutorial
@@ -60,6 +62,64 @@ class SceneController:
         else:  # that shouldn't happen
             pass
 
+    def scene_switch(self, next_scene, prev_scene):
+        """
+        Method to set state to launch selected scene
+        :param next_scene: viable Strings:
+            start_menu
+            tutorial
+            play
+            endless
+            options
+        :param prev_scene: the calling scene
+        :return: nth
+        """
+        if next_scene == "start_menu":
+            # call pause on previous scene
+            prev_scene.onpause()
+            # render selected scene and call onresume
+            self.state = 0
+            self.menu.onresume()
+            # do this for all other scenes as well when they are called with previous scene
+        elif next_scene == "tutorial":
+            prev_scene.onpause()
+            self.state = 1
+            self.tut.onresume()
+        elif next_scene == "play":
+            prev_scene.onpause()
+            self.state = 2
+            self.play.onresume()
+        elif next_scene == "endless":
+            prev_scene.onpause()
+            self.state = 3
+            self.endless.onresume()
+        elif next_scene == "options":
+            prev_scene.onpause()
+            self.state = 4
+            self.options.onresume()
+        else:  # that shouldn't happen
+            pass
+
+    # deprecated xD
+    def identify_previous_scene(scene_number):
+        """
+        Identifies the scene we come from when launching a new scene
+        :return: the scene we came from so we can call "onpause" or "onreset" on it or sth
+        """
+        scene = null;
+        if scene_number == 0:
+            scene = self.menu
+        elif scene_number == 1:
+            scene = self.tutorial
+        elif scene_number == 2:
+            scene = self.play
+        elif scene_number == 3:
+            scene = self.endless
+        elif scene_number == 4:
+            scene = self.options
+        return scene
+
+
     def update(self):
         """
         Update method to be called in the main loop -
@@ -75,6 +135,8 @@ class SceneController:
             self.tut.render()
         elif self.state == 2:
             self.play.render()
+        elif self.state == 3:
+            self.endless.render()
         else:
             # invalid state, don't know what to render || close? rendering start_menu I guess, should never happen
             self.menu.render()
@@ -93,3 +155,11 @@ class SceneController:
             self.menu.controller.handle(event)
         elif self.state == 1:
             self.tut.controller.handle(event)
+        elif self.state == 2:
+            self.play.controller.handle(event)
+        elif self.state == 3:
+            self.endless.controller.handle(event)
+        elif self.state == 4:
+            self.options.controller.handle(event)
+        else:
+            print("not in a valid state??? this is bad.")

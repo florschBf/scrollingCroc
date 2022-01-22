@@ -64,7 +64,7 @@ class PlayerController:
                 print('back to menu')
                 # THIS LEAVES THE SCENE BELOW INTACT - WIE PAUSE
                 # TODO implement sth like oncreate / onresume / onpause / ondestroy
-                self.scene.scene_controller.launch("start_menu")
+                self.scene.new_scene("start_menu")
 
     def update(self):
         """
@@ -73,7 +73,7 @@ class PlayerController:
         Decreased on decelerate/fall
         :return:
         """
-        speed = self.player.getSpeed()
+        speed = self.player.get_speed()
         print(speed)
         #x movement
         if self.accelerating:

@@ -1,4 +1,5 @@
 import pygame.key
+import sys
 
 
 class MenuController:
@@ -43,8 +44,12 @@ class MenuController:
                     scene = "endless"
                 elif selected == 3:
                     scene = "options"
+                elif selected == 4:
+                    pygame.quit()
+                    sys.exit()
 
-                self.menu.scene_controller.launch(scene)
+                if selected != 4:
+                    self.menu.new_scene(scene)
 
         print(event.type)
 
@@ -53,17 +58,25 @@ class MenuController:
             self.set_selector_pos()
             self.selectorNeedsMoving = False
 
-        #print(self.selector.rect)
-
     def set_selector_pos(self):
-        # get position of selected item
+        """
+        Method to set selector position next to selected menu item
+        :return:
+        """
+        # get position of selector and set it to hardcoded menu values
         print("trying to move selector...")
         text_item = self.selector.get_selected()
         if text_item == 0:
-            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 120)
+            self.selector.set_pos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 120)
         elif text_item == 1:
-            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 90)
+            self.selector.set_pos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 90)
         elif text_item == 2:
-            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 60)
+            self.selector.set_pos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 60)
         elif text_item == 3:
-            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 30)
+            self.selector.set_pos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 30)
+        elif text_item == 4:
+            self.selector.set_pos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2)
+
+    def reset_menu_pos(self):
+        self.selector.set_selected(0)
+        self.selectorNeedsMoving = True
