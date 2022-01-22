@@ -155,3 +155,11 @@ class SceneController:
             self.menu.controller.handle(event)
         elif self.state == 1:
             self.tut.controller.handle(event)
+        elif self.state == 2:
+            self.play.controller.handle(event)
+        elif self.state == 3:
+            self.endless.controller.handle(event)
+        elif self.state == 4:
+            self.options.controller.handle(event)
+        else:
+            print("not in a valid state??? this is bad.")

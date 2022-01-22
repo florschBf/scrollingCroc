@@ -73,7 +73,7 @@ class PlayerController:
         Decreased on decelerate/fall
         :return:
         """
-        speed = self.player.getSpeed()
+        speed = self.player.get_speed()
         print(speed)
         #x movement
         if self.accelerating:

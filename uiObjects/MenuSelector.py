@@ -23,14 +23,14 @@ class MenuSelector(UiObject):
     def next_item(self):
         # go to next item
         self.position += 1
-        if self.position > 3:
+        if self.position > 4:
             self.position = 0
 
     def prev_item(self):
         # go to previous item
         self.position -= 1
         if self.position < 0:
-            self.position = 3
+            self.position = 4
 
     def get_selected(self):
         # return currently selected item
@@ -39,9 +39,9 @@ class MenuSelector(UiObject):
     def set_selected(self, selection):
         self.position = selection
 
-    def setPos(self, x, y):
+    def set_pos(self, x, y):
         self.rect.x = x
         self.rect.y = y
 
-    def setColor (self, color):
+    def set_color (self, color):
         self.image.fill(color)

@@ -8,11 +8,6 @@ class PlayerObject(GameObject):
     @TODO graphic, controls, movement...
     """
 
-    health = 100
-    state = 'active'
-    width = 0
-    height = 0
-
     # movement as tupel: positive = x/y+, negative = x/y-
     movement = [0, 0]
     # gameBoard constraints for player to stay on screen, set dynamically
@@ -20,8 +15,8 @@ class PlayerObject(GameObject):
     borderY = [0, 0]
 
     # Constructor currently generates a rectangle for us
-    def __init__(self, color, width, height, start):
-        GameObject.__init__(self)
+    def __init__(self, surface, color, width, height, start):
+        GameObject.__init__(self, surface)
         self.height = height
         self.width = width
         # player rectangle image
@@ -55,38 +50,16 @@ class PlayerObject(GameObject):
             # hit bottom edge, bounce from border
             self.movement[1] = -4
 
-    def getPos(self):
-        return self.rect
-
-    # GAME LOGIC RELATED METHODS
-    def returnHealth(self):
-        return self.health
-
-    def returnState(self):
-        return self.state
-
-    def setHealth(self, someNumber):
-        self.health = someNumber
-
-    def setState(self,someState):
-        self.state = someState
-
-    #VISUAL AND POSITION SETTERS
-    def setPos(self, newX, newY):
-        self.rect.x = newX
-        self.rect.y = newY
-
-    def setColor(self, color):
-        self.image.fill(color)
-
-    def setBorderX(self, max_x_coord):
+    # Player logic methods
+    # Player should have borders on screen he cant't pass so he stays in the window
+    def set_borderX(self, max_x_coord):
         self.borderX[1] = max_x_coord
 
-    def setBorderY(self, max_y_coord):
+    def set_borderY(self, max_y_coord):
         self.borderY[1] = max_y_coord
 
     # MOVEMENT METHODS FOR CONTROLLER TO CALL
-    def getSpeed(self):
+    def get_speed(self):
         return self.movement
 
     def accelerate(self, speed_increase):

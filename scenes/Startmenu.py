@@ -13,6 +13,7 @@ class Startmenu(Scene):
     item2 = 'Play'
     item3 = 'Endless'
     item4 = 'Options'
+    item5 = 'Quit'
 
     def __init__(self, surface, color, selector_color, scene_controller):
         # our scene controller and surface get set in super
@@ -30,20 +31,18 @@ class Startmenu(Scene):
         self.text_item2 = self.font_renderer.render(self.item2, True, self.main_color)
         self.text_item3 = self.font_renderer.render(self.item3, True, self.main_color)
         self.text_item4 = self.font_renderer.render(self.item4, True, self.main_color)
+        self.text_item5 = self.font_renderer.render(self.item5, True, self.main_color)
         self.text_items = [self.text_item1, self.text_item2, self.text_item3, self.text_item4]
 
         # we need a menu controller to handle player input
         self.controller = MenuController(self.selector, self)
 
         # we collect active sprites in a group to draw them to surface
-        self.activeSprites = pygame.sprite.Group()
-        self.selector.add(self.activeSprites)
+        self.selector.add(self.active_sprites)
 
     def render(self):
-
-        # render sprites
-        pygame.sprite.Group.update(self.activeSprites)
-        pygame.sprite.Group.draw(self.activeSprites, self.gameboard)
+        # call Scene render function for sprites and controller
+        super().render()
 
         # rendering menu items to surface
         self.gameboard.blit(self.text_item1, (
@@ -54,10 +53,14 @@ class Startmenu(Scene):
             self.gameboard.get_width() / 2 - 30, self.gameboard.get_height() / 2 - 60, 30, 30))
         self.gameboard.blit(self.text_item4, (
             self.gameboard.get_width() / 2 - 30, self.gameboard.get_height() / 2 - 30, 30, 30))
+        self.gameboard.blit(self.text_item5, (
+            self.gameboard.get_width() / 2 - 30, self.gameboard.get_height() / 2, 30, 30))
 
-        # running controller update to get menu player input
-        self.controller.update()
 
     def onresume(self):
         super().onresume()
+
+    def onpause(self):
+        super().onpause()
+        # resetting controller position for when we go back to menu in the future
         self.controller.reset_menu_pos()
