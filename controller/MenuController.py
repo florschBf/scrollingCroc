@@ -60,10 +60,13 @@ class MenuController:
         print("trying to move selector...")
         text_item = self.selector.get_selected()
         if text_item == 0:
-            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 120)
+            self.selector.setPos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 120)
         elif text_item == 1:
-            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 90)
+            self.selector.setPos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 90)
         elif text_item == 2:
-            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 60)
+            self.selector.setPos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 60)
         elif text_item == 3:
-            self.selector.setPos(self.menu.menu_display.get_width() / 2 - 50, self.menu.menu_display.get_height() / 2 - 30)
+            self.selector.setPos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 30)
+
+    def reset_menu_pos(self):
+        self.selector.set_selected(0)

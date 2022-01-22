@@ -1,6 +1,5 @@
 import pygame
-from pygame.surface import Surface
-from gameObjects.UiObject import UiObject
+from uiObjects.UiObject import UiObject
 
 
 class MenuSelector(UiObject):
@@ -36,6 +35,9 @@ class MenuSelector(UiObject):
     def get_selected(self):
         # return currently selected item
         return self.position
+
+    def set_selected(self, selection):
+        self.position = selection
 
     def setPos(self, x, y):
         self.rect.x = x

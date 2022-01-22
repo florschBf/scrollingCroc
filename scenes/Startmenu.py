@@ -1,7 +1,7 @@
 import pygame.font
 
 from scenes.Scene import Scene
-from gameObjects.MenuSelector import MenuSelector
+from uiObjects.MenuSelector import MenuSelector
 from controller.MenuController import MenuController
 
 
@@ -15,11 +15,9 @@ class Startmenu(Scene):
     item4 = 'Options'
 
     def __init__(self, surface, color, selector_color, scene_controller):
-        # our scene controller
-        super().__init__()
-        self.scene_controller = scene_controller
-        # we render here
-        self.menu_display = surface
+        # our scene controller and surface get set in super
+        super().__init__(surface, scene_controller)
+
         # main color for font - consider color schemes or accents for later
         self.main_color = color
         self.selector_color = selector_color
@@ -45,17 +43,21 @@ class Startmenu(Scene):
 
         # render sprites
         pygame.sprite.Group.update(self.activeSprites)
-        pygame.sprite.Group.draw(self.activeSprites, self.menu_display)
+        pygame.sprite.Group.draw(self.activeSprites, self.gameboard)
 
         # rendering menu items to surface
-        self.menu_display.blit(self.text_item1, (
-            self.menu_display.get_width() / 2 - 30, self.menu_display.get_height() / 2 - 120, 30, 30))
-        self.menu_display.blit(self.text_item2, (
-            self.menu_display.get_width() / 2 - 30, self.menu_display.get_height() / 2 - 90, 30, 30))
-        self.menu_display.blit(self.text_item3, (
-            self.menu_display.get_width() / 2 - 30, self.menu_display.get_height() / 2 - 60, 30, 30))
-        self.menu_display.blit(self.text_item4, (
-            self.menu_display.get_width() / 2 - 30, self.menu_display.get_height() / 2 - 30, 30, 30))
+        self.gameboard.blit(self.text_item1, (
+            self.gameboard.get_width() / 2 - 30, self.gameboard.get_height() / 2 - 120, 30, 30))
+        self.gameboard.blit(self.text_item2, (
+            self.gameboard.get_width() / 2 - 30, self.gameboard.get_height() / 2 - 90, 30, 30))
+        self.gameboard.blit(self.text_item3, (
+            self.gameboard.get_width() / 2 - 30, self.gameboard.get_height() / 2 - 60, 30, 30))
+        self.gameboard.blit(self.text_item4, (
+            self.gameboard.get_width() / 2 - 30, self.gameboard.get_height() / 2 - 30, 30, 30))
 
         # running controller update to get menu player input
         self.controller.update()
+
+    def onresume(self):
+        super().onresume()
+        self.controller.reset_menu_pos()

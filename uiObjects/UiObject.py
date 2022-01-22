@@ -14,7 +14,7 @@ class UiObject(Sprite):
         return self.rect
 
     def returnState(self):
-        # return game relevant states here, thinking of a finite state machine inactive|active|trackingPlayer|immobile
+        # return game relevant states here, thinking of a finite state machine visible|invisible for UI?
         pass
 
     def hide(self):
@@ -22,6 +22,6 @@ class UiObject(Sprite):
         Method to hide UI elements on demand
         :return:
         """
-        self.groups()
+        print("hide on UI Object called")
+        print(self.groups())
 
-    pass

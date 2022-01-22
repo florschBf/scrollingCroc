@@ -10,13 +10,9 @@ class Tutorial(Scene):
     white = (255,255,255)
     green = (14,237,0)
 
-    def __init__(self, display, scene_controller):
-        #my scene controller
-        super().__init__()
-        self.scene_controller = scene_controller
-
-        #this is where we're displaying our scene
-        self.gameboard = display
+    def __init__(self, surface, scene_controller):
+        #call scene constructor
+        super().__init__(surface, scene_controller)
 
         #game speed can be used to change feel and difficulty of the game
         self.game_speed = 10
