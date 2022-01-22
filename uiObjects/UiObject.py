@@ -10,10 +10,10 @@ class UiObject(Sprite):
     def __init__(self):
         Sprite.__init__(self)
 
-    def getPos(self):
+    def get_pos(self):
         return self.rect
 
-    def returnState(self):
+    def return_state(self):
         # return game relevant states here, thinking of a finite state machine visible|invisible for UI?
         pass
 

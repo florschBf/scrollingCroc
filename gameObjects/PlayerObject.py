@@ -70,7 +70,6 @@ class PlayerObject(GameObject):
 
     def rise(self, updrift):
         self.movement[1] -= updrift
-        print(self.movement[1])
 
     def fall(self, downdrift):
         self.movement[1] += downdrift

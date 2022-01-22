@@ -16,6 +16,10 @@ class SceneController:
         # setting a few defaults for screen size, consider using a settings file later on
         width = 1280
         height = 720
+
+        #game speed can be used to change feel and difficulty of the game
+        self.game_speed = 10
+
         # we need a surface to play on
         self.gameBoard = pygame.display.set_mode((width, height))
         self.gameBoard.fill((15, 15, 15))
