@@ -1,19 +1,24 @@
 import pygame.sprite
 from pygame.math import Vector2
-from gameObjects import GameObject
+from gameObjects.GameObject import GameObject
 
 class Projectile(GameObject):
 
-    def __init__(self, surface, damage):
-        super().__init__(surface)
+    def __init__(self, surface, damage, starting_pos):
+        GameObject.__init__(self, surface)
 
         #movement related attributes
-        self.velocity = 1
+        self.velocity = 25
         self.target_vector = None
         self.border_x = False
         self.boder_y = False
+        self.set_pos(starting_pos.x, starting_pos.y)
 
+        # possibility for different powerups here (size, collision damage, frequency)
+        # hardcoding for the moment
         self.collision_damage = damage
+        self.image = pygame.Surface([10, 10])
+        self.image.fill((125,125,200))
 
     def set_shot_direction(self, target_pos, origin_pos):
         """
@@ -22,17 +27,20 @@ class Projectile(GameObject):
         :param origin_pos: whichever gameobject is responsible for the projectile
         :return: nth
         """
-        self.target_vector = (target_pos - origin_pos).normalise()
-        print(target_vector)
+        print ("aiming at: " + str(target_pos))
+        print ("shot coming from: " + str(origin_pos))
+        target_distance = (target_pos[0] - origin_pos.x), (target_pos[1] - origin_pos.y)
+        self.target_vector = Vector2(target_distance).normalize()
+        print("target vector: " + str(self.target_vector))
 
     def get_direction(self):
         return self.target_vector
 
     def update(self):
-        # overwriting this completely for projectiles, not calling super, keep it simple
+        # keep it simple
+        super().update()
         pos = self.get_pos()
         direction = self.get_direction()
-        new_position_x = self.pos.x + (direction.x * self.velocity)
-        new_position_y = self.pos.y + (direction.y * self.velocity)
-        self.set_pos(new_position.x, new_position.y)
-
+        new_position_x = pos.x + (direction.x * self.velocity)
+        new_position_y = pos.y + (direction.y * self.velocity)
+        self.set_pos(new_position_x, new_position_y)

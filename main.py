@@ -5,14 +5,10 @@ from pygame.locals import *
 
 from controller.SceneController import SceneController
 
-
 pygame.init()
 print('hello pygame')
 scene = SceneController()
 scene.launch('start_menu')
-
-
-# startmenu = Startmenu(green)
 
 # Core loop here
 while True:
@@ -26,7 +22,6 @@ while True:
             pygame.quit()
             sys.exit()
         else:
+            # handing over all other event handling to the SceneController
+            # - knows someone who can handle the event depening on scene and potentially state the game is in
             scene.handle(event)
-
-
-

@@ -17,7 +17,7 @@ class SceneController:
         width = 1280
         height = 720
 
-        #game speed can be used to change feel and difficulty of the game
+        # TODO game speed can be used to change feel and difficulty of the game
         self.game_speed = 10
 
         # we need a surface to play on
@@ -25,6 +25,7 @@ class SceneController:
         self.gameBoard.fill((15, 15, 15))
         self.FPS = 60
         self.frames = pygame.time.Clock()
+
         # center screen
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.display.set_caption("Scrolling Croc V0.1")

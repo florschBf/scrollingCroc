@@ -1,7 +1,11 @@
 import pygame.key
 
+from gameObjects.Projectile import Projectile
 
 class PlayerController:
+    """
+    Class that controls all input for the playerobject, e.g. movement and shooting
+    """
 
 
     '''movement settings - switch up to change player move behaviour
@@ -43,6 +47,12 @@ class PlayerController:
                 self.falling = True
             elif event.key == pygame.K_SPACE:
                 print('pew pew')
+                playerpos = self.player.get_pos()
+                shot = Projectile(self.scene.gameboard, 100, playerpos)
+                # player just shoots straight ahead
+                target = (playerpos.x + 1, playerpos.y)
+                shot.set_shot_direction(target, playerpos)
+                shot.add(self.scene.projectiles_player)
         #Get keyup
         elif event.type == pygame.KEYUP:
             # arrow up = stop movement
