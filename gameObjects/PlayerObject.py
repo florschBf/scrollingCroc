@@ -26,6 +26,8 @@ class PlayerObject(GameObject):
         # image position on screen, update using rect.x and rect.y
         self.rect = self.image.get_rect()
 
+        # game logic needs i
+
     # UPDATE CALLED EVERY FRAME ON SPRITES
     def update(self):
         # Handle movement every frame

@@ -37,6 +37,3 @@ class HealthDisplay(UiObject):
             self.healthbar.fill(self.hurt_color)
         elif self.player_health < 40:
             self.healthbar.fill(self.hurt_badly_color)
-
-
-
