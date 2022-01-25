@@ -18,7 +18,9 @@ class TimeHandler():
         self.elapsed_time = 0
 
     def set_time_display(self, time_display):
+        print("setting time_display to display time on")
         self.time_display = time_display
+        print(self.time_display)
 
     def track_level_time(self):
         time_elapsed = pygame.time.get_ticks() - self.start_time
@@ -27,7 +29,7 @@ class TimeHandler():
 
     def update(self):
         self.elapsed_time = self.track_level_time()
-        if (self.time_display):
+        if (self.time_display != None):
             self.time_display.update_time_value(self.elapsed_time)
             self.time_display.update()
         print(self.elapsed_time)

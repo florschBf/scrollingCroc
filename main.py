@@ -15,7 +15,7 @@ while True:
     # game happening
     # still
     scene.update()
-    pygame.display.update()  # refresh every rendered frame
+    pygame.display.flip()  # refresh every rendered frame
     # quit condition
     for event in pygame.event.get():
         if event.type == QUIT:

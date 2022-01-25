@@ -23,20 +23,24 @@ class HealthDisplay(UiObject):
         self.player_health = self.my_player.return_health()
 
         #text item
-        self.text = self.font_renderer.render(str(self.player_health), True, self.feeling_good_color)
-        #bar below it to give some indication
-        self.healthbar = pygame.Surface([self.player_health,15])
+        self.text = self.font_renderer.render("Energie:", True, self.feeling_good_color)
+        #bar below to give some more visual indication
+        self.healthbar = pygame.Surface([self.player_health,20])
         self.healthbar.fill(self.feeling_good_color)
 
         self.image = pygame.Surface ([100, 60])
-        self.image.blit(self.text, (50, 25, 100, 30))
-        self.image.blit(self.healthbar, (50, 40, 100, 30))
+        self.image.fill((15, 15, 15))
+        self.image.blit(self.text, (0, 10, 100, 30))
+        self.image.blit(self.healthbar, (0, 40, 100, 30))
 
         super().__init__()
 
     def update(self):
+        print("updating healthbar")
+
         self.player_health = self.my_player.return_health()
-        self.text = self.font_renderer.render(str(self.player_health), True, self.feeling_good_color)
+        # not updating text anymore, used to be done here to display number
+        # self.text = self.font_renderer.render("Energie: " + str(self.player_health), True, self.feeling_good_color)
         self.healthbar = pygame.Surface([int(self.player_health), 15])
         if self.player_health > 80:
             self.healthbar.fill(self.feeling_good_color)
@@ -45,5 +49,8 @@ class HealthDisplay(UiObject):
         elif self.player_health < 40:
             self.healthbar.fill(self.hurt_badly_color)
 
-        self.image.blit(self.text, (50, 25, 100, 30))
-        self.image.blit(self.healthbar, (50, 40, 100, 30))
+        #erase healthbar and redraw the update
+        self.image.fill((15, 15, 15))
+        self.image.blit(self.text, (0, 10, 100, 30))
+        self.image.blit(self.healthbar, (0, 40, 100, 30))
+

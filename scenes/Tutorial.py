@@ -36,13 +36,14 @@ class Tutorial(Scene):
         self.ui_handler = UiHandler(self)
         self.health_display = self.ui_handler.create_health_display()
         self.time_display = self.ui_handler.create_time_display(300)
+        self.score_display = self.ui_handler.create_score_display()
         # player needs a hud for health, score and similar
         # self.health_display = HealthDisplay(self.my_player)
 
         # someone needs to watch for collisions of all kinds
-        self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites)
-        self.collision_handler_projectiles = CollisionHandler(self.player_sprite, self.projectiles_enemies)
-        self.collision_handler_shots = CollisionHandler(self.active_sprites, self.projectiles_player)
+        self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites, self)
+        self.collision_handler_projectiles = CollisionHandler(self.player_sprite, self.projectiles_enemies, self)
+        self.collision_handler_shots = CollisionHandler(self.active_sprites, self.projectiles_player, self)
 
         # time handler to progress us through the level - we "auto move" the level along to fake actual movement
         # tell the handler to display time on our UI element time_display from above
@@ -69,14 +70,6 @@ class Tutorial(Scene):
         self.collision_handler.check_for_collisions()
         self.collision_handler_shots.check_for_collisions()
         self.collision_handler_projectiles.check_for_collisions()
-
-        # update health display after all these collisions..
-        #self.health_display.update()
-        # TODO consider moving gameboard UI blitting to extra UI Handler class later with more UI work
-        #self.gameboard.blit(self.health_display.text, (50, 25, 100, 30))
-        #self.gameboard.blit(self.health_display.healthbar, (50, 40, 100, 30))
-        #self.gameboard.blit(self.time_display.text, (165, 25, 100, 30))
-        #self.gameboard.blit(self.time_display.value, (165, 40, 100, 30))
 
         if(len(self.active_sprites.sprites()) < 1):
             # and random obstacles for now

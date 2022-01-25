@@ -10,7 +10,7 @@ class GameObject(Sprite):
         Sprite.__init__(self)
         self.state = "active"
         self.health = 100 # thinking in percentages here for starters
-        self.collision = True # default GameObjects can be collided with by the player
+        self.collision = True # default GameObjects can be collided with by the player, is being handled on sprite group level though
         # GameObjects have a speed at which they traverse the screen
         self.speed = [4, 0] # default speed 8x 0y, feel free to mod
         self.border_y = True
@@ -19,6 +19,12 @@ class GameObject(Sprite):
         self.image = pygame.Surface([50 ,50]) #initialise a default image
         self.image.fill((255, 255, 255))
         self.rect = self.image.get_rect()
+
+        #default score
+        self.score_value = 10
+        # bool to flag as destroyed for score calculation, prevents multiple hits to generate score value
+        self.already_destroyed = False
+        self.tag = GameObject # overwrite, need to know specifics here in game logic
 
     def get_pos(self):
         return self.rect

@@ -5,7 +5,6 @@ from gameObjects.GameObject import GameObject
 class PlayerObject(GameObject):
     """
     Player Object to represent the player in the game
-    @TODO graphic, controls, movement...
     """
 
     # movement as tupel: positive = x/y+, negative = x/y-
@@ -26,7 +25,9 @@ class PlayerObject(GameObject):
         # image position on screen, update using rect.x and rect.y
         self.rect = self.image.get_rect()
 
-        # game logic needs i
+        # game values
+        self.score = 0
+        self.tag = 'player'
 
     # UPDATE CALLED EVERY FRAME ON SPRITES
     def update(self):

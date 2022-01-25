@@ -20,6 +20,8 @@ class Projectile(GameObject):
         self.image = pygame.Surface([10, 10])
         self.image.fill((125,125,200))
 
+        self.tag = 'projectile'
+
     def set_shot_direction(self, target_pos, origin_pos):
         """
         Method to determine direction of the projectile and set target vector

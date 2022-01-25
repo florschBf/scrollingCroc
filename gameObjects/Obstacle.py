@@ -31,6 +31,7 @@ class Obstacle(GameObject):
 
         #controller that handles movement
         self.controller = ObstacleController(self, movement_pattern)
+        self.tag = "obstacle"
 
 
     def update(self):

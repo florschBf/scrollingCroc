@@ -147,7 +147,7 @@ class SceneController:
             self.menu.render()
 
         # tell pygame to update the display and stick to selected FPS
-        pygame.display.flip()
+        # pygame.display.flip()
         self.frames.tick(self.FPS)
 
     def handle(self, event):
