@@ -2,6 +2,7 @@ import random
 
 import pygame.sprite
 from gameObjects.GameObject import GameObject
+from controller.ObstacleController import ObstacleController
 
 class Obstacle(GameObject):
     """
@@ -20,14 +21,19 @@ class Obstacle(GameObject):
             * random - TODO unpredictable pattern for weird moving obstacles
         """
         # init self as a GameObject
-        super.__init__(surface)
+        super().__init__(surface)
+        self.collision_damage = 2
 
         # starting position
-        start_y = random.randint(0, self.surface.height)
-        self.set_pos(0, start_y)
+        start_y = random.randint(0, self.surface.get_height())
+        print("my starting y: " + str(start_y))
+        self.set_pos(self.surface.get_width() + 30, start_y)
 
         #controller that handles movement
         self.controller = ObstacleController(self, movement_pattern)
 
+
     def update(self):
-        self.controller.get_move(self.get_pos())
+        super().update()
+        self.controller.moving()
+

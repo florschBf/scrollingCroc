@@ -18,7 +18,12 @@ class Scene:
         self.scene_controller = scene_controller
 
         # every scene has a collection of active sprites to render
+        # hidden sprites dont get rendered atm but may be brought back (dont want them killed)
+        # e.g. hiding UI / messages / stuff like that
+        # player_sprite might not be present, but usually is
+        self.player_sprite = pygame.sprite.GroupSingle()
         self.active_sprites = pygame.sprite.Group()
+        self.hidden_sprites = pygame.sprite.Group()
 
     def onpause(self):
         # call me when pausing the scene
@@ -41,9 +46,14 @@ class Scene:
         super NEEDS to be called by the scenes in addition to their own logic for this step
         :return:
         """
-        # render the active sprites
+        # update and draw the active sprites
+        pygame.sprite.GroupSingle.update(self.player_sprite)
+        pygame.sprite.GroupSingle.draw(self.player_sprite, self.gameboard)
         pygame.sprite.Group.update(self.active_sprites)
         pygame.sprite.Group.draw(self.active_sprites, self.gameboard)
+        pygame.sprite.Group.update(self.hidden_sprites)
+        # not drawing hidden sprites
+
 
         # run controller update
         self.controller.update()

@@ -1,8 +1,11 @@
 import pygame.draw
 
 from scenes.Scene import Scene
+from scenes.handlers.CollisionHandler import CollisionHandler
 from gameObjects.PlayerObject import PlayerObject
+from gameObjects.Obstacle import Obstacle
 from controller.PlayerController import PlayerController
+from uiObjects.HealthDisplay import HealthDisplay
 
 class Tutorial(Scene):
     #testcolors
@@ -14,36 +17,56 @@ class Tutorial(Scene):
         #call scene constructor
         super().__init__(surface, scene_controller)
 
-        #game speed can be used to change feel and difficulty of the game
-        self.game_speed = 10
-
-        #ball standing in as a randon enemy for now
-        self.ball = pygame.draw.circle(self.gameboard, self.white, (100, 50), 30)
-        self.ball_speed = [1.5 * self.game_speed, 1.5 * self.game_speed]
-
         #we need a player
         self.my_player = PlayerObject(self.gameboard, self.green, 25, 25, (350, 350))
         self.my_player.set_color(self.green)
-        self.my_player.add(self.active_sprites)
+        self.my_player.add(self.player_sprite)
 
         # player needs to know game borders
         self.my_player.set_borderX(self.gameboard.get_width())
         self.my_player.set_borderY(self.gameboard.get_height())
 
-        # and we need a controller
+        # and needs a controller
         self.controller = PlayerController(self.my_player, self)
+        # player needs a hud for health, score and similar
+        self.health_display = HealthDisplay(self.my_player)
+
+        # this is an active game scene, requires additional sprite categories
+        self.projectiles_player = pygame.sprite.Group()
+        self.projectiles_enemies = pygame.sprite.Group()
+
+        # someone needs to watch for collisions of all kinds
+        self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites)
+        self.collision_handler_projectiles = CollisionHandler(self.player_sprite, self.projectiles_enemies)
+        self.collision_handler_shots = CollisionHandler(self.active_sprites, self.projectiles_player)
+
+        #and random obstacles for now
+        obstacle1 = Obstacle(self.gameboard, "zigzag")
+        obstacle1.add(self.active_sprites);
+        obstacle2 = Obstacle(self.gameboard, "straight")
+        obstacle2.add(self.active_sprites)
+        obstacle3 = Obstacle(self.gameboard, "random")
+        obstacle3.add(self.active_sprites)
 
     def render(self):
         # call Scene render function for sprites and controller
         super().render()
 
-        new_pos_x = self.ball.__getattribute__("center")[0] - self.ball_speed[0]
-        new_pos_y = self.ball.__getattribute__("center")[1] - self.ball_speed[1]
-        new_pos = [new_pos_x, new_pos_y]
-        self.ball.__setattr__("center", new_pos)
-        if new_pos[0] < 0 or new_pos[0] > self.gameboard.get_width():
-            self.ball_speed[0] = -self.ball_speed[0]
-        if new_pos[1] < 0 or new_pos[1] > self.gameboard.get_height():
-            self.ball_speed[1] = -self.ball_speed[1]
+        # draw scene specific sprite groups
+        pygame.sprite.Group.update(self.projectiles_player)
+        pygame.sprite.Group.draw(self.projectiles_player, self.gameboard)
+        pygame.sprite.Group.update(self.projectiles_enemies)
+        pygame.sprite.Group.draw(self.projectiles_enemies, self.gameboard)
 
-        pygame.draw.circle(self.gameboard, (255, 255, 255), new_pos, 15)
+        # handle collisions of different sprites, first player with active_sprites
+        # then active_sprites with player shots
+        # then player with enemy projectiles (keeping these separate from active sprites for now)
+        self.collision_handler.check_for_collisions()
+        self.collision_handler_shots.check_for_collisions()
+        self.collision_handler_projectiles.check_for_collisions()
+
+        # update health display after all these collisions..
+        self.health_display.update()
+        # TODO consider moving gameboard blitting to extra UI Handler class later with more UI work
+        self.gameboard.blit(self.health_display.text, (50, 50, 100, 30))
+        self.gameboard.blit(self.health_display.healthbar, (50, 65, 100, 30))

@@ -1,3 +1,4 @@
+import pygame
 from pygame.sprite import Sprite
 
 class GameObject(Sprite):
@@ -11,12 +12,16 @@ class GameObject(Sprite):
         self.health = 100 # thinking in percentages here for starters
         self.collision = True # default GameObjects can be collided with by the player
         # GameObjects have a speed at which they traverse the screen
-        self.speed = [8, 0] # default speed 8, feel free to mod
-        self.permanent = False
+        self.speed = [4, 0] # default speed 8x 0y, feel free to mod
+        self.border_y = True
+        self.border_x = False
         self.surface = surface
+        self.image = pygame.Surface([50 ,50]) #initialise a default image
+        self.image.fill((255, 255, 255))
+        self.rect = self.image.get_rect()
 
     def get_pos(self):
-        return this.rect
+        return self.rect
 
     def set_pos(self, newX, newY):
         self.rect.x = newX
@@ -51,7 +56,30 @@ class GameObject(Sprite):
     def get_speed(self):
         return self.speed
 
-    def set_permanent(self, yes_or_no):
-        self.permanent = yes_or_no
+    # Methods to set borders for the gameObject e.g. it cant leave game through y(top/bottom, default: True)
+    # or x (left/right, default: False)
+    def set_border_y(self, yes_or_no):
+        self.border_y = yes_or_no
+
+    def set_border_x(self, bool):
+        self.border_x = bool
+
+    def update(self):
+        """
+        All sprites update and all GameObjects should check if they left the screen to call sprite.kill()
+        Make sure to call super on all Obstacles, Enemies or whatever
+        :return:
+        """
+        # check if we hit any borders, reverse speed if so
+        x = self.get_pos().x
+        y = self.get_pos().y
+        # not coming back from x < -50, remove the object
+        if x < -100:
+            print("My time is over: " + str(self))
+            self.kill()
+        #not coming back from y < -50 or y > surface + 50
+        if y < -100 or y > self.surface.get_height()+100:
+            print("My time is over: " + str(self))
+            self.kill()
 
 

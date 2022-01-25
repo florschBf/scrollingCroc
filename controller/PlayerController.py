@@ -8,7 +8,7 @@ class PlayerController:
     drag slows down when not accelerating, responsiveness controls quickness of controls'''
     responsiveness = 1
     drag = 0.5
-    maxSpeed = 15
+    maxSpeed = 10
     accelerating = False
     decelerating = False
     rising = False
@@ -30,40 +30,34 @@ class PlayerController:
         """
         #Get keypress
         if event.type == pygame.KEYDOWN:
+            # arrows for movement
             if event.key == pygame.K_LEFT:
-                print('going left')
                 self.decelerating = True
             elif event.key == pygame.K_RIGHT:
-                print('going right')
                 print(self.accelerating)
                 self.accelerating = True
                 print(self.accelerating)
             elif event.key == pygame.K_UP:
-                print('going up')
                 self.rising = True
             elif event.key == pygame.K_DOWN:
-                print('going down')
                 self.falling = True
             elif event.key == pygame.K_SPACE:
                 print('pew pew')
         #Get keyup
         elif event.type == pygame.KEYUP:
+            # arrow up = stop movement
             if event.key == pygame.K_LEFT:
-                print('stopped going left')
                 self.decelerating = False
             elif event.key == pygame.K_RIGHT:
-                print('stopped going right')
                 self.accelerating = False
             elif event.key == pygame.K_UP:
-                print('stopped going up')
                 self.rising = False
             elif event.key == pygame.K_DOWN:
-                print('stopped going down')
                 self.falling = False
+
+            # escape for start menu / pause
             elif event.key == pygame.K_ESCAPE:
-                print('back to menu')
                 # THIS LEAVES THE SCENE BELOW INTACT - WIE PAUSE
-                # TODO implement sth like oncreate / onresume / onpause / ondestroy
                 self.scene.new_scene("start_menu")
 
     def update(self):
@@ -74,7 +68,6 @@ class PlayerController:
         :return:
         """
         speed = self.player.get_speed()
-        print(speed)
         #x movement
         if self.accelerating:
             if speed[0] < self.maxSpeed:
