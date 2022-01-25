@@ -154,6 +154,9 @@ class SceneController:
         """
 
         self.gameBoard.fill((15, 15, 15))
+        # TODO call backgroundcontroller to get a real background going
+
+
 
         # check state and call render
         if self.state == 0:
