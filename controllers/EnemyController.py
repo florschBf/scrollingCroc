@@ -13,7 +13,7 @@ class EnemyController(ObstacleController):
 
     def shoot_player(self, target_pos):
         print('pew pew')
-        my_pos = self.enemy.get_pos()
+        my_pos = (self.enemy.get_pos().x, self.enemy.get_pos().y)
         shot = Projectile(self.enemy.surface, self.enemy.projectile_damage, my_pos)
         shot.set_color((122,12,230))
         # need to aim at player

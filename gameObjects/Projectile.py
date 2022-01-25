@@ -12,7 +12,7 @@ class Projectile(GameObject):
         self.target_vector = None
         self.border_x = False
         self.boder_y = False
-        self.set_pos(starting_pos.x, starting_pos.y)
+        self.set_pos(starting_pos[0], starting_pos[1])
 
         # possibility for different powerups here (size, collision damage, frequency)
         # hardcoding for the moment
@@ -30,7 +30,7 @@ class Projectile(GameObject):
         """
         print ("aiming at: " + str(target_pos))
         print ("shot coming from: " + str(origin_pos))
-        target_distance = (target_pos[0] - origin_pos.x), (target_pos[1] - origin_pos.y)
+        target_distance = (target_pos[0] - origin_pos[0]), (target_pos[1] - origin_pos[1])
         self.target_vector = Vector2(target_distance).normalize()
         print("target vector: " + str(self.target_vector))
 

@@ -11,7 +11,7 @@ class PlayerController:
     '''movement settings - switch up to change player move behaviour
     drag slows down when not accelerating, responsiveness controls quickness of controls'''
     responsiveness = 1
-    drag = 0.5
+    drag = 0.1
     maxSpeed = 10
     accelerating = False
     decelerating = False
@@ -52,7 +52,7 @@ class PlayerController:
                 elif event.key == pygame.K_SPACE:
                     print('pew pew')
                     playerpos = self.player.get_pos()
-                    shot = Projectile(self.scene.gameboard, 100, playerpos)
+                    shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(), playerpos.y + self.player.image.get_height()/2))
                     # player just shoots straight ahead
                     target = (playerpos.x + 1, playerpos.y)
                     shot.set_shot_direction(target, playerpos)
@@ -73,6 +73,12 @@ class PlayerController:
                 elif event.key == pygame.K_ESCAPE:
                     # THIS LEAVES THE SCENE BELOW INTACT - WIE PAUSE
                     self.scene.new_scene("start_menu")
+
+    def stop_movement(self):
+        self.accelerating = False
+        self.decelerating = False
+        self.rising = False
+        self.falling = False
 
     def update(self):
         """
@@ -99,13 +105,35 @@ class PlayerController:
         #y movement
         if self.rising:
             if speed[1] < self.maxSpeed:
-                self.player.rise(self.responsiveness)
+                self.player.rise(self.responsiveness/2)
         elif self.falling:
             if speed[1] > -self.maxSpeed:
-                self.player.fall(self.responsiveness)
+                self.player.fall(self.responsiveness/2)
         else:
             #no movement, apply default drag
             if speed[1] < 0:
                 self.player.fall(self.drag)
             elif speed[1] > 0:
                 self.player.rise(self.drag)
+
+        # Handle movement every frame
+        new_pos_x = self.player.rect.x + self.player.movement[0]
+        new_pos_y = self.player.rect.y + self.player.movement[1]
+
+        if self.player.borderX[0] < new_pos_x < self.player.borderX[1]-self.player.width:
+            self.player.rect.x = new_pos_x
+        elif new_pos_x < self.player.borderX[0]:
+            # hit left edge, bounce from border
+            self.player.movement[0] = 4
+        elif new_pos_x > self.player.borderX[1]-self.player.width:
+            # hit right edge, bounce from border
+            self.player.movement[0] = -4
+
+        if self.player.borderY[0] < new_pos_y < self.player.borderY[1]-self.player.height:
+            self.player.rect.y = new_pos_y
+        elif new_pos_y < self.player.borderY[0]:
+            # hit top edge, bounce from border
+            self.player.movement[1] = 4
+        elif new_pos_y > self.player.borderY[1]-self.player.height:
+            # hit bottom edge, bounce from border
+            self.player.movement[1] = -4

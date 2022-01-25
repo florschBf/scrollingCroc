@@ -8,6 +8,7 @@ from scenes.Startmenu import Startmenu
 from scenes.Play import Play
 from scenes.Endless import Endless
 from scenes.Options import Options
+from controllers.BackgroundController import BackgroundController
 
 
 class SceneController:
@@ -26,6 +27,7 @@ class SceneController:
         self.gameBoard.fill((15, 15, 15))
         self.FPS = 60
         self.frames = pygame.time.Clock()
+        self.background = BackgroundController(self.gameBoard)
 
         # center screen
         os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -155,6 +157,7 @@ class SceneController:
 
         self.gameBoard.fill((15, 15, 15))
         # TODO call backgroundcontroller to get a real background going
+        self.background.start_parallax("space")
 
 
 

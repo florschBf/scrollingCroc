@@ -22,8 +22,7 @@ class Tutorial(Scene):
         super().__init__(surface, scene_controller)
 
         #we need a player
-        self.my_player = PlayerObject(self.gameboard, self.green, 25, 25, (350, 350))
-        self.my_player.set_color(self.green)
+        self.my_player = PlayerObject(self.gameboard, 25, 25, (350, 350))
         self.my_player.add(self.player_sprite)
         # player needs to know game borders
         self.my_player.set_borderX(self.gameboard.get_width())
@@ -59,6 +58,8 @@ class Tutorial(Scene):
         enemy1.set_color(self.green)
         enemy1.add(self.active_sprites)
 
+        self.ui_handler.create_message_to_player('Willkommen zum Tutorial', 'Keine Sorge, ScrollingCroc ist ein simples Spiel, es gibt', 'nicht viel zu lernen.')
+
     def render(self):
         # call Scene render function for sprites and controllers
         super().render()
@@ -74,7 +75,6 @@ class Tutorial(Scene):
             self.collision_handler_projectiles.check_for_collisions()
 
             if(len(self.active_sprites.sprites()) < 1):
-                self.ui_handler.create_message_to_player('well done', 'more are coming')
                 # and random obstacles for now
                 obstacle1 = Obstacle(self.gameboard, "zigzag")
                 obstacle1.add(self.active_sprites);
@@ -85,5 +85,7 @@ class Tutorial(Scene):
                 enemy1 = Enemy(self.gameboard, "random", self.my_player, self)
                 enemy1.set_color(self.green)
                 enemy1.add(self.active_sprites)
+        else:
+            self.controller.stop_movement()
 
 

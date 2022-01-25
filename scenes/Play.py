@@ -24,7 +24,7 @@ class Play(Scene):
         self.ball_speed = [1.5 * self.game_speed, 1.5 * self.game_speed]
 
         #we need a player
-        self.my_player = PlayerObject(self.gameboard, self.green, 25, 25, (350, 350))
+        self.my_player = PlayerObject(self.gameboard, 25, 25, (350, 350))
         self.my_player.set_color(self.green)
         self.my_player.add(self.active_sprites)
 
