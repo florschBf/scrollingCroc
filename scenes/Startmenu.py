@@ -2,7 +2,7 @@ import pygame.font
 
 from scenes.Scene import Scene
 from uiObjects.MenuSelector import MenuSelector
-from controller.MenuController import MenuController
+from controllers.MenuController import MenuController
 
 
 class Startmenu(Scene):
@@ -16,7 +16,7 @@ class Startmenu(Scene):
     item5 = 'Quit'
 
     def __init__(self, surface, color, selector_color, scene_controller):
-        # our scene controller and surface get set in super
+        # our scene controllers and surface get set in super
         super().__init__(surface, scene_controller)
 
         # main color for font - consider color schemes or accents for later
@@ -34,14 +34,14 @@ class Startmenu(Scene):
         self.text_item5 = self.font_renderer.render(self.item5, True, self.main_color)
         self.text_items = [self.text_item1, self.text_item2, self.text_item3, self.text_item4]
 
-        # we need a menu controller to handle player input
+        # we need a menu controllers to handle player input
         self.controller = MenuController(self.selector, self)
 
         # we collect active sprites in a group to draw them to surface
         self.selector.add(self.active_sprites)
 
     def render(self):
-        # call Scene render function for sprites and controller
+        # call Scene render function for sprites and controllers
         super().render()
 
         # rendering menu items to surface
@@ -62,5 +62,5 @@ class Startmenu(Scene):
 
     def onpause(self):
         super().onpause()
-        # resetting controller position for when we go back to menu in the future
+        # resetting controllers position for when we go back to menu in the future
         self.controller.reset_menu_pos()

@@ -20,7 +20,7 @@ class PlayerController:
 
     def __init__(self, player, scene):
         """
-        Constructor for player controller
+        Constructor for player controllers
         :param player: Player object that will be controlled with inputs
         """
         self.player = player
@@ -32,43 +32,47 @@ class PlayerController:
         :param event: Player Input
         :return:
         """
-        #Get keypress
-        if event.type == pygame.KEYDOWN:
-            # arrows for movement
-            if event.key == pygame.K_LEFT:
-                self.decelerating = True
-            elif event.key == pygame.K_RIGHT:
-                print(self.accelerating)
-                self.accelerating = True
-                print(self.accelerating)
-            elif event.key == pygame.K_UP:
-                self.rising = True
-            elif event.key == pygame.K_DOWN:
-                self.falling = True
-            elif event.key == pygame.K_SPACE:
-                print('pew pew')
-                playerpos = self.player.get_pos()
-                shot = Projectile(self.scene.gameboard, 100, playerpos)
-                # player just shoots straight ahead
-                target = (playerpos.x + 1, playerpos.y)
-                shot.set_shot_direction(target, playerpos)
-                shot.add(self.scene.projectiles_player)
-        #Get keyup
-        elif event.type == pygame.KEYUP:
-            # arrow up = stop movement
-            if event.key == pygame.K_LEFT:
-                self.decelerating = False
-            elif event.key == pygame.K_RIGHT:
-                self.accelerating = False
-            elif event.key == pygame.K_UP:
-                self.rising = False
-            elif event.key == pygame.K_DOWN:
-                self.falling = False
+        if self.scene.interrupted:
+            # message to player being displayed. on input, remove and proceed with game
+            self.scene.ui_handler.remove_ui_element(self.scene.ui_handler.message_to_player)
+        else:
+            #Get keypress
+            if event.type == pygame.KEYDOWN:
+                # arrows for movement
+                if event.key == pygame.K_LEFT:
+                    self.decelerating = True
+                elif event.key == pygame.K_RIGHT:
+                    print(self.accelerating)
+                    self.accelerating = True
+                    print(self.accelerating)
+                elif event.key == pygame.K_UP:
+                    self.rising = True
+                elif event.key == pygame.K_DOWN:
+                    self.falling = True
+                elif event.key == pygame.K_SPACE:
+                    print('pew pew')
+                    playerpos = self.player.get_pos()
+                    shot = Projectile(self.scene.gameboard, 100, playerpos)
+                    # player just shoots straight ahead
+                    target = (playerpos.x + 1, playerpos.y)
+                    shot.set_shot_direction(target, playerpos)
+                    shot.add(self.scene.projectiles_player)
+            #Get keyup
+            elif event.type == pygame.KEYUP:
+                # arrow up = stop movement
+                if event.key == pygame.K_LEFT:
+                    self.decelerating = False
+                elif event.key == pygame.K_RIGHT:
+                    self.accelerating = False
+                elif event.key == pygame.K_UP:
+                    self.rising = False
+                elif event.key == pygame.K_DOWN:
+                    self.falling = False
 
-            # escape for start menu / pause
-            elif event.key == pygame.K_ESCAPE:
-                # THIS LEAVES THE SCENE BELOW INTACT - WIE PAUSE
-                self.scene.new_scene("start_menu")
+                # escape for start menu / pause
+                elif event.key == pygame.K_ESCAPE:
+                    # THIS LEAVES THE SCENE BELOW INTACT - WIE PAUSE
+                    self.scene.new_scene("start_menu")
 
     def update(self):
         """

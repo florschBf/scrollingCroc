@@ -1,6 +1,7 @@
 import os
 
 import pygame
+import pygame.key
 
 from scenes.Tutorial import Tutorial
 from scenes.Startmenu import Startmenu
@@ -106,7 +107,7 @@ class SceneController:
             pass
 
     # deprecated xD
-    def identify_previous_scene(scene_number):
+    def identify_previous_scene(self, scene_number):
         """
         Identifies the scene we come from when launching a new scene
         :return: the scene we came from so we can call "onpause" or "onreset" on it or sth
@@ -115,7 +116,7 @@ class SceneController:
         if scene_number == 0:
             scene = self.menu
         elif scene_number == 1:
-            scene = self.tutorial
+            scene = self.tut
         elif scene_number == 2:
             scene = self.play
         elif scene_number == 3:
@@ -124,6 +125,26 @@ class SceneController:
             scene = self.options
         return scene
 
+    def get_active_scene(self):
+        """
+        Method to find active scene || currently not in use...
+        :return: active scene
+        """
+        if self.state == 0:
+            print("active scene is: " + str(self.menu))
+            return self.menu
+        elif self.state == 1:
+            print("active scene is: " + str(self.tut))
+            return self.tut
+        elif self.state == 2:
+            print("active scene is: " + str(self.play))
+            return self.play
+        elif self.state == 3:
+            return self.endless
+            print("active scene is: " + str(self.endless))
+        elif self.state == 4:
+            print("active scene is: " + str(self.options))
+            return self.options
 
     def update(self):
         """
@@ -131,6 +152,7 @@ class SceneController:
         triggers scene render according to state we're in
         :return: nth
         """
+
         self.gameBoard.fill((15, 15, 15))
 
         # check state and call render
@@ -152,19 +174,28 @@ class SceneController:
 
     def handle(self, event):
         """
-        Method to call appropriate controller depending on active scene/state
-        :param event: event to pass on to the controller
+        Method to call appropriate controllers depending on active scene/state
+        :param event: event to pass on to the controllers
         :return: not returning anything
         """
-        if self.state == 0:
+        if self.state == 0 and not self.menu.interrupted:
             self.menu.controller.handle(event)
-        elif self.state == 1:
+        elif self.state == 1 and not self.tut.interrupted:
             self.tut.controller.handle(event)
-        elif self.state == 2:
+        elif self.state == 2 and not self.play.interrupted:
             self.play.controller.handle(event)
-        elif self.state == 3:
+        elif self.state == 3 and not self.play.interrupted:
             self.endless.controller.handle(event)
-        elif self.state == 4:
+        elif self.state == 4 and not self.play.interrupted:
             self.options.controller.handle(event)
         else:
-            print("not in a valid state??? this is bad.")
+            # current scene is interrupted, confirm key?
+            print("not doing anything else unless you confirm the message, sorry")
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    print("registering the correct key, sth else is wonky maybe?")
+                    current_scene = self.get_active_scene()
+                    ui_handler = current_scene.ui_handler
+                    current_scene.interrupted = False
+                    ui_handler.remove_ui_element(ui_handler.message_to_player)
+

@@ -1,6 +1,7 @@
 from uiObjects.HealthDisplay import HealthDisplay
 from uiObjects.TimeDisplay import TimeDisplay
 from uiObjects.ScoreDisplay import ScoreDisplay
+from uiObjects.PlayerReadMe import PlayerReadMe
 
 class UiHandler():
 
@@ -27,6 +28,15 @@ class UiHandler():
         self.position_new_toprow_element(self.score_display)
         return self.score_display
 
+    def create_message_to_player(self, *args):
+        self.message_to_player = PlayerReadMe()
+        self.message_to_player.set_message(*args)
+        self.message_to_player.add(self.ui_sprites)
+        self.message_to_player.set_pos(self.scene.gameboard.get_width()/2 - 300, self.scene.gameboard.get_height()/1.5)
+        self.message_to_player.update()
+        self.scene.interrupted = True
+        return self.message_to_player
+
     def position_new_toprow_element(self, element):
         """
         Method to position top row UI elements next to each other
@@ -37,6 +47,13 @@ class UiHandler():
         my_position = len(self.ui_sprites.sprites())
         offset = (120 * (my_position-1)) + 20
         element.set_pos(offset, element.get_pos().x)
+
+    def remove_ui_element(self, element_to_remove):
+        element_to_remove.kill()
+
+    def hide_ui_element(self, element_to_hide):
+        element_to_hide.groups().add(self.scene.hidden_sprites)
+        element_to_hide.groups().remove(self.scene.ui)
 
     def update(self):
         self.time_display.update()

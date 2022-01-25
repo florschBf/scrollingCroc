@@ -12,7 +12,7 @@ class TimeDisplay(UiObject):
         self.font_renderer = pygame.font.SysFont(self.menu_font, 30)
         self.default_color = (255, 255, 255)
 
-        self.time_value = initial_value
+        self.update_time_value(initial_value)
 
         #text item
         self.text = self.font_renderer.render("Zeit: ", True, self.default_color)
@@ -28,7 +28,8 @@ class TimeDisplay(UiObject):
         super().__init__()
 
     def update_time_value(self, value):
-        self.time_value = value
+        # value is in ms, need to divide for seconds
+        self.time_value = str(round(value, 2))
 
     def update(self):
 

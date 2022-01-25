@@ -2,7 +2,7 @@ import pygame.draw
 
 from scenes.Scene import Scene
 from gameObjects.PlayerObject import PlayerObject
-from controller.PlayerController import PlayerController
+from controllers.PlayerController import PlayerController
 
 
 class Play(Scene):
@@ -32,11 +32,11 @@ class Play(Scene):
         self.my_player.set_borderX(self.gameboard.get_width())
         self.my_player.set_borderY(self.gameboard.get_height())
 
-        # and we need a controller
+        # and we need a controllers
         self.controller = PlayerController(self.my_player, self)
 
     def render(self):
-        # call Scene render function for sprites and controller
+        # call Scene render function for sprites and controllers
         super().render()
 
         new_pos_x = self.ball.__getattribute__("center")[0] - self.ball_speed[0]

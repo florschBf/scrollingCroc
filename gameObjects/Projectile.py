@@ -19,7 +19,6 @@ class Projectile(GameObject):
         self.collision_damage = damage
         self.image = pygame.Surface([10, 10])
         self.image.fill((125,125,200))
-
         self.tag = 'projectile'
 
     def set_shot_direction(self, target_pos, origin_pos):

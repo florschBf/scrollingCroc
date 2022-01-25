@@ -3,7 +3,7 @@ import sys
 import pygame
 from pygame.locals import *
 
-from controller.SceneController import SceneController
+from controllers.SceneController import SceneController
 
 pygame.init()
 print('hello pygame')

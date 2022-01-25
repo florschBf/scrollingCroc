@@ -36,8 +36,6 @@ class HealthDisplay(UiObject):
         super().__init__()
 
     def update(self):
-        print("updating healthbar")
-
         self.player_health = self.my_player.return_health()
         # not updating text anymore, used to be done here to display number
         # self.text = self.font_renderer.render("Energie: " + str(self.player_health), True, self.feeling_good_color)

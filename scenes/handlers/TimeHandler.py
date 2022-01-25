@@ -1,6 +1,9 @@
 import pygame
 
 class TimeHandler():
+    """
+    class to handle the time spend in the scene - used to track level progress
+    """
 
     def __init__(self, scene, endless_mode_bool, time_limit = None):
         self.my_scene = scene
@@ -9,6 +12,7 @@ class TimeHandler():
             # we save our time-amount here so we can use it with elapsed time to see where we currently are
             # time given in seconds by scene
             self.time_limit = time_limit
+            print("tutorial time limit: " + str(self.time_limit))
         # True if we are in endless mode - else it's a normal level, so we count down the time til End-Fight
         self.endless = endless_mode_bool
 
@@ -23,13 +27,14 @@ class TimeHandler():
         print(self.time_display)
 
     def track_level_time(self):
-        time_elapsed = pygame.time.get_ticks() - self.start_time
-        print ("This is the elapsed time now: " + str(time_elapsed))
-        return time_elapsed
+        time_elapsed = (pygame.time.get_ticks() - self.start_time) / 1000
+        if self.endless:
+            return time_elapsed
+        else:
+            return self.time_limit - time_elapsed
 
     def update(self):
         self.elapsed_time = self.track_level_time()
         if (self.time_display != None):
-            self.time_display.update_time_value(self.elapsed_time)
+            self.time_display.update_time_value(self.track_level_time())
             self.time_display.update()
-        print(self.elapsed_time)

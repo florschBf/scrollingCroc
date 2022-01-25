@@ -80,7 +80,7 @@ class GameObject(Sprite):
         x = self.get_pos().x
         y = self.get_pos().y
         # not coming back from x < -50, remove the object
-        if x < -100:
+        if x < -100 or x > self.surface.get_width()+100:
             print("My time is over: " + str(self))
             self.kill()
         #not coming back from y < -50 or y > surface + 50
