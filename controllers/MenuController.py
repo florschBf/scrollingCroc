@@ -20,7 +20,7 @@ class MenuController:
         :return: None
         """
         # Get keypress - TODO decide on keydown / up handling here in menu
-        # TODO implement mouse support
+        # TODO implement mouse support?
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
                 print('moving selector up')
@@ -64,18 +64,17 @@ class MenuController:
         :return:
         """
         # get position of selector and set it to hardcoded menu values
-        print("trying to move selector...")
         text_item = self.selector.get_selected()
         if text_item == 0:
-            self.selector.set_pos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 120)
+            self.selector.set_pos(590, 270)
         elif text_item == 1:
-            self.selector.set_pos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 90)
+            self.selector.set_pos(590, 300)
         elif text_item == 2:
-            self.selector.set_pos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 60)
+            self.selector.set_pos(590, 330)
         elif text_item == 3:
-            self.selector.set_pos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2 - 30)
+            self.selector.set_pos(590, 360)
         elif text_item == 4:
-            self.selector.set_pos(self.menu.gameboard.get_width() / 2 - 50, self.menu.gameboard.get_height() / 2)
+            self.selector.set_pos(590, 390)
 
     def reset_menu_pos(self):
         self.selector.set_selected(0)

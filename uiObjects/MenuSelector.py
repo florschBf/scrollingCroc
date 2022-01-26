@@ -9,16 +9,12 @@ class MenuSelector(UiObject):
 
     def __init__(self, height, width, color):
         self.position = 0
-
+        self.image = pygame.Surface([width, height])
+        self.image.fill(color)
         UiObject.__init__(self)
         self.height = height
         self.width = width
         # selector rectangle image
-        self.image = pygame.Surface([width, height])
-        self.image.fill(color)
-
-        #image position on screen, update using rect.x and rect.y
-        self.rect = self.image.get_rect()
 
     def next_item(self):
         # go to next item

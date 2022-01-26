@@ -5,7 +5,7 @@ from gameObjects.GameObject import GameObject
 class PlayerObject(GameObject):
     """
     Player Object to represent the player in the game
-    @TODO graphic, controls, movement...
+
     """
 
     # movement as tupel: positive = x/y+, negative = x/y-
@@ -15,42 +15,26 @@ class PlayerObject(GameObject):
     borderY = [0, 0]
 
     # Constructor currently generates a rectangle for us
-    def __init__(self, surface, color, width, height, start):
+    def __init__(self, surface, width, height, start):
         GameObject.__init__(self, surface)
         self.height = height
         self.width = width
         # player rectangle image
-        self.image = pygame.Surface([width, height])
-        self.image.set_at(start, color)
+        self.image = pygame.image.load('assets/drawables/croc_scaled2.png').convert_alpha()
+        self.projectile_image = pygame.image.load('assets/drawables/bubble_projectile.png').convert_alpha()
 
         # image position on screen, update using rect.x and rect.y
         self.rect = self.image.get_rect()
+        self.set_pos(start[0], start[1])
 
-        # game logic needs i
+        # game values
+        self.score = 0
+        self.tag = 'player'
 
     # UPDATE CALLED EVERY FRAME ON SPRITES
     def update(self):
-        # Handle movement every frame
-        new_pos_x = self.rect.x + self.movement[0]
-        new_pos_y = self.rect.y + self.movement[1]
-
-        if self.borderX[0] < new_pos_x < self.borderX[1]-self.width:
-            self.rect.x = new_pos_x
-        elif new_pos_x < self.borderX[0]:
-            # hit left edge, bounce from border
-            self.movement[0] = 4
-        elif new_pos_x > self.borderX[1]-self.width:
-            # hit right edge, bounce from border
-            self.movement[0] = -4
-
-        if self.borderY[0] < new_pos_y < self.borderY[1]-self.height:
-            self.rect.y = new_pos_y
-        elif new_pos_y < self.borderY[0]:
-            # hit top edge, bounce from border
-            self.movement[1] = 4
-        elif new_pos_y > self.borderY[1]-self.height:
-            # hit bottom edge, bounce from border
-            self.movement[1] = -4
+        # not calling super, player borders are different, never leaves game
+        pass
 
     # Player logic methods
     # Player should have borders on screen he cant't pass so he stays in the window

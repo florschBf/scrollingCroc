@@ -2,7 +2,7 @@ import random
 
 import pygame.sprite
 from gameObjects.GameObject import GameObject
-from controller.ObstacleController import ObstacleController
+from controllers.ObstacleController import ObstacleController
 
 class Obstacle(GameObject):
     """
@@ -14,7 +14,7 @@ class Obstacle(GameObject):
         """
         Constructor needs to know the height of the screen for spawn point
         :param surface_height: the height of said screen
-        :param movement_pattern: the type of controller the obstacle should have
+        :param movement_pattern: the type of controllers the obstacle should have
             valid input Strings:
             * straight - TODO can be used for immovable obstacles like walls, stones etc
             * zigzag - TODO predictable pattern for moving obstacles
@@ -29,8 +29,9 @@ class Obstacle(GameObject):
         print("my starting y: " + str(start_y))
         self.set_pos(self.surface.get_width() + 30, start_y)
 
-        #controller that handles movement
+        #controllers that handles movement
         self.controller = ObstacleController(self, movement_pattern)
+        self.tag = "obstacle"
 
 
     def update(self):
