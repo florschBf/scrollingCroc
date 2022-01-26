@@ -38,6 +38,7 @@ class CollisionHandler:
                             self.my_scene.my_player.score += self.current_sprite.score_value
                             self.current_sprite.already_destroyed == True
                         self.current_sprite.kill()
+                        self.my_scene.scene_controller.sound.play_sound("exploding_enemy")
 
                 # if this was a projectile in the collision, it should be removed
                 if isinstance(collision, Projectile):

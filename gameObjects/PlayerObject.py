@@ -20,7 +20,8 @@ class PlayerObject(GameObject):
         self.height = height
         self.width = width
         # player rectangle image
-        self.image = pygame.image.load('assets/drawables/croc_scaled.png').convert_alpha()
+        self.image = pygame.image.load('assets/drawables/croc_scaled2.png').convert_alpha()
+        self.projectile_image = pygame.image.load('assets/drawables/bubble_projectile.png').convert_alpha()
 
         # image position on screen, update using rect.x and rect.y
         self.rect = self.image.get_rect()

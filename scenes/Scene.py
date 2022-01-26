@@ -72,11 +72,11 @@ class Scene:
             self.controller.update()
 
         # always draw the sprites if scene is rendering to prevent black screen...
-
-        pygame.sprite.GroupSingle.draw(self.player_sprite, self.gameboard)
+        pygame.sprite.Group.draw(self.ui, self.gameboard)
         pygame.sprite.Group.draw(self.active_sprites, self.gameboard)
+        pygame.sprite.GroupSingle.draw(self.player_sprite, self.gameboard)
         pygame.sprite.Group.draw(self.projectiles_player, self.gameboard)
         pygame.sprite.Group.draw(self.projectiles_enemies, self.gameboard)
-        pygame.sprite.Group.draw(self.ui, self.gameboard)
+
         # not drawing hidden sprites
 

@@ -19,6 +19,7 @@ class EnemyController(ObstacleController):
         # need to aim at player
         shot.set_shot_direction(target_pos, my_pos)
         shot.add(self.scene.projectiles_enemies)
+        self.scene.scene_controller.sound.play_sound("enemy_shot")
 
     def shooting(self):
         self.shot_timer += 1

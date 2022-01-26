@@ -4,7 +4,7 @@ from gameObjects.GameObject import GameObject
 
 class Projectile(GameObject):
 
-    def __init__(self, surface, damage, starting_pos):
+    def __init__(self, surface, damage, starting_pos, image = None):
         GameObject.__init__(self, surface)
 
         #movement related attributes
@@ -17,9 +17,13 @@ class Projectile(GameObject):
         # possibility for different powerups here (size, collision damage, frequency)
         # hardcoding for the moment
         self.collision_damage = damage
-        self.image = pygame.Surface([10, 10])
-        self.image.fill((125,125,200))
-        self.tag = 'projectile'
+
+
+        if image == None:
+            self.image = pygame.Surface([10, 10])
+            self.image.fill((125,125,200))
+        else:
+            self.image = image
 
     def set_shot_direction(self, target_pos, origin_pos):
         """

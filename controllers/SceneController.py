@@ -9,6 +9,7 @@ from scenes.Play import Play
 from scenes.Endless import Endless
 from scenes.Options import Options
 from controllers.BackgroundController import BackgroundController
+from controllers.SoundController import SoundController
 
 
 class SceneController:
@@ -28,6 +29,8 @@ class SceneController:
         self.FPS = 60
         self.frames = pygame.time.Clock()
         self.background = BackgroundController(self.gameBoard)
+
+        self.sound = SoundController()
 
         # center screen
         os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -59,6 +62,7 @@ class SceneController:
         """
         if scene == "start_menu":
             self.state = 0
+            self.sound.loop_music(0)
         elif scene == "tutorial":
             self.state = 1
         elif scene == "play":
@@ -85,25 +89,35 @@ class SceneController:
         if next_scene == "start_menu":
             # call pause on previous scene
             prev_scene.onpause()
+            self.sound.currently_playing.fadeout(500)
             # render selected scene and call onresume
             self.state = 0
+            self.sound.loop_music(0)
             self.menu.onresume()
             # do this for all other scenes as well when they are called with previous scene
         elif next_scene == "tutorial":
             prev_scene.onpause()
+            self.sound.currently_playing.fadeout(500)
             self.state = 1
+            self.sound.loop_music(1)
             self.tut.onresume()
         elif next_scene == "play":
             prev_scene.onpause()
+            self.sound.currently_playing.fadeout(500)
             self.state = 2
+            self.sound.loop_music(2)
             self.play.onresume()
         elif next_scene == "endless":
             prev_scene.onpause()
+            self.sound.currently_playing.fadeout(500)
             self.state = 3
+            self.sound.loop_music(3)
             self.endless.onresume()
         elif next_scene == "options":
             prev_scene.onpause()
+            self.sound.currently_playing.fadeout(500)
             self.state = 4
+            self.sound.loop_music(4)
             self.options.onresume()
         else:  # that shouldn't happen
             pass
@@ -156,9 +170,8 @@ class SceneController:
         """
 
         self.gameBoard.fill((15, 15, 15))
-        # TODO call backgroundcontroller to get a real background going
+        # running space as default background
         self.background.start_parallax("space")
-
 
 
         # check state and call render

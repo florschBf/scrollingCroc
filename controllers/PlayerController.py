@@ -52,11 +52,15 @@ class PlayerController:
                 elif event.key == pygame.K_SPACE:
                     print('pew pew')
                     playerpos = self.player.get_pos()
-                    shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(), playerpos.y + self.player.image.get_height()/2))
+                    shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
+                                                                  playerpos.y + self.player.image.get_height()/2),
+                                      self.player.projectile_image)
+                    self.scene.scene_controller.sound.play_sound("bubble_shot")
                     # player just shoots straight ahead
                     target = (playerpos.x + 1, playerpos.y)
                     shot.set_shot_direction(target, playerpos)
                     shot.add(self.scene.projectiles_player)
+
             #Get keyup
             elif event.type == pygame.KEYUP:
                 # arrow up = stop movement
@@ -117,23 +121,23 @@ class PlayerController:
                 self.player.rise(self.drag)
 
         # Handle movement every frame
-        new_pos_x = self.player.rect.x + self.player.movement[0]
+        new_pos_x = self.player.rect.x + self.player.movement[0] # upper left corner x and y
         new_pos_y = self.player.rect.y + self.player.movement[1]
 
-        if self.player.borderX[0] < new_pos_x < self.player.borderX[1]-self.player.width:
+        if self.player.borderX[0] < new_pos_x < self.player.borderX[1] - self.player.image.get_width():
             self.player.rect.x = new_pos_x
         elif new_pos_x < self.player.borderX[0]:
             # hit left edge, bounce from border
             self.player.movement[0] = 4
-        elif new_pos_x > self.player.borderX[1]-self.player.width:
+        elif new_pos_x > self.player.borderX[1]-self.player.image.get_width():
             # hit right edge, bounce from border
             self.player.movement[0] = -4
 
-        if self.player.borderY[0] < new_pos_y < self.player.borderY[1]-self.player.height:
+        if self.player.borderY[0]-self.player.image.get_height()/2 < new_pos_y < self.player.borderY[1]-self.player.image.get_height()/2:
             self.player.rect.y = new_pos_y
         elif new_pos_y < self.player.borderY[0]:
             # hit top edge, bounce from border
             self.player.movement[1] = 4
-        elif new_pos_y > self.player.borderY[1]-self.player.height:
+        elif new_pos_y > self.player.borderY[1]-self.player.image.get_height():
             # hit bottom edge, bounce from border
             self.player.movement[1] = -4
