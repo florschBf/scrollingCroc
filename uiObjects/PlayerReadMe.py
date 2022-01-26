@@ -6,7 +6,7 @@ class PlayerReadMe(UiObject):
     """
     Class to send messages to the player - for explanation, story whatever.
     Renders in surface on bottom of screen.
-    Should pause scene while open!
+    Sets scene to interrupted while open, so game freezes!
     """
 
     def __init__(self):
@@ -17,7 +17,7 @@ class PlayerReadMe(UiObject):
 
         # text item
         self.text = self.font_renderer.render("Nachricht: ", True, self.default_color)
-        self.confirm = self.font_renderer.render("Mit Enter bestätigen :-)", True, self.default_color)
+        self.confirm = self.font_renderer.render("Mit Return bestätigen, dann geht's weiter.", True, self.default_color)
         self.message_lines = []
         # image and position
         self.image = pygame.Surface([600, 200])

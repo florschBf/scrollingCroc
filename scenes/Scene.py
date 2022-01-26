@@ -8,7 +8,7 @@ class Scene:
         __init__
         onpause
         onresume
-        onreset
+        onreset - called manually right now, not on scene switching.
     Renders to the display while it is the active scene as determined by SceneController
     """
 
@@ -25,15 +25,17 @@ class Scene:
         # player_sprite might not be present, but usually is
         # establishing different groups as kind of "layers" to work with, also regarding collision rules btw each other
         self.player_sprite = pygame.sprite.GroupSingle()
-        self.active_sprites = pygame.sprite.Group()
+        self.active_sprites = pygame.sprite.Group() # enemy obstacles
+        self.powerups = pygame.sprite.Group()
 
         # active game scenes require additional sprite categories
-        self.projectiles_player = pygame.sprite.Group()
-        self.projectiles_enemies = pygame.sprite.Group()
-        # UI Layer
-        self.ui = pygame.sprite.Group()
+        self.projectiles_player = pygame.sprite.Group() # player projectiles
+        self.projectiles_enemies = pygame.sprite.Group() # enemy projectiles
+        # UI + UI OnTop Layer
+        self.ui = pygame.sprite.Group() # base ui
+        self.ui_on_top = pygame.sprite.Group() # ui thats always on top
 
-        # layer to keep hidden game objects in the scene, like spawn points, ui, whatever else we can come up with
+        # layer to keep hidden game objects in the scene, like spawn points, ui, whatever else could come up
         self.hidden_sprites = pygame.sprite.Group()
 
         # every scene has some sort of ui - this class here initialises it on demand in the respective scene
@@ -50,9 +52,18 @@ class Scene:
     def onreset(self):
         # call when scene should be ended (e.g. cleanup, send back to start)
         print("reset on scene " + str(self) + " called")
+        self.scene_controller.reset_me(self)
 
     def new_scene(self, scene_to_go_to):
         self.scene_controller.scene_switch(scene_to_go_to, self)
+
+    def game_over_message(self):
+        self.ui_handler.create_message_to_player('Bam.', '', 'Mehr Glück beim nächsten Mal...', '', 'GAME OVER!')
+
+    def game_over(self):
+        print("cleaning up and leaving")
+        self.onreset()
+        self.new_scene('start_menu')
 
     def render(self):
         """
@@ -64,9 +75,11 @@ class Scene:
         if not self.interrupted:
             pygame.sprite.GroupSingle.update(self.player_sprite)
             pygame.sprite.Group.update(self.active_sprites)
+            pygame.sprite.Group.update(self.powerups)
             pygame.sprite.Group.update(self.projectiles_player)
             pygame.sprite.Group.update(self.projectiles_enemies)
             pygame.sprite.Group.update(self.ui)
+            pygame.sprite.Group.update(self.ui_on_top)
             pygame.sprite.Group.update(self.hidden_sprites)
             # run controllers update
             self.controller.update()
@@ -75,8 +88,10 @@ class Scene:
         pygame.sprite.Group.draw(self.ui, self.gameboard)
         pygame.sprite.Group.draw(self.active_sprites, self.gameboard)
         pygame.sprite.GroupSingle.draw(self.player_sprite, self.gameboard)
+        pygame.sprite.Group.draw(self.powerups, self.gameboard)
         pygame.sprite.Group.draw(self.projectiles_player, self.gameboard)
         pygame.sprite.Group.draw(self.projectiles_enemies, self.gameboard)
+        pygame.sprite.Group.draw(self.ui_on_top, self.gameboard)
 
         # not drawing hidden sprites
 

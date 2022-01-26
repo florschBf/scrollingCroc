@@ -2,6 +2,7 @@ from uiObjects.HealthDisplay import HealthDisplay
 from uiObjects.TimeDisplay import TimeDisplay
 from uiObjects.ScoreDisplay import ScoreDisplay
 from uiObjects.PlayerReadMe import PlayerReadMe
+from uiObjects.LifeDisplay import LifeDisplay
 
 class UiHandler():
 
@@ -9,6 +10,7 @@ class UiHandler():
         self.scene = scene
         # ui sprite group to manage
         self.ui_sprites = self.scene.ui
+        self.ui_overlay = self.scene.ui_on_top
 
     def create_health_display(self):
         self.health_display = HealthDisplay(self.scene.my_player)
@@ -28,10 +30,15 @@ class UiHandler():
         self.position_new_toprow_element(self.score_display)
         return self.score_display
 
+    def create_life_display(self):
+        self.life_display = LifeDisplay(self.scene.my_player)
+        self.life_display.add(self.ui_sprites)
+        self.position_new_toprow_element(self.life_display)
+
     def create_message_to_player(self, *args):
         self.message_to_player = PlayerReadMe()
         self.message_to_player.set_message(*args)
-        self.message_to_player.add(self.ui_sprites)
+        self.message_to_player.add(self.ui_overlay)
         self.message_to_player.set_pos(self.scene.gameboard.get_width()/2 - 300, self.scene.gameboard.get_height()/1.5)
         self.message_to_player.update()
         self.scene.interrupted = True

@@ -13,6 +13,7 @@ class Enemy(Obstacle):
         self.shooting = boolean
 
     def update(self):
+        self.controller.hunt_player()
         super().update()
         if self.shooting:
             self.controller.shooting()

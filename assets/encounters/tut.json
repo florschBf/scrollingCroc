@@ -1,0 +1,85 @@
+{
+   "level_name":"Tutorial",
+   "encounters":{
+      "0":[
+         "message",
+         "Willkommen zum Tutorial",
+         "Keine Sorge, ScrollingCroc ist ein simples Spiel.",
+         "Es gibt nicht viel zu lernen."
+      ],
+      "1":[
+         "message",
+         "Das Krokodil wird mit den Pfeiltasten bewegt.",
+         "So kann man Objekten ausweichen.",
+         "Da kommt schon eins..."
+      ],
+      "2":[
+         "encounter",
+         [
+            1,
+            "obstacle",
+            "straight",
+            150
+         ]
+      ],
+      "3":[
+         "message",
+         "Super. Einfach immer ausweichen.",
+         "Mit der Leertaste können Objekte auch abgeschossen werden.",
+         "Einfach ausprobieren. Da kommen wieder welche."
+      ],
+      "4":[
+         "encounter",
+         [
+            3,
+            "obstacle",
+            "straight",
+            "y_random"
+         ]
+      ],
+      "5":[
+         "message",
+         "Hervorragend.",
+         "Es gibt noch einige andere Arten von Flugzeugs hier...",
+         "Manche schießen auch zurück. Vorsicht!",
+         "Wenn deine Energie auf 0 fällt, verlierst Du ein Krokodil-",
+         "leben. Nicht unterkriegen lassen!"
+      ],
+      "6":[
+         "encounter",
+         [
+            3,
+            "obstacle",
+            "straight",
+            "y_random"
+         ],
+         [
+            2,
+            "enemy",
+            "zigzag",
+            "y_random"
+         ]
+      ],
+      "7":[
+         "message",
+         "Manche Flugobjekte sind gut für das Korkodil.",
+		 "Man erkennt sie an der grünen Umrandung.",
+		 "Am besten immer aufsammeln!"		 
+      ],
+	  "8":[
+         "encounter",
+         [
+            3,
+            "obstacle",
+            "straight",
+            "y_random"
+         ],
+         [
+            1,
+            "powerup",
+            "zigzag",
+            "y_random"
+         ]
+      ]
+   }
+}

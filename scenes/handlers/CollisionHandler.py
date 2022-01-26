@@ -19,19 +19,34 @@ class CollisionHandler:
             self.current_sprite = sprite
             collisions = pygame.sprite.spritecollide(sprite, self.sprites_to_check_against, False)
             for collision in collisions:
-                print("collisioN!")
+
                 # lots of collisions potentially... might consider triggering bigger chunks and granting invul for a sec
                 # also consider obstacles to just be game over anyway
+
+                if isinstance(collision, gameObjects.PowerUp.PowerUp):
+                    #powerup found
+                    print("player picked up a powerup")
+                    if collision.already_destroyed == False:
+                        collision.powerup(self.my_scene)
+                        collision.already_destroyed == True
+                    collision.kill()
+
                 self.current_sprite.set_health(self.current_sprite.return_health() - collision.collision_damage)
+
                 if (self.current_sprite.return_health() <= 0):
-                    print(type(self.current_sprite))
-                    if isinstance(self.current_sprite, gameObjects.PlayerObject.PlayerObject):
-                        # uhoh, game over actually
-                        print(type(self.current_sprite))
-                        # revive for now
-                        self.current_sprite.set_health(100)
+                    if isinstance(self.current_sprite, gameObjects.PlayerObject.PlayerObject) \
+                            and not self.current_sprite.game_over:
+                        # uhoh, this is the player - lost a life or game over actually
+                        # revive for now, this is invulnerable mode
+                        if self.current_sprite.lives > 0:
+                            self.current_sprite.set_health(100)
+                            self.current_sprite.lives -= 1
+                            self.my_scene.controller.projectiles_per_shot = 1
+                        else:
+                            #game really over
+                            self.current_sprite.game_over = True
+                            self.my_scene.game_over_message()
                     else:
-                        print(type(self.current_sprite))
                         # was not the player - so the player actually shot sth.
                         # we grant points - call function on PlayerObjects Controller
                         if self.current_sprite.already_destroyed == False:
@@ -39,6 +54,13 @@ class CollisionHandler:
                             self.current_sprite.already_destroyed == True
                         self.current_sprite.kill()
                         self.my_scene.scene_controller.sound.play_sound("exploding_enemy")
+                        if len(self.my_scene.active_sprites.sprites()) == 0:
+                            # that was the last active obstacle - tell the encounter controller, when this happend
+                            try:
+                                self.my_scene.encounters.board_clear = self.my_scene.time_handler.elapsed_time
+                            except:
+                                # endless mode works differently, not very elegant but works
+                                pass
 
                 # if this was a projectile in the collision, it should be removed
                 if isinstance(collision, Projectile):

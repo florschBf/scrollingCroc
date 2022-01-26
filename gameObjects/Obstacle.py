@@ -10,7 +10,7 @@ class Obstacle(GameObject):
     Has health (like all gameObjects) and can porentially be destroyed (like all gameObjects)
     """
 
-    def __init__(self, surface, movement_pattern):
+    def __init__(self, surface, movement_pattern, y_start = 'random'):
         """
         Constructor needs to know the height of the screen for spawn point
         :param surface_height: the height of said screen
@@ -25,13 +25,15 @@ class Obstacle(GameObject):
         self.collision_damage = 2
 
         # starting position
-        start_y = random.randint(0, self.surface.get_height())
+        if y_start == 'random':
+            start_y = random.randint(0, self.surface.get_height() - self.image.get_height())
+        else:
+            start_y = y_start
         print("my starting y: " + str(start_y))
         self.set_pos(self.surface.get_width() + 30, start_y)
 
         #controllers that handles movement
         self.controller = ObstacleController(self, movement_pattern)
-        self.tag = "obstacle"
 
 
     def update(self):
