@@ -56,7 +56,11 @@ class CollisionHandler:
                         self.my_scene.scene_controller.sound.play_sound("exploding_enemy")
                         if len(self.my_scene.active_sprites.sprites()) == 0:
                             # that was the last active obstacle - tell the encounter controller, when this happend
-                            self.my_scene.encounters.board_clear = self.my_scene.time_handler.elapsed_time
+                            try:
+                                self.my_scene.encounters.board_clear = self.my_scene.time_handler.elapsed_time
+                            except:
+                                # endless mode works differently, not very elegant but works
+                                pass
 
                 # if this was a projectile in the collision, it should be removed
                 if isinstance(collision, Projectile):

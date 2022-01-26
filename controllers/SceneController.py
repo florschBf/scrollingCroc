@@ -224,9 +224,9 @@ class SceneController:
             self.tut.controller.handle(event)
         elif self.state == 2 and not self.play.interrupted:
             self.play.controller.handle(event)
-        elif self.state == 3 and not self.play.interrupted:
+        elif self.state == 3 and not self.endless.interrupted:
             self.endless.controller.handle(event)
-        elif self.state == 4 and not self.play.interrupted:
+        elif self.state == 4 and not self.options.interrupted:
             self.options.controller.handle(event)
         else:
             # current scene is interrupted, confirm key?
