@@ -19,6 +19,8 @@ class SceneController:
         # setting a few defaults for screen size, consider using a settings file later on
         width = 1280
         height = 720
+        old_menu_color = (150, 60, 255)
+        new_menu_color = (255, 78, 225)
 
         # TODO game speed can be used to change feel and difficulty of the game
         self.game_speed = 10
@@ -38,7 +40,7 @@ class SceneController:
 
         # preloading scenes - is that smart?
         # hard-coding colors here, consider themes / settings file
-        self.menu = Startmenu(self.gameBoard, (150, 60, 255), (255, 255, 255), self)
+        self.menu = Startmenu(self.gameBoard, new_menu_color, (255, 255, 255), self)
         self.tut = Tutorial(self.gameBoard, self)
         self.play = Play(self.gameBoard, self)
         self.endless = Endless(self.gameBoard, self)
@@ -115,9 +117,9 @@ class SceneController:
             self.endless.onresume()
         elif next_scene == "options":
             prev_scene.onpause()
-            self.sound.currently_playing.fadeout(500)
+            # self.sound.currently_playing.fadeout(500)
             self.state = 4
-            self.sound.loop_music(4)
+            # self.sound.loop_music(4)
             self.options.onresume()
         else:  # that shouldn't happen
             pass
@@ -190,6 +192,25 @@ class SceneController:
         # tell pygame to update the display and stick to selected FPS
         # pygame.display.flip()
         self.frames.tick(self.FPS)
+
+    def reset_me(self, scene):
+        if scene == self.menu:
+            del(scene)
+            self.menu = Startmenu(self.gameBoard, new_menu_color, (255, 255, 255), self)
+        elif scene == self.tut:
+            del(scene)
+            self.tut = Tutorial(self.gameBoard, self)
+        elif scene == self.play:
+            del(scene)
+            self.play = Play(self.gameBoard, self)
+        elif scene == self.endless:
+            del(scene)
+            self.endless = Endless(self.gameBoard, self)
+        elif scene == self.options:
+            del(scene)
+            self.options = Options(self.gameBoard, self)
+        else:
+            pass
 
     def handle(self, event):
         """

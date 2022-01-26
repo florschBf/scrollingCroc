@@ -25,7 +25,7 @@ class Obstacle(GameObject):
         self.collision_damage = 2
 
         # starting position
-        start_y = random.randint(0, self.surface.get_height())
+        start_y = random.randint(0, self.surface.get_height() - self.image.get_height())
         print("my starting y: " + str(start_y))
         self.set_pos(self.surface.get_width() + 30, start_y)
 

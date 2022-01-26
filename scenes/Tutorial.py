@@ -8,6 +8,7 @@ from gameObjects.PlayerObject import PlayerObject
 from gameObjects.Obstacle import Obstacle
 from gameObjects.Enemy import Enemy
 from controllers.PlayerController import PlayerController
+from controllers.EncounterController import EncounterController
 from uiObjects.HealthDisplay import HealthDisplay
 from uiObjects.TimeDisplay import TimeDisplay
 
@@ -47,25 +48,21 @@ class Tutorial(Scene):
         self.time_handler = TimeHandler(self, True, 300)
         self.time_handler.set_time_display(self.time_display)
 
-        # and random obstacles for now
-        obstacle1 = Obstacle(self.gameboard, "zigzag")
-        obstacle1.add(self.active_sprites);
-        obstacle2 = Obstacle(self.gameboard, "straight")
-        obstacle2.add(self.active_sprites)
-        obstacle3 = Obstacle(self.gameboard, "random")
-        obstacle3.add(self.active_sprites)
-        enemy1 = Enemy(self.gameboard, "random", self.my_player, self)
-        enemy1.set_color(self.green)
-        enemy1.add(self.active_sprites)
+        # this is an action scene
+        # - now that time is set, encounter controller knows what else to run on the screen for this level
+        self.encounters = EncounterController('tutorial', self)
 
-        self.ui_handler.create_message_to_player('Willkommen zum Tutorial', 'Keine Sorge, ScrollingCroc ist ein simples Spiel, es gibt', 'nicht viel zu lernen.')
+        #self.ui_handler.create_message_to_player('Willkommen zum Tutorial', 'Keine Sorge, ScrollingCroc ist ein simples Spiel, es gibt', 'nicht viel zu lernen.')
 
     def render(self):
         # call Scene render function for sprites and controllers
         super().render()
         # keep up to date on time
         if not self.interrupted:
+            # make sure the level proceeds as planned
             self.time_handler.update()
+            self.encounters.update()
+
 
             # handle collisions of different sprites, first player with active_sprites
             # then active_sprites with player shots
@@ -74,18 +71,27 @@ class Tutorial(Scene):
             self.collision_handler_shots.check_for_collisions()
             self.collision_handler_projectiles.check_for_collisions()
 
-            if(len(self.active_sprites.sprites()) < 1):
-                # and random obstacles for now
-                obstacle1 = Obstacle(self.gameboard, "zigzag")
-                obstacle1.add(self.active_sprites);
-                obstacle2 = Obstacle(self.gameboard, "straight")
-                obstacle2.add(self.active_sprites)
-                obstacle3 = Obstacle(self.gameboard, "random")
-                obstacle3.add(self.active_sprites)
-                enemy1 = Enemy(self.gameboard, "random", self.my_player, self)
-                enemy1.set_color(self.green)
-                enemy1.add(self.active_sprites)
         else:
             self.controller.stop_movement()
+
+    # def onreset(self):
+    #     print("resetting the level")
+    #     self.scene_controller.reset_me(self)
+        # self.encounters.current_encounter = 0
+        # self.encounters.last_timestamp = None
+        # self.time_handler.start_time = pygame.time.get_ticks()
+        # self.time_handler.elapsed_time = 0
+        # self.interrupted = False
+        # try:
+        #     self.ui_handler.remove_ui_element(self.ui_handler.message_to_player)
+        # except:
+        #     print("there was no message to kill")
+        # self.my_player.score = 0
+        # self.my_player.set_pos(350, 350)
+        # pygame.sprite.Group.update(self.ui)
+        # pygame.sprite.Group.update(self.player_sprite)
+        # pygame.sprite.Group.draw(self.ui, self.gameboard)
+        # pygame.sprite.Group.draw(self.player_sprite, self.gameboard)
+
 
 

@@ -25,7 +25,7 @@ class Startmenu(Scene):
         # menu needs a visible selector to show selected item
         # ball standing in as selector for now
         self.selector = MenuSelector(15, 15, self.selector_color)
-        self.menu_image = pygame.image.load('assets/drawables/croc_menu.png').convert_alpha()
+        self.menu_image = pygame.image.load('assets/drawables/croc_menu2.png').convert_alpha()
 
         # creating all menu items as surfaces and rendering them on the main surface
         self.text_item1 = self.font_renderer.render(self.item1, True, self.main_color)
@@ -43,7 +43,7 @@ class Startmenu(Scene):
 
     def render(self):
         # rendering menu items to surface
-        self.gameboard.blit(self.menu_image, (400, 25))
+        self.gameboard.blit(self.menu_image, (375, 25))
         self.gameboard.blit(self.text_item1, (610, 270, 30, 30))
         self.gameboard.blit(self.text_item2, (610, 300, 30, 30))
         self.gameboard.blit(self.text_item3, (610, 330, 30, 30))

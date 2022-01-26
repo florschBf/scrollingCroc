@@ -50,6 +50,7 @@ class Scene:
     def onreset(self):
         # call when scene should be ended (e.g. cleanup, send back to start)
         print("reset on scene " + str(self) + " called")
+        self.scene_controller.reset_me(self)
 
     def new_scene(self, scene_to_go_to):
         self.scene_controller.scene_switch(scene_to_go_to, self)
