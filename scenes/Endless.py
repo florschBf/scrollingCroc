@@ -94,7 +94,6 @@ class Endless(Scene):
     def relief(self):
         new_relief = PowerUp(self.gameboard, 'random')
         new_relief.add(self.powerups)
-        print(new_relief)
 
     def spawn_obstacle(self, movement = 'random', y_start = 'random'):
         new_obstacle = Obstacle(self.gameboard, movement, y_start)
@@ -102,14 +101,10 @@ class Endless(Scene):
 
     def spawn_enemy(self, movement = 'random', y_start = 'random'):
         new_enemy = Enemy(self.gameboard, movement  , self.my_player, self)
-        new_enemy.set_color(self.green)
         new_enemy.add(self.active_sprites)
-        if y_start != 'random':
-            new_enemy.set_pos = (self.get_pos().x, y_start)
 
     def spawn_hunter(self):
         new_enemy = Enemy(self.gameboard,  'hunter', self.my_player, self)
-        new_enemy.set_color((255, 85, 0))
         new_enemy.add(self.active_sprites)
 
     def spawn_boss(self):

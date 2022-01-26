@@ -89,7 +89,6 @@ class Boss(Obstacle):
     def relief(self):
         new_relief = PowerUp(self.controller.scene.gameboard, 'random')
         new_relief.add(self.controller.scene.powerups)
-        print(new_relief)
 
     def spawn_obstacle(self, movement = 'random', y_start = 'random'):
         new_obstacle = Obstacle(self.controller.scene.gameboard, movement, y_start)
@@ -97,14 +96,10 @@ class Boss(Obstacle):
 
     def spawn_enemy(self, movement = 'random', y_start = 'random'):
         new_enemy = Enemy(self.controller.scene.gameboard, movement  , self.controller.player, self.controller.scene)
-        new_enemy.set_color(self.controller.scene.green)
         new_enemy.add(self.controller.scene.active_sprites)
-        if y_start != 'random':
-            new_enemy.set_pos = (self.get_pos().x, y_start)
 
     def spawn_hunter(self):
         new_enemy = Enemy(self.controller.scene.gameboard,  'hunter', self.controller.player, self.controller.scene)
-        new_enemy.set_color((255, 85, 0))
         new_enemy.add(self.controller.scene.active_sprites)
 
 
