@@ -14,7 +14,7 @@ class EncounterController:
             f = open('assets/encounters/tut.json', encoding='utf-8')
             self.encounters = json.load(f)['encounters']
         elif level == 'play':
-            f = open('assets/encounters/tut.json', encoding='utf-8')
+            f = open('assets/encounters/play.json', encoding='utf-8')
             self.encounters = json.load(f)['encounters']
         else:
             self.endless = True
@@ -91,7 +91,10 @@ class EncounterController:
                 new_obstacle.start_y = y_start
         elif type == "enemy":
             new_enemy = Enemy(self.scene.gameboard, pattern, self.scene.my_player, self.scene)
-            new_enemy.set_color(self.scene.green)
+            if pattern == 'hunter':
+                new_enemy.set_color((255,85,0))
+            else:
+                new_enemy.set_color(self.scene.green)
             new_enemy.add(self.scene.active_sprites)
             if y_start != 'random':
                 new_enemy.start_y = y_start
