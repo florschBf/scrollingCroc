@@ -29,7 +29,8 @@ class PlayerObject(GameObject):
 
         # game values
         self.score = 0
-        self.tag = 'player'
+        self.lives = 3
+        self.game_over = False
 
     # UPDATE CALLED EVERY FRAME ON SPRITES
     def update(self):

@@ -1,12 +1,18 @@
 import pygame.draw
 
 from scenes.Scene import Scene
+from scenes.handlers.CollisionHandler import CollisionHandler
+from scenes.handlers.TimeHandler import TimeHandler
+from scenes.handlers.UiHandler import UiHandler
 from gameObjects.PlayerObject import PlayerObject
+from gameObjects.Obstacle import Obstacle
+from gameObjects.Enemy import Enemy
 from controllers.PlayerController import PlayerController
-
+from controllers.EncounterController import EncounterController
+from uiObjects.HealthDisplay import HealthDisplay
+from uiObjects.TimeDisplay import TimeDisplay
 
 class Play(Scene):
-
     #testcolors
     black = (0,0,0)
     white = (255,255,255)
@@ -16,36 +22,73 @@ class Play(Scene):
         #call scene constructor
         super().__init__(surface, scene_controller)
 
-        #game speed can be used to change feel and difficulty of the game
-        self.game_speed = 10
-
-        #ball standing in as a randon enemy for now
-        self.ball = pygame.draw.circle(self.gameboard, self.white, (100, 50), 30)
-        self.ball_speed = [1.5 * self.game_speed, 1.5 * self.game_speed]
-
         #we need a player
         self.my_player = PlayerObject(self.gameboard, 25, 25, (350, 350))
-        self.my_player.set_color(self.green)
-        self.my_player.add(self.active_sprites)
-
+        self.my_player.add(self.player_sprite)
         # player needs to know game borders
         self.my_player.set_borderX(self.gameboard.get_width())
         self.my_player.set_borderY(self.gameboard.get_height())
 
-        # and we need a controllers
+        # and needs a controllers
         self.controller = PlayerController(self.my_player, self)
+
+        # we need a game UI
+        self.ui_handler = UiHandler(self)
+        self.health_display = self.ui_handler.create_health_display()
+        self.time_display = self.ui_handler.create_time_display(300)
+        self.score_display = self.ui_handler.create_score_display()
+
+        # someone needs to watch for collisions of all kinds
+        self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites, self)
+        self.collision_handler_projectiles = CollisionHandler(self.player_sprite, self.projectiles_enemies, self)
+        self.collision_handler_shots = CollisionHandler(self.active_sprites, self.projectiles_player, self)
+
+        # time handler to progress us through the level - we "auto move" the level along to fake actual movement
+        # tell the handler to display time on our UI element time_display from above
+        self.time_handler = TimeHandler(self, True, 300)
+        self.time_handler.set_time_display(self.time_display)
+
+        # this is an action scene
+        # - now that time is set, encounter controller knows what else to run on the screen for this level
+        self.encounters = EncounterController('play', self)
+
+        #self.ui_handler.create_message_to_player('Willkommen zum Tutorial', 'Keine Sorge, ScrollingCroc ist ein simples Spiel, es gibt', 'nicht viel zu lernen.')
 
     def render(self):
         # call Scene render function for sprites and controllers
         super().render()
+        # keep up to date on time
+        if not self.interrupted:
+            # make sure the level proceeds as planned
+            self.time_handler.update()
+            self.encounters.update()
 
-        new_pos_x = self.ball.__getattribute__("center")[0] - self.ball_speed[0]
-        new_pos_y = self.ball.__getattribute__("center")[1] - self.ball_speed[1]
-        new_pos = [new_pos_x, new_pos_y]
-        self.ball.__setattr__("center", new_pos)
-        if new_pos[0] < 0 or new_pos[0] > self.gameboard.get_width():
-            self.ball_speed[0] = -self.ball_speed[0]
-        if new_pos[1] < 0 or new_pos[1] > self.gameboard.get_height():
-            self.ball_speed[1] = -self.ball_speed[1]
 
-        pygame.draw.circle(self.gameboard, (255, 255, 255), new_pos, 15)
+            # handle collisions of different sprites, first player with active_sprites
+            # then active_sprites with player shots
+            # then player with enemy projectiles (keeping these separate from active sprites for now)
+            self.collision_handler.check_for_collisions()
+            self.collision_handler_shots.check_for_collisions()
+            self.collision_handler_projectiles.check_for_collisions()
+
+        else:
+            self.controller.stop_movement()
+
+    # def onreset(self):
+    #     print("resetting the level")
+    #     self.scene_controller.reset_me(self)
+        # self.encounters.current_encounter = 0
+        # self.encounters.last_timestamp = None
+        # self.time_handler.start_time = pygame.time.get_ticks()
+        # self.time_handler.elapsed_time = 0
+        # self.interrupted = False
+        # try:
+        #     self.ui_handler.remove_ui_element(self.ui_handler.message_to_player)
+        # except:
+        #     print("there was no message to kill")
+        # self.my_player.score = 0
+        # self.my_player.set_pos(350, 350)
+        # pygame.sprite.Group.update(self.ui)
+        # pygame.sprite.Group.update(self.player_sprite)
+        # pygame.sprite.Group.draw(self.ui, self.gameboard)
+        # pygame.sprite.Group.draw(self.player_sprite, self.gameboard)

@@ -39,13 +39,14 @@ class HealthDisplay(UiObject):
         self.player_health = self.my_player.return_health()
         # not updating text anymore, used to be done here to display number
         # self.text = self.font_renderer.render("Energie: " + str(self.player_health), True, self.feeling_good_color)
-        self.healthbar = pygame.Surface([int(self.player_health), 15])
-        if self.player_health > 80:
-            self.healthbar.fill(self.feeling_good_color)
-        elif self.player_health < 80 and self.player_health > 40:
-            self.healthbar.fill(self.hurt_color)
-        elif self.player_health < 40:
-            self.healthbar.fill(self.hurt_badly_color)
+        if not self.my_player.game_over:
+            self.healthbar = pygame.Surface([int(self.player_health), 15])
+            if self.player_health > 80:
+                self.healthbar.fill(self.feeling_good_color)
+            elif self.player_health < 80 and self.player_health > 40:
+                self.healthbar.fill(self.hurt_color)
+            elif self.player_health < 40:
+                self.healthbar.fill(self.hurt_badly_color)
 
         #erase healthbar and redraw the update
         self.image.fill((15, 15, 15))

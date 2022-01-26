@@ -33,7 +33,6 @@ class Tutorial(Scene):
         self.controller = PlayerController(self.my_player, self)
 
         # we need a game UI
-        self.ui_handler = UiHandler(self)
         self.health_display = self.ui_handler.create_health_display()
         self.time_display = self.ui_handler.create_time_display(300)
         self.score_display = self.ui_handler.create_score_display()

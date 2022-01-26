@@ -8,7 +8,7 @@ class Projectile(GameObject):
         GameObject.__init__(self, surface)
 
         #movement related attributes
-        self.velocity = 25
+        self.velocity = 15
         self.target_vector = None
         self.border_x = False
         self.boder_y = False
@@ -20,7 +20,7 @@ class Projectile(GameObject):
 
 
         if image == None:
-            self.image = pygame.Surface([10, 10])
+            self.image = pygame.Surface([15, 15])
             self.image.fill((125,125,200))
         else:
             self.image = image

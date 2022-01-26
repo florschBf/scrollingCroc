@@ -1,6 +1,14 @@
 import random
 
 class ObstacleController:
+    """
+    Class that realizes movement patterns for all kinds of non-player game objects
+    patterns are straigt, zigzag, random and hunter
+    straight: goes in a line without changing y
+    zigzag: goes diagonally and reverts on screen border
+    random: sets random directions and speeds on an interval
+    hunter: moves relative to the player, doesnt leave the screen on its own
+    """
 
     def __init__(self, obstacle, move_pattern):
         self.obstacle = obstacle

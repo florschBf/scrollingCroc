@@ -1,6 +1,7 @@
 import json
 from gameObjects.Obstacle import Obstacle
 from gameObjects.Enemy import Enemy
+from gameObjects.PowerUp import PowerUp
 
 class EncounterController:
 
@@ -10,10 +11,10 @@ class EncounterController:
         self.game_over = False
 
         if level == 'tutorial':
-            f = open('assets/encounters/tut.json')
+            f = open('assets/encounters/tut.json', encoding='utf-8')
             self.encounters = json.load(f)['encounters']
         elif level == 'play':
-            f = open('assets/encounters/tut.json')
+            f = open('assets/encounters/tut.json', encoding='utf-8')
             self.encounters = json.load(f)['encounters']
         else:
             self.endless = True
@@ -24,12 +25,12 @@ class EncounterController:
 
         # keep track of the encounters we ran
         self.current_encounter = 0
-        self.last_timestamp = None # e.g. the last moment in time we ran an encounter
+        self.last_timestamp = 0 # e.g. the last moment in time we ran an encounter
         self.board_clear = 0 # last time we removed all objects from the gameboard
 
         # encounter delay
-        self.empty_delay = 1.5
-        self.delay = 4.5
+        self.empty_delay = 2
+        self.delay = 4
 
     def run_encounter(self, encounter_num):
         """
@@ -73,7 +74,7 @@ class EncounterController:
                 # you win, no more encounters left
                 print("level finished, leaving....")
                 self.game_over = True
-                self.scene.ui_handler.create_message_to_player('Gewonnen!!!')
+                self.scene.ui_handler.create_message_to_player('Gewonnen!!!', '')
 
     def generate_obstacle(self, type, pattern, y_start = 'random'):
         """
@@ -94,6 +95,10 @@ class EncounterController:
             new_enemy.add(self.scene.active_sprites)
             if y_start != 'random':
                 new_enemy.start_y = y_start
+        elif type == "powerup":
+            new_powerup = PowerUp(self.scene.gameboard, pattern)
+            new_powerup.add(self.scene.active_sprites)
+            new_powerup.power = 'health'
 
 
 
@@ -101,24 +106,10 @@ class EncounterController:
     def update(self):
         current_time = self.scene.time_handler.elapsed_time
         sprite_count = len(self.scene.active_sprites.sprites())
-        if sprite_count == 0:
-            self.board_clear = current_time
+
         if not self.endless:
-            if self.current_encounter == 0:
-                # we didnt start yet - get time, so we dont start immediately but give the player a few seconds
-                if current_time >= self.empty_delay:
-                    # start first encounter, increase counter, set timestamp
-                    self.run_encounter(self.current_encounter)
-                    self.current_encounter += 1
-                    self.last_timestamp = current_time
-            else:
-                if sprite_count == 0 and current_time - self.board_clear > self.empty_delay:
-                    # board is clear for a while, start next encounter, increase counter, set timestamp
-                    self.run_encounter(self.current_encounter)
-                    self.current_encounter +=1
-                    self.last_timestamp = current_time
-                elif current_time - self.last_timestamp > self.delay:
-                    # it's been too long, start next encounter, increase counter, set timestamp
-                    self.run_encounter(self.current_encounter)
-                    self.current_encounter +=1
-                    self.last_timestamp = current_time
+            if (sprite_count == 0 and current_time - self.board_clear >= self.empty_delay) or (current_time - self.last_timestamp > self.delay):
+                # start next encounter, increase counter, set timestamp
+                self.run_encounter(self.current_encounter)
+                self.current_encounter +=1
+                self.last_timestamp = current_time
