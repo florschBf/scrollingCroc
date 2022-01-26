@@ -10,6 +10,7 @@ class PowerUp(Obstacle):
     def __init__(self, surface, movement_pattern):
         super().__init__(surface, movement_pattern)
         self.collision_damage = 0
+        self.health = 800
 
         self.type_number = random.randint(0,2)
         if self.type_number == 0:
@@ -33,8 +34,8 @@ class PowerUp(Obstacle):
             if scene.my_player.health > 100:
                 scene.my_player.health = 100
         elif self.power == 'bigshot':
-            scene.controller.projectiles_per_shot = 3
+            if scene.controller.projectiles_per_shot < 3: # more was too easy
+                scene.controller.projectiles_per_shot += 1
         elif self.power == 'life':
-            print('no lives yet')
-            pass
+            scene.my_player.lives += 1
 

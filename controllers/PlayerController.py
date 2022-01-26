@@ -51,7 +51,7 @@ class PlayerController:
                 elif event.key == pygame.K_DOWN:
                     self.falling = True
                 elif event.key == pygame.K_SPACE:
-                    print('pew pew')
+                    # shooting
                     playerpos = self.player.get_pos()
                     for x in range(self.projectiles_per_shot):
                         if x == 0:
@@ -69,7 +69,7 @@ class PlayerController:
                                               self.player.projectile_image)
                             self.scene.scene_controller.sound.play_sound("bubble_shot")
                             # player just shoots straight ahead
-                            target = (playerpos.x + 1, playerpos.y + 30)
+                            target = (playerpos.x + 1, playerpos.y + 1)
                             shot.set_shot_direction(target, playerpos)
                             shot.add(self.scene.projectiles_player)
                         elif x == 2:
@@ -78,9 +78,29 @@ class PlayerController:
                                               self.player.projectile_image)
                             self.scene.scene_controller.sound.play_sound("bubble_shot")
                             # player just shoots straight ahead
-                            target = (playerpos.x + 1, playerpos.y - 30)
+                            target = (playerpos.x + 1, playerpos.y - 1)
                             shot.set_shot_direction(target, playerpos)
                             shot.add(self.scene.projectiles_player)
+                        elif x == 3:
+                            shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
+                                                                          playerpos.y + self.player.image.get_height()/2),
+                                              self.player.projectile_image)
+                            self.scene.scene_controller.sound.play_sound("bubble_shot")
+                            # player just shoots straight ahead
+                            target = (playerpos.x + 5, playerpos.y + 3)
+                            shot.set_shot_direction(target, playerpos)
+                            shot.add(self.scene.projectiles_player)
+                        elif x == 4:
+                            shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
+                                                                          playerpos.y + self.player.image.get_height()/2),
+                                              self.player.projectile_image)
+                            self.scene.scene_controller.sound.play_sound("bubble_shot")
+                            # player just shoots straight ahead
+                            target = (playerpos.x + 5, playerpos.y - 3)
+                            shot.set_shot_direction(target, playerpos)
+                            shot.add(self.scene.projectiles_player)
+                        else:
+                            pass
 
             #Get keyup
             elif event.type == pygame.KEYUP:

@@ -35,8 +35,12 @@ class Projectile(GameObject):
         print ("aiming at: " + str(target_pos))
         print ("shot coming from: " + str(origin_pos))
         target_distance = (target_pos[0] - origin_pos[0]), (target_pos[1] - origin_pos[1])
-        self.target_vector = Vector2(target_distance).normalize()
-        print("target vector: " + str(self.target_vector))
+        try:
+            self.target_vector = Vector2(target_distance).normalize()
+            print("target vector: " + str(self.target_vector))
+        except:
+            # distance was 0, cant normalize vector, setting a standard
+            self.target_vector = [1,0]
 
     def get_direction(self):
         return self.target_vector

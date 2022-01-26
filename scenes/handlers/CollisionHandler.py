@@ -19,7 +19,7 @@ class CollisionHandler:
             self.current_sprite = sprite
             collisions = pygame.sprite.spritecollide(sprite, self.sprites_to_check_against, False)
             for collision in collisions:
-                print("collisioN!")
+
                 # lots of collisions potentially... might consider triggering bigger chunks and granting invul for a sec
                 # also consider obstacles to just be game over anyway
 
@@ -41,6 +41,7 @@ class CollisionHandler:
                         if self.current_sprite.lives > 0:
                             self.current_sprite.set_health(100)
                             self.current_sprite.lives -= 1
+                            self.my_scene.controller.projectiles_per_shot = 1
                         else:
                             #game really over
                             self.current_sprite.game_over = True

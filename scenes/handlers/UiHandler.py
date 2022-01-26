@@ -2,6 +2,7 @@ from uiObjects.HealthDisplay import HealthDisplay
 from uiObjects.TimeDisplay import TimeDisplay
 from uiObjects.ScoreDisplay import ScoreDisplay
 from uiObjects.PlayerReadMe import PlayerReadMe
+from uiObjects.LifeDisplay import LifeDisplay
 
 class UiHandler():
 
@@ -28,6 +29,11 @@ class UiHandler():
         self.score_display.add(self.ui_sprites)
         self.position_new_toprow_element(self.score_display)
         return self.score_display
+
+    def create_life_display(self):
+        self.life_display = LifeDisplay(self.scene.my_player)
+        self.life_display.add(self.ui_sprites)
+        self.position_new_toprow_element(self.life_display)
 
     def create_message_to_player(self, *args):
         self.message_to_player = PlayerReadMe()

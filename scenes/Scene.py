@@ -26,6 +26,7 @@ class Scene:
         # establishing different groups as kind of "layers" to work with, also regarding collision rules btw each other
         self.player_sprite = pygame.sprite.GroupSingle()
         self.active_sprites = pygame.sprite.Group() # enemy obstacles
+        self.powerups = pygame.sprite.Group()
 
         # active game scenes require additional sprite categories
         self.projectiles_player = pygame.sprite.Group() # player projectiles
@@ -74,6 +75,7 @@ class Scene:
         if not self.interrupted:
             pygame.sprite.GroupSingle.update(self.player_sprite)
             pygame.sprite.Group.update(self.active_sprites)
+            pygame.sprite.Group.update(self.powerups)
             pygame.sprite.Group.update(self.projectiles_player)
             pygame.sprite.Group.update(self.projectiles_enemies)
             pygame.sprite.Group.update(self.ui)
@@ -86,6 +88,7 @@ class Scene:
         pygame.sprite.Group.draw(self.ui, self.gameboard)
         pygame.sprite.Group.draw(self.active_sprites, self.gameboard)
         pygame.sprite.GroupSingle.draw(self.player_sprite, self.gameboard)
+        pygame.sprite.Group.draw(self.powerups, self.gameboard)
         pygame.sprite.Group.draw(self.projectiles_player, self.gameboard)
         pygame.sprite.Group.draw(self.projectiles_enemies, self.gameboard)
         pygame.sprite.Group.draw(self.ui_on_top, self.gameboard)

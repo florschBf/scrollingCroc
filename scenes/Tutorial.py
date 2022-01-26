@@ -36,11 +36,13 @@ class Tutorial(Scene):
         self.health_display = self.ui_handler.create_health_display()
         self.time_display = self.ui_handler.create_time_display(300)
         self.score_display = self.ui_handler.create_score_display()
+        self.life_display = self.ui_handler.create_life_display()
 
         # someone needs to watch for collisions of all kinds
         self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites, self)
         self.collision_handler_projectiles = CollisionHandler(self.player_sprite, self.projectiles_enemies, self)
         self.collision_handler_shots = CollisionHandler(self.active_sprites, self.projectiles_player, self)
+        self.collision_handler_powerups = CollisionHandler(self.player_sprite, self.powerups, self)
 
         # time handler to progress us through the level - we "auto move" the level along to fake actual movement
         # tell the handler to display time on our UI element time_display from above
@@ -69,28 +71,7 @@ class Tutorial(Scene):
             self.collision_handler.check_for_collisions()
             self.collision_handler_shots.check_for_collisions()
             self.collision_handler_projectiles.check_for_collisions()
+            self.collision_handler_powerups.check_for_collisions()
 
         else:
             self.controller.stop_movement()
-
-    # def onreset(self):
-    #     print("resetting the level")
-    #     self.scene_controller.reset_me(self)
-        # self.encounters.current_encounter = 0
-        # self.encounters.last_timestamp = None
-        # self.time_handler.start_time = pygame.time.get_ticks()
-        # self.time_handler.elapsed_time = 0
-        # self.interrupted = False
-        # try:
-        #     self.ui_handler.remove_ui_element(self.ui_handler.message_to_player)
-        # except:
-        #     print("there was no message to kill")
-        # self.my_player.score = 0
-        # self.my_player.set_pos(350, 350)
-        # pygame.sprite.Group.update(self.ui)
-        # pygame.sprite.Group.update(self.player_sprite)
-        # pygame.sprite.Group.draw(self.ui, self.gameboard)
-        # pygame.sprite.Group.draw(self.player_sprite, self.gameboard)
-
-
-

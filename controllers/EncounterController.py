@@ -2,6 +2,7 @@ import json
 from gameObjects.Obstacle import Obstacle
 from gameObjects.Enemy import Enemy
 from gameObjects.PowerUp import PowerUp
+from gameObjects.Boss import Boss
 
 class EncounterController:
 
@@ -74,7 +75,9 @@ class EncounterController:
                 # you win, no more encounters left
                 print("level finished, leaving....")
                 self.game_over = True
-                self.scene.ui_handler.create_message_to_player('Gewonnen!!!', '')
+                self.scene.ui_handler.create_message_to_player('Gewonnen!!!', 'Übrigens: Der Endlos-Modus ist '
+                                                                              'tatsächlich endlos.', 'Solange die Finger'
+                                                                                                     ' durchhalten')
 
     def generate_obstacle(self, type, pattern, y_start = 'random'):
         """
@@ -100,10 +103,11 @@ class EncounterController:
                 new_enemy.start_y = y_start
         elif type == "powerup":
             new_powerup = PowerUp(self.scene.gameboard, pattern)
-            new_powerup.add(self.scene.active_sprites)
-            new_powerup.power = 'health'
-
-
+            new_powerup.add(self.scene.powerups)
+        elif type == "boss":
+            # boss needs no y_start and pattern will always be 'boss' specific
+            new_boss = Boss(self.scene.gameboard, 'boss', self.scene.my_player, self.scene)
+            new_boss.add(self.scene.active_sprites)
 
 
     def update(self):

@@ -1,7 +1,16 @@
 {
    "level_name":"Play",
    "encounters":{
-      "0":[
+      "0": [
+         "encounter",
+         [
+            2,
+            "obstacle",
+            "straight",
+            "y_random"
+         ]
+      ],
+      "1":[
          "encounter",
          [
             3,
@@ -22,7 +31,7 @@
             320
          ]
       ],
-      "1":[
+      "2":[
          "encounter",
          [
             3,
@@ -33,6 +42,261 @@
          [
             2,
             "enemy",
+            "zigzag",
+            "y_random"
+         ]
+      ],
+      "3": [
+         "encounter",
+         [
+            2,
+            "obstacle",
+            "zigzag",
+            "y_random"
+         ],
+         [
+            2,
+            "obstacle",
+            "straight",
+            "y_random"
+         ],
+         [
+            2,
+            "enemy",
+            "hunter",
+            "y_random"
+         ],
+         [
+            3,
+            "enemy",
+            "random",
+            320
+         ]
+      ],
+      "4": [
+         "encounter",
+         [
+            2,
+            "obstacle",
+            "straight",
+            "y_random"
+         ],
+         [
+            1,
+            "powerup",
+            "zigzag",
+            300
+         ]
+      ],
+      "5": [
+         "encounter",
+         [
+            4,
+            "enemy",
+            "hunter",
+            "y_random"
+         ],
+         [
+            3,
+            "obstacle",
+            "straight",
+            300
+         ]
+      ],
+      "6": [
+         "encounter",
+         [
+            1,
+            "enemy",
+            "hunter",
+            "y_random"
+         ],
+         [
+            3,
+            "enemy",
+            "random",
+            300
+         ]
+      ],
+      "7": [
+         "encounter",
+         [
+            6,
+            "obstacle",
+            "straight",
+            "y_random"
+         ],
+         [
+            4,
+            "enemy",
+            "zigzag",
+            300
+         ]
+      ],
+      "8": [
+         "encounter",
+         [
+            2,
+            "enemy",
+            "hunter",
+            "y_random"
+         ],
+         [
+            6,
+            "obstacle",
+            "straight",
+            "y_random"
+         ],
+         [
+            3,
+            "enemy",
+            "hunter",
+            300
+         ]
+      ],
+      "9": [
+         "encounter",
+         [
+            4,
+            "enemy",
+            "hunter",
+            "y_random"
+         ],
+         [
+            2,
+            "enemy",
+            "hunter",
+            "y_random"
+         ]
+      ],
+      "10": [
+         "encounter",
+         [
+            2,
+            "enemy",
+            "hunter",
+            "y_random"
+         ],
+         [
+            4,
+            "enemy",
+            "zigzag",
+            "y_random"
+         ]
+      ],
+      "11": [
+         "encounter",
+         [
+            4,
+            "enemy",
+            "hunter",
+            "y_random"
+         ],
+         [
+            1,
+            "powerup",
+            "zigzag",
+            300
+         ]
+      ],
+      "12": [
+         "encounter",
+         [
+            1,
+            "enemy",
+            "hunter",
+            "y_random"
+         ],
+         [
+            3,
+            "enemy",
+            "random",
+            300
+         ]
+      ],
+      "13": [
+         "encounter",
+         [
+            6,
+            "obstacle",
+            "straight",
+            "y_random"
+         ],
+         [
+            4,
+            "enemy",
+            "zigzag",
+            300
+         ]
+      ],
+      "14": [
+         "encounter",
+         [
+            2,
+            "enemy",
+            "hunter",
+            "y_random"
+         ],
+         [
+            6,
+            "obstacle",
+            "straight",
+            "y_random"
+         ],
+         [
+            3,
+            "enemy",
+            "hunter",
+            300
+         ]
+      ],
+      "15": [
+         "encounter",
+         [
+            4,
+            "enemy",
+            "hunter",
+            "y_random"
+         ],
+         [
+            2,
+            "enemy",
+            "hunter",
+            "y_random"
+         ]
+      ],
+      "16": [
+         "encounter",
+         [
+            3,
+            "enemy",
+            "hunter",
+            "y_random"
+         ],
+         [
+            7,
+            "obstacle",
+            "zigzag",
+            300
+         ],
+         [
+            2,
+            "enemy",
+            "random",
+            "y_random"
+         ]
+      ],
+      "17": [
+         "encounter",
+         [
+            1,
+            "boss",
+            "boss",
+            "y_random"
+         ],
+         [
+            1,
+            "powerup",
             "zigzag",
             "y_random"
          ]

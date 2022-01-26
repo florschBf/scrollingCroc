@@ -233,7 +233,6 @@ class SceneController:
             print("not doing anything else unless you confirm the message, sorry")
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_RETURN:
-                    print("registering the correct key, sth else is wonky maybe?")
                     current_scene = self.get_active_scene()
                     ui_handler = current_scene.ui_handler
                     current_scene.interrupted = False

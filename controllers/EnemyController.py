@@ -54,19 +54,21 @@ class EnemyController(ObstacleController):
             #if self.hunt_refresh_timer > 60:
             #  we need to set our speed to aim at player - if we get too close, we reverse
             #  using projectile vector2d aiming
-            print("hunting player")
+
             # get the distance
             player_distance = (self.player.get_pos().x - self.enemy.get_pos().x), (self.player.get_pos().y - self.enemy.get_pos().y)
-            print("player distance: " + str(player_distance))
-            #normalize the vector
-            target_vector = Vector2(player_distance).normalize()
-            print("target vector: " + str(target_vector))
-            # turn the vector into a move with velocity
-            target_vector *= self.velocity
-            # transferring vector to speed variable, it needs to be reversed here,
-            # because obstacles reduce their speed in ObstacleController logic, they don't add!
-            self.enemy.speed = target_vector * -1
-            print("this is speed at the end:" + str(self.enemy.speed))
 
-    # def refresh_hunt(self):
-    #     self.hunt_refresh_timer = 61
+            #normalize the vector
+            try:
+                target_vector = Vector2(player_distance).normalize()
+                # turn the vector into a move with velocity
+                target_vector *= self.velocity
+                # transferring vector to speed variable, it needs to be reversed here,
+                # because obstacles reduce their speed in ObstacleController logic, they don't add!
+                self.enemy.speed = target_vector * -1
+            except:
+                #  right on top of each other fails the normalise... very rare
+                pass
+
+
+
