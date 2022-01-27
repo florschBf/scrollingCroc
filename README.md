@@ -1,24 +1,24 @@
 # scrollingCroc
 Scroll Shoot Evade with PyGame and a Crocodile
 
-#Semesterprojekt für Objektorientierte Skriptsprachen
+# Semesterprojekt für Objektorientierte Skriptsprachen
 TH Brandenburg, Winter 21/22
 Dozent: Prof. Dr. Thomas Preuss
 
-#dependencies
+## dependencies
 pygame==2.1.0
 -> requirements.txt
 
-#Steuerung
+## Steuerung
 Pfeiltasten zur Auswahl im Menu und zum Bewegen
 Return zur Auswahl und Bestätigung im Spiel
 Space im Spiel für Bubbles
 
-#genutzte Grafiken und Sound-Assets im Spiel
+## genutzte Grafiken und Sound-Assets im Spiel
 Krokodil, Menü, Powerups etc. selbst erstellt
 Gegner-Grafiken und Sound von https://opengameart.org, alle Creative Commons oder Public Domain
 
-#Creative Commons Urheber-Nennungen:
+### Creative Commons Urheber-Nennungen:
 space background:
 Artwork created by Luis Zuno (@ansimuz)
 License (CC0) You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission: http://creativecommons.org/publicdomain/zero/1.0/
