@@ -40,7 +40,7 @@ class SceneController:
 
         # center screen
         os.environ['SDL_VIDEO_CENTERED'] = '1'
-        pygame.display.set_caption("Scrolling Croc V0.1")
+        pygame.display.set_caption("Scrolling Croc V1.0")
 
         # preloading scenes - is that smart?
         # hard-coding colors here, consider themes / settings file
