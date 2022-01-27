@@ -40,14 +40,15 @@ class Projectile(GameObject):
             print("target vector: " + str(self.target_vector))
         except:
             # distance was 0, cant normalize vector, setting a standard
-            self.target_vector = [1,0]
+            self.target_vector = Vector2([1, origin_pos[1]]).normalize()
+            print("error, new target vector: " + str(self.target_vector))
 
     def get_direction(self):
         return self.target_vector
 
     def update(self):
         # keep it simple
-        super().update()
+        # super().update()
         pos = self.get_pos()
         direction = self.get_direction()
         new_position_x = pos.x + (direction.x * self.velocity)

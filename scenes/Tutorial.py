@@ -35,19 +35,18 @@ class Tutorial(Scene):
         # we need a game UI
         self.info_display = self.ui_handler.create_info_bar()
         self.health_display = self.ui_handler.create_health_display(self.info_display)
-        self.time_display = self.ui_handler.create_time_display(300, self.info_display)
+        self.time_display = self.ui_handler.create_time_display(0, self.info_display)
         self.score_display = self.ui_handler.create_score_display(self.info_display)
         self.life_display = self.ui_handler.create_life_display(self.info_display)
 
         # someone needs to watch for collisions of all kinds
-        self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites, self)
-        self.collision_handler_projectiles = CollisionHandler(self.player_sprite, self.projectiles_enemies, self)
+        self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites, self, True)
+        self.collision_handler_projectiles = CollisionHandler(self.player_sprite, self.projectiles_enemies, self, True)
         self.collision_handler_shots = CollisionHandler(self.active_sprites, self.projectiles_player, self)
-        self.collision_handler_powerups = CollisionHandler(self.player_sprite, self.powerups, self)
+        self.collision_handler_powerups = CollisionHandler(self.player_sprite, self.powerups, self, True)
 
         # time handler to progress us through the level - we "auto move" the level along to fake actual movement
         # tell the handler to display time on our UI element time_display from above
-        self.time_handler = TimeHandler(self, True, 300)
         self.time_handler.set_time_display(self.time_display)
 
         # this is an action scene

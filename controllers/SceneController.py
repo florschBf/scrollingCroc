@@ -8,6 +8,7 @@ from scenes.Startmenu import Startmenu
 from scenes.Play import Play
 from scenes.Endless import Endless
 from scenes.Options import Options
+from scenes.Highscore import Highscore
 from controllers.BackgroundController import BackgroundController
 from controllers.SoundController import SoundController
 
@@ -22,8 +23,11 @@ class SceneController:
         old_menu_color = (150, 60, 255)
         new_menu_color = (255, 78, 225)
 
-        # TODO game speed can be used to change feel and difficulty of the game
-        self.game_speed = 10
+        # game settings
+        # self.game_speed = 10
+        self.music = True
+        self.sound = True
+        self.invulnerable = False
 
         # we need a surface to play on
         self.gameBoard = pygame.display.set_mode((width, height))
@@ -32,7 +36,7 @@ class SceneController:
         self.frames = pygame.time.Clock()
         self.background = BackgroundController(self.gameBoard)
 
-        self.sound = SoundController()
+        self.sound_control = SoundController()
 
         # center screen
         os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -44,7 +48,8 @@ class SceneController:
         self.tut = Tutorial(self.gameBoard, self)
         self.play = Play(self.gameBoard, self)
         self.endless = Endless(self.gameBoard, self)
-        self.options = Options(self.gameBoard, self)
+        self.options = Options(self.gameBoard, new_menu_color, (255, 255, 255), self)
+        self.highscore = Highscore(self.gameBoard, new_menu_color, (255, 255, 255), self)
 
         # starting state is menu
         self.state = 0
@@ -64,7 +69,7 @@ class SceneController:
         """
         if scene == "start_menu":
             self.state = 0
-            self.sound.loop_music(0)
+            self.sound_control.loop_music(0)
         elif scene == "tutorial":
             self.state = 1
         elif scene == "play":
@@ -73,8 +78,35 @@ class SceneController:
             self.state = 3
         elif scene == "options":
             self.state = 4
+        elif scene == "highscore":
+            self.state = 5
         else:  # that shouldn't happen
             pass
+
+    def toggle_music(self):
+        if self.music == True:
+            self.music = False
+            self.sound_control.music = False
+            self.sound_control.currently_playing.fadeout(500)
+        else:
+            self.music = True
+            self.sound_control.music = True
+            # triggered from options so starting menu music
+            self.sound_control.loop_music(0)
+
+    def toggle_sound(self):
+        if self.sound == True:
+            self.sound = False
+            self.sound_control.sound = False
+        else:
+            self.sound = True
+            self.sound_control.sound = True
+
+    def toggle_invulnerable(self):
+        if self.invulnerable:
+            self.invulnerable = False
+        else:
+            self.invulnerable = True
 
     def scene_switch(self, next_scene, prev_scene):
         """
@@ -91,29 +123,32 @@ class SceneController:
         if next_scene == "start_menu":
             # call pause on previous scene
             prev_scene.onpause()
-            self.sound.currently_playing.fadeout(500)
+            if prev_scene == self.options:
+                pass
+            else:
+                self.sound_control.currently_playing.fadeout(500)
+                self.sound_control.loop_music(0)
             # render selected scene and call onresume
             self.state = 0
-            self.sound.loop_music(0)
             self.menu.onresume()
             # do this for all other scenes as well when they are called with previous scene
         elif next_scene == "tutorial":
             prev_scene.onpause()
-            self.sound.currently_playing.fadeout(500)
+            self.sound_control.currently_playing.fadeout(500)
             self.state = 1
-            self.sound.loop_music(1)
+            self.sound_control.loop_music(1)
             self.tut.onresume()
         elif next_scene == "play":
             prev_scene.onpause()
-            self.sound.currently_playing.fadeout(500)
+            self.sound_control.currently_playing.fadeout(500)
             self.state = 2
-            self.sound.loop_music(2)
+            self.sound_control.loop_music(2)
             self.play.onresume()
         elif next_scene == "endless":
             prev_scene.onpause()
-            self.sound.currently_playing.fadeout(500)
+            self.sound_control.currently_playing.fadeout(500)
             self.state = 3
-            self.sound.loop_music(3)
+            self.sound_control.loop_music(3)
             self.endless.onresume()
         elif next_scene == "options":
             prev_scene.onpause()
@@ -121,6 +156,10 @@ class SceneController:
             self.state = 4
             # self.sound.loop_music(4)
             self.options.onresume()
+        elif next_scene == "highscore":
+            prev_scene.onpause()
+            self.state = 5
+            self.highscore.onresume()
         else:  # that shouldn't happen
             pass
 
@@ -141,6 +180,8 @@ class SceneController:
             scene = self.endless
         elif scene_number == 4:
             scene = self.options
+        elif scene_number == 5:
+            scene = self.highscore
         return scene
 
     def get_active_scene(self):
@@ -163,6 +204,9 @@ class SceneController:
         elif self.state == 4:
             print("active scene is: " + str(self.options))
             return self.options
+        elif self.state == 5:
+            print("active scene is: " + str(self.highscore))
+            return self.highscore()
 
     def update(self):
         """
@@ -185,6 +229,10 @@ class SceneController:
             self.play.render()
         elif self.state == 3:
             self.endless.render()
+        elif self.state == 4:
+            self.options.render()
+        elif self.state == 5:
+            self.highscore.render()
         else:
             # invalid state, don't know what to render || close? rendering start_menu I guess, should never happen
             self.menu.render()
@@ -228,6 +276,8 @@ class SceneController:
             self.endless.controller.handle(event)
         elif self.state == 4 and not self.options.interrupted:
             self.options.controller.handle(event)
+        elif self.state == 5 and not self.highscore.interrupted:
+            self.highscore.controller.handle(event)
         else:
             # current scene is interrupted, confirm key?
             print("not doing anything else unless you confirm the message, sorry")

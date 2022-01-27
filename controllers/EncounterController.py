@@ -75,9 +75,10 @@ class EncounterController:
                 # you win, no more encounters left
                 print("level finished, leaving....")
                 self.game_over = True
-                self.scene.ui_handler.create_message_to_player('Gewonnen!!!', 'Übrigens: Der Endlos-Modus ist '
-                                                                              'tatsächlich endlos.', 'Solange die Finger'
-                                                                                                     ' durchhalten')
+                self.scene.ui_handler.create_message_to_player('Gewonnen!!!'
+                                                               ,'Übrigens: Der Endlos-Modus ist tatsächlich endlos'
+                                                               ,'Solange die Finger durchhalten.'
+                                                               ,'Space gedrückt halten geht auch...')
 
     def generate_obstacle(self, type, pattern, y_start = 'random'):
         """
@@ -90,7 +91,6 @@ class EncounterController:
         if type == "obstacle":
             new_obstacle = Obstacle(self.scene.gameboard, pattern)
             new_obstacle.add(self.scene.active_sprites)
-
         elif type == "enemy":
             new_enemy = Enemy(self.scene.gameboard, pattern, self.scene.my_player, self.scene)
             new_enemy.add(self.scene.active_sprites)

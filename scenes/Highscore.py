@@ -1,21 +1,19 @@
 import pygame.font
+import sqlite3
 
 from scenes.Scene import Scene
 from uiObjects.MenuSelector import MenuSelector
 from controllers.MenuController import MenuController
+from controllers.DbController import DbController
 
 
-class Options(Scene):
+class Highscore(Scene):
 
     def __init__(self, surface, color, selector_color, scene_controller):
         pygame.font.init()
         self.menu_font = pygame.font.get_default_font()  # getting default font for now just to render sth
         self.font_renderer = pygame.font.SysFont(self.menu_font, 30)
-        self.item1 = 'Musik'
-        self.item2 = 'Sound-Effekte'
-        self.item3 = 'Unbesiegbar'
-        self.item4 = 'Highscore'
-        self.item5 = 'Zurück'
+
         # our scene controllers and surface get set in super
         super().__init__(surface, scene_controller)
 
@@ -26,23 +24,24 @@ class Options(Scene):
         # ball standing in as selector for now
         self.selector = MenuSelector(15, 15, self.selector_color)
         self.menu_image = pygame.image.load('assets/drawables/croc_options_menu2.png').convert_alpha()
-        self.empty_check = pygame.transform.scale(pygame.image.load('assets/drawables/check_empty.png').convert(), (25, 25))
-        self.full_check = pygame.transform.scale(pygame.image.load('assets/drawables/check_full.png').convert(), (25,25))
+
 
         # creating all menu items as surfaces and rendering them on the main surface
-        self.text_item1 = self.font_renderer.render(self.item1, True, self.main_color)
-        self.text_item2 = self.font_renderer.render(self.item2, True, self.main_color)
-        self.text_item3 = self.font_renderer.render(self.item3, True, self.main_color)
-        self.text_item4 = self.font_renderer.render(self.item4, True, self.main_color)
-        self.text_item5 = self.font_renderer.render(self.item5, True, self.main_color)
+        self.text_item1 = self.font_renderer.render('highscore1', True, self.main_color)
+        self.text_item2 = self.font_renderer.render('highscore2', True, self.main_color)
+        self.text_item3 = self.font_renderer.render('highscore3', True, self.main_color)
+        self.text_item4 = self.font_renderer.render('highscore4', True, self.main_color)
         self.text_items = [self.text_item1, self.text_item2, self.text_item3, self.text_item4]
 
         # we need a menu controllers to handle player input
         self.controller = MenuController(self.selector, self)
-        self.controller.set_menu_state('options')
+        self.controller.set_menu_state('highscore')
 
         # we collect active sprites in a group to draw them to surface
         self.selector.add(self.active_sprites)
+
+        # sqlite for keeping highscores
+        self.db = DbController('/assets/highscore.db', self)
 
     def render(self):
         # rendering menu items to surface
@@ -51,22 +50,6 @@ class Options(Scene):
         self.gameboard.blit(self.text_item2, (550, 300, 30, 30))
         self.gameboard.blit(self.text_item3, (550, 330, 30, 30))
         self.gameboard.blit(self.text_item4, (550, 360, 30, 30))
-        self.gameboard.blit(self.text_item5, (550, 390, 30, 30))
-
-        if self.scene_controller.music == True:
-            self.gameboard.blit(self.full_check, (725, 265))
-        else:
-            self.gameboard.blit(self.empty_check, (725, 265))
-
-        if self.scene_controller.sound == True:
-            self.gameboard.blit(self.full_check, (725, 295))
-        else:
-            self.gameboard.blit(self.empty_check, (725, 295))
-
-        if self.scene_controller.invulnerable == True:
-            self.gameboard.blit(self.full_check, (725, 325))
-        else:
-            self.gameboard.blit(self.empty_check, (725, 325))
 
         # call Scene render function for sprites and controllers
         super().render()

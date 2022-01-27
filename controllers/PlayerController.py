@@ -83,55 +83,37 @@ class PlayerController:
     def shoot(self):
         if self.shot_timer < 10:
             self.shot_timer = self.shot_delay
-            playerpos = self.player.get_pos()
+
             for x in range(self.projectiles_per_shot):
                 if x == 0:
-                    shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
-                                                                  playerpos.y + self.player.image.get_height() / 2),
-                                      self.player.projectile_image)
-                    self.scene.scene_controller.sound.play_sound("bubble_shot")
-                    # player just shoots straight ahead
-                    target = (playerpos.x + 1, playerpos.y)
-                    shot.set_shot_direction(target, playerpos)
-                    shot.add(self.scene.projectiles_player)
+                    self.bubble_shot(1,0)
                 elif x == 1:
-                    shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
-                                                                  playerpos.y + self.player.image.get_height() / 2),
-                                      self.player.projectile_image)
-                    self.scene.scene_controller.sound.play_sound("bubble_shot")
-                    # player just shoots straight ahead
-                    target = (playerpos.x + 1, playerpos.y + 1)
-                    shot.set_shot_direction(target, playerpos)
-                    shot.add(self.scene.projectiles_player)
+                    self.bubble_shot(1,1)
                 elif x == 2:
-                    shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
-                                                                  playerpos.y + self.player.image.get_height() / 2),
-                                      self.player.projectile_image)
-                    self.scene.scene_controller.sound.play_sound("bubble_shot")
-                    # player just shoots straight ahead
-                    target = (playerpos.x + 1, playerpos.y - 1)
-                    shot.set_shot_direction(target, playerpos)
-                    shot.add(self.scene.projectiles_player)
+                    self.bubble_shot(1, -1)
                 elif x == 3:
-                    shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
-                                                                  playerpos.y + self.player.image.get_height() / 2),
-                                      self.player.projectile_image)
-                    self.scene.scene_controller.sound.play_sound("bubble_shot")
-                    # player just shoots straight ahead
-                    target = (playerpos.x + 5, playerpos.y + 3)
-                    shot.set_shot_direction(target, playerpos)
-                    shot.add(self.scene.projectiles_player)
+                    self.bubble_shot(5, 3)
                 elif x == 4:
-                    shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
-                                                                  playerpos.y + self.player.image.get_height() / 2),
-                                      self.player.projectile_image)
-                    self.scene.scene_controller.sound.play_sound("bubble_shot")
-                    # player just shoots straight ahead
-                    target = (playerpos.x + 5, playerpos.y - 3)
-                    shot.set_shot_direction(target, playerpos)
-                    shot.add(self.scene.projectiles_player)
+                    self.bubble_shot(5, -3)
                 else:
                     pass
+
+    def bubble_shot(self, x_offset, y_offset):
+        """
+        Method to spawn bubble projectiles for player
+        :param x_offset: shooting angles are controlled with these offsets, basically an imaginary target to calc with
+        :param y_offset: shooting angles are controlled with these offsets, basically an imaginary target to calc with
+        :return:
+        """
+        # player just shoots straight ahead usually, on upgrade starts branching out with offset
+        playerpos = self.player.get_pos()
+        shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
+                                                      playerpos.y + self.player.image.get_height() / 2),
+                          self.player.projectile_image)
+        self.scene.scene_controller.sound_control.play_sound("bubble_shot")
+        target = (playerpos.x + x_offset, playerpos.y + y_offset)
+        shot.set_shot_direction(target, playerpos)
+        shot.add(self.scene.projectiles_player)
 
     def update(self):
         """

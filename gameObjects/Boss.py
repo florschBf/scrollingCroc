@@ -57,7 +57,7 @@ class Boss(Obstacle):
             elif x == 4:
                 shot.set_shot_direction((600, 676), my_pos)
                 shot.add(scene.projectiles_enemies)
-            scene.scene_controller.sound.play_sound("enemy_shot")
+            scene.scene_controller.sound_control.play_sound("enemy_shot")
 
     def special_move(self):
         self.spawn_obstacle(movement='straight', y_start=0)

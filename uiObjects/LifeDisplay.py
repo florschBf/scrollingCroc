@@ -37,5 +37,8 @@ class LifeDisplay(UiObject):
         offset = 400
         print(self.lives)
         for x in range(0,self.lives):
-            self.infobar.image.blit(self.croc, (0 + offset, 60, 100, 30))
-            offset += 30
+            if x > 8:
+                pass
+            else:
+                self.infobar.image.blit(self.croc, (0 + offset, 60, 100, 30))
+                offset += 30

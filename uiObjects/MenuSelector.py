@@ -14,19 +14,24 @@ class MenuSelector(UiObject):
         UiObject.__init__(self)
         self.height = height
         self.width = width
+        self.menu_type = "start"
         # selector rectangle image
 
     def next_item(self):
         # go to next item
         self.position += 1
-        if self.position > 4:
+        if self.position > 4 and (self.menu_type == 'start' or self.menu_type == 'options'):
             self.position = 0
 
     def prev_item(self):
         # go to previous item
         self.position -= 1
         if self.position < 0:
-            self.position = 4
+            if self.menu_type == 'start':
+                self.position = 4
+            elif self.menu_type == 'options':
+                self.position = 4
+
 
     def get_selected(self):
         # return currently selected item

@@ -1,5 +1,7 @@
 import pygame.sprite
 from scenes.handlers.UiHandler import UiHandler
+from scenes.handlers.TimeHandler import TimeHandler
+# collision handlers handled on scene basis
 
 class Scene:
     """
@@ -40,14 +42,19 @@ class Scene:
 
         # every scene has some sort of ui - this class here initialises it on demand in the respective scene
         self.ui_handler = UiHandler(self)
+        # most scenes need to keep track of time, so we all get a timehandler, even though it might not display time
+        self.time_handler = TimeHandler(self, True)
+
 
     def onpause(self):
         # call me when pausing the scene
         print("pause on scene " + str(self) + " called")
+        self.time_handler.pause_time()
 
     def onresume(self):
         # call me when returning to the scene
         print("resume on scene " + str(self) + " called")
+        self.time_handler.resume_time()
 
     def onreset(self):
         # call when scene should be ended (e.g. cleanup, send back to start)
