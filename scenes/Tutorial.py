@@ -23,7 +23,7 @@ class Tutorial(Scene):
         super().__init__(surface, scene_controller)
 
         #we need a player
-        self.my_player = PlayerObject(self.gameboard, 25, 25, (350, 350))
+        self.my_player = PlayerObject(self.gameboard, 25, 25, (350, 225))
         self.my_player.add(self.player_sprite)
         # player needs to know game borders
         self.my_player.set_borderX(self.gameboard.get_width())
@@ -33,25 +33,27 @@ class Tutorial(Scene):
         self.controller = PlayerController(self.my_player, self)
 
         # we need a game UI
-        self.health_display = self.ui_handler.create_health_display()
-        self.time_display = self.ui_handler.create_time_display(300)
-        self.score_display = self.ui_handler.create_score_display()
-        self.life_display = self.ui_handler.create_life_display()
+        self.info_display = self.ui_handler.create_info_bar()
+        self.health_display = self.ui_handler.create_health_display(self.info_display)
+        self.time_display = self.ui_handler.create_time_display(0, self.info_display)
+        self.score_display = self.ui_handler.create_score_display(self.info_display)
+        self.life_display = self.ui_handler.create_life_display(self.info_display)
 
         # someone needs to watch for collisions of all kinds
-        self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites, self)
-        self.collision_handler_projectiles = CollisionHandler(self.player_sprite, self.projectiles_enemies, self)
+        self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites, self, True)
+        self.collision_handler_projectiles = CollisionHandler(self.player_sprite, self.projectiles_enemies, self, True)
         self.collision_handler_shots = CollisionHandler(self.active_sprites, self.projectiles_player, self)
-        self.collision_handler_powerups = CollisionHandler(self.player_sprite, self.powerups, self)
+        self.collision_handler_powerups = CollisionHandler(self.player_sprite, self.powerups, self, True)
 
         # time handler to progress us through the level - we "auto move" the level along to fake actual movement
         # tell the handler to display time on our UI element time_display from above
-        self.time_handler = TimeHandler(self, True, 300)
         self.time_handler.set_time_display(self.time_display)
 
         # this is an action scene
         # - now that time is set, encounter controller knows what else to run on the screen for this level
         self.encounters = EncounterController('tutorial', self)
+        # slow down events for Tutorial a bit
+        self.encounters.delay = 6000
 
         #self.ui_handler.create_message_to_player('Willkommen zum Tutorial', 'Keine Sorge, ScrollingCroc ist ein simples Spiel, es gibt', 'nicht viel zu lernen.')
 

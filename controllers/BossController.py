@@ -44,7 +44,7 @@ class BossController(ObstacleController):
 
     def update_pos(self):
         # overwriting Obstacle movement, not calling super()
-        if self.boss.get_pos().x > 1180:
+        if self.boss.get_pos().x > 1130:
             print("boss moving inwards")
             # slowly move image inside frame
             self.boss.set_pos(self.boss.get_pos().x - 2, self.boss.get_pos().y)

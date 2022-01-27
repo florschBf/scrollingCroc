@@ -15,15 +15,15 @@ class PowerUp(Obstacle):
         self.type_number = random.randint(0,2)
         if self.type_number == 0:
             self.power = 'health'
-            self.image = pygame.transform.scale(pygame.image.load('assets/drawables/croc_scaled.png').convert_alpha(),
+            self.image = pygame.transform.scale(pygame.image.load('assets/drawables/powerup_health.png').convert_alpha(),
                                                 (80, 80))
         elif self.type_number == 1:
             self.power = 'bigshot'
-            self.image = pygame.transform.scale(pygame.image.load('assets/drawables/bubble_projectile.png').convert_alpha(),
+            self.image = pygame.transform.scale(pygame.image.load('assets/drawables/powerup_bubble.png').convert_alpha(),
                                                 (80, 80))
         elif self.type_number == 2:
             self.power = 'life'
-            self.image = pygame.transform.scale(pygame.image.load('assets/drawables/croc_scaled.png').convert_alpha(),
+            self.image = pygame.transform.scale(pygame.image.load('assets/drawables/powerup_extra_life.png').convert_alpha(),
                                                 (80, 80))
 
 

@@ -26,7 +26,7 @@ class Endless(Scene):
         super().__init__(surface, scene_controller)
 
         #we need a player
-        self.my_player = PlayerObject(self.gameboard, 25, 25, (350, 350))
+        self.my_player = PlayerObject(self.gameboard, 25, 25, (350, 225))
         self.my_player.add(self.player_sprite)
         # player needs to know game borders
         self.my_player.set_borderX(self.gameboard.get_width())
@@ -37,25 +37,25 @@ class Endless(Scene):
 
         # we need a game UI
         self.ui_handler = UiHandler(self)
-        self.health_display = self.ui_handler.create_health_display()
-        self.time_display = self.ui_handler.create_time_display(300)
-        self.score_display = self.ui_handler.create_score_display()
-        self.life_display = self.ui_handler.create_life_display()
+        self.info_display = self.ui_handler.create_info_bar()
+        self.health_display = self.ui_handler.create_health_display(self.info_display)
+        self.time_display = self.ui_handler.create_time_display(0, self.info_display)
+        self.score_display = self.ui_handler.create_score_display(self.info_display)
+        self.life_display = self.ui_handler.create_life_display(self.info_display)
 
         # someone needs to watch for collisions of all kinds
-        self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites, self)
-        self.collision_handler_projectiles = CollisionHandler(self.player_sprite, self.projectiles_enemies, self)
+        self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites, self, True)
+        self.collision_handler_projectiles = CollisionHandler(self.player_sprite, self.projectiles_enemies, self, True)
         self.collision_handler_shots = CollisionHandler(self.active_sprites, self.projectiles_player, self)
-        self.collision_handler_powerups = CollisionHandler(self.player_sprite, self.powerups, self)
+        self.collision_handler_powerups = CollisionHandler(self.player_sprite, self.powerups, self, True)
 
         # time handler to progress us through the level - we "auto move" the level along to fake actual movement
         # tell the handler to display time on our UI element time_display from above
-        self.time_handler = TimeHandler(self, True, 300)
         self.time_handler.set_time_display(self.time_display)
         self.wave_timer = 300
-        self.wave_threshold = 500
+        self.wave_threshold = 600
         self.wave_counter = 0
-        self.wave_multiplier = 1
+        self.wave_multiplier = 0
 
         # this is an action scene
         # - now that time is set, encounter controller knows what else to run on the screen for this level
@@ -68,33 +68,43 @@ class Endless(Scene):
                 self.wave_multiplier += 1
         if self.wave_multiplier == 0:
             self.wave_multiplier += 1
-        amount_obs = random.randint(0, 4) * self.wave_multiplier
+        amount_obs = random.randint(0, 3) * self.wave_multiplier
         amount_enemy = random.randint(0, 3) * self.wave_multiplier
         amount_hunter = random.randint(0, 2) * self.wave_multiplier
-        amount_powerup = random.randint(0, 2)  // self.wave_multiplier
+        amount_powerup = random.randint(0, 2) # keeping them steady, not dividing
+        amount_boss = random.randint(0, 1) * (self.wave_multiplier -1)
 
-        for x in range(0, amount_obs):
-            print("spawning obstacle")
-            self.spawn_obstacle()
-        for x in range(0, amount_enemy):
-            self.spawn_enemy()
-            print("spawning enemy")
+        # spawning obstacles according to random amounts
+        for x in range(0, amount_boss):
+            if len(self.active_sprites.sprites()) > 300:
+                break
+            self.spawn_boss()
+            print("spawning boss")
         for x in range(0, amount_hunter):
+            if len(self.active_sprites.sprites()) > 300:
+                break
             self.spawn_hunter()
             print("spawning hunter")
+        for x in range(0, amount_enemy):
+            if len(self.active_sprites.sprites()) > 300:
+                break
+            self.spawn_enemy()
+            print("spawning enemy")
+        for x in range(0, amount_obs):
+            if len(self.active_sprites.sprites()) > 300:
+                break
+            print("spawning obstacle")
+            self.spawn_obstacle()
         for x in range(0, amount_powerup):
+            if len(self.active_sprites.sprites()) > 300:
+                break
             self.relief()
             print("spawning powerup")
-        if self.wave_counter > 5:
-            amount_boss = random.randint(0, 1)
-            for x in range(0, amount_boss):
-                self.spawn_boss()
-                print("spawning boss")
 
+    # spawn methods
     def relief(self):
         new_relief = PowerUp(self.gameboard, 'random')
         new_relief.add(self.powerups)
-        print(new_relief)
 
     def spawn_obstacle(self, movement = 'random', y_start = 'random'):
         new_obstacle = Obstacle(self.gameboard, movement, y_start)
@@ -102,21 +112,20 @@ class Endless(Scene):
 
     def spawn_enemy(self, movement = 'random', y_start = 'random'):
         new_enemy = Enemy(self.gameboard, movement  , self.my_player, self)
-        new_enemy.set_color(self.green)
         new_enemy.add(self.active_sprites)
-        if y_start != 'random':
-            new_enemy.set_pos = (self.get_pos().x, y_start)
 
     def spawn_hunter(self):
         new_enemy = Enemy(self.gameboard,  'hunter', self.my_player, self)
-        new_enemy.set_color((255, 85, 0))
         new_enemy.add(self.active_sprites)
 
     def spawn_boss(self):
-        # boss needs no y_start and pattern will always be 'boss' specific
-        new_boss = Boss(self.gameboard, 'boss', self.my_player, self)
-        new_boss.add(self.active_sprites)
-        new_boss.health = 2000
+        if len(self.active_sprites.sprites()) > 300:
+            pass
+        else:
+            # boss needs no y_start and pattern will always be 'boss' specific
+            new_boss = Boss(self.gameboard, 'boss', self.my_player, self)
+            new_boss.add(self.active_sprites)
+            new_boss.health = 2000
 
     def render(self):
         # call Scene render function for sprites and controllers
@@ -126,6 +135,8 @@ class Endless(Scene):
             # make sure the level proceeds as planned
             self.time_handler.update()
             self.wave_timer += 1
+            if len(self.active_sprites.sprites()) == 0 and self.wave_timer < 300:
+                self.wave_timer = 300
             if self.wave_timer > self.wave_threshold:
                 self.endless_waves()
                 self.wave_counter += 1

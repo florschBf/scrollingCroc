@@ -12,11 +12,13 @@ class Boss(Obstacle):
     def __init__(self, surface, movement_pattern, target_player, scene):
         super().__init__(surface, movement_pattern)
         self.speed = [0, 6] # stays at right_side, only y movement
-        self.image = pygame.Surface([100, 300])
+        # self.image = pygame.Surface([100, 300])
+        # self.rect = self.image.get_rect()
+        # self.image.fill((203, 0, 0))
+        self.image = pygame.image.load('assets/drawables/boss1.png').convert_alpha()
         self.rect = self.image.get_rect()
-        self.image.fill((203, 0, 0))
-        self.set_pos(1280, 360 - 150)
         self.controller = BossController(self, movement_pattern, target_player, scene)
+        self.set_pos(1280, 360 - 75)
 
         self.health = 20000
         self.projectile_damage = 5
@@ -55,7 +57,7 @@ class Boss(Obstacle):
             elif x == 4:
                 shot.set_shot_direction((600, 676), my_pos)
                 shot.add(scene.projectiles_enemies)
-            scene.scene_controller.sound.play_sound("enemy_shot")
+            scene.scene_controller.sound_control.play_sound("enemy_shot")
 
     def special_move(self):
         self.spawn_obstacle(movement='straight', y_start=0)
@@ -89,7 +91,6 @@ class Boss(Obstacle):
     def relief(self):
         new_relief = PowerUp(self.controller.scene.gameboard, 'random')
         new_relief.add(self.controller.scene.powerups)
-        print(new_relief)
 
     def spawn_obstacle(self, movement = 'random', y_start = 'random'):
         new_obstacle = Obstacle(self.controller.scene.gameboard, movement, y_start)
@@ -97,14 +98,10 @@ class Boss(Obstacle):
 
     def spawn_enemy(self, movement = 'random', y_start = 'random'):
         new_enemy = Enemy(self.controller.scene.gameboard, movement  , self.controller.player, self.controller.scene)
-        new_enemy.set_color(self.controller.scene.green)
         new_enemy.add(self.controller.scene.active_sprites)
-        if y_start != 'random':
-            new_enemy.set_pos = (self.get_pos().x, y_start)
 
     def spawn_hunter(self):
         new_enemy = Enemy(self.controller.scene.gameboard,  'hunter', self.controller.player, self.controller.scene)
-        new_enemy.set_color((255, 85, 0))
         new_enemy.add(self.controller.scene.active_sprites)
 
 

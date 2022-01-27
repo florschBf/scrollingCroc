@@ -7,18 +7,6 @@ class PlayerController:
     Class that controls all input for the playerobject, e.g. movement and shooting
     """
 
-
-    '''movement settings - switch up to change player move behaviour
-    drag slows down when not accelerating, responsiveness controls quickness of controls'''
-    responsiveness = 1
-    drag = 0.1
-    maxSpeed = 10
-    accelerating = False
-    decelerating = False
-    rising = False
-    falling = False
-    projectiles_per_shot = 1
-
     def __init__(self, player, scene):
         """
         Constructor for player controllers
@@ -26,6 +14,19 @@ class PlayerController:
         """
         self.player = player
         self.scene = scene
+        '''movement settings - switch up to change player move behaviour
+        drag slows down when not accelerating, responsiveness controls quickness of controls'''
+        self.responsiveness = 1
+        self.drag = 0.1
+        self.maxSpeed = 10
+        self.accelerating = False
+        self.decelerating = False
+        self.rising = False
+        self.falling = False
+        self.projectiles_per_shot = 1
+        self.shooting = False
+        self.shot_timer = 0
+        self.shot_delay = 20
 
     def handle(self, event):
         """
@@ -52,55 +53,7 @@ class PlayerController:
                     self.falling = True
                 elif event.key == pygame.K_SPACE:
                     # shooting
-                    playerpos = self.player.get_pos()
-                    for x in range(self.projectiles_per_shot):
-                        if x == 0:
-                            shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
-                                                                          playerpos.y + self.player.image.get_height()/2),
-                                              self.player.projectile_image)
-                            self.scene.scene_controller.sound.play_sound("bubble_shot")
-                            # player just shoots straight ahead
-                            target = (playerpos.x + 1, playerpos.y)
-                            shot.set_shot_direction(target, playerpos)
-                            shot.add(self.scene.projectiles_player)
-                        elif x == 1:
-                            shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
-                                                                          playerpos.y + self.player.image.get_height()/2),
-                                              self.player.projectile_image)
-                            self.scene.scene_controller.sound.play_sound("bubble_shot")
-                            # player just shoots straight ahead
-                            target = (playerpos.x + 1, playerpos.y + 1)
-                            shot.set_shot_direction(target, playerpos)
-                            shot.add(self.scene.projectiles_player)
-                        elif x == 2:
-                            shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
-                                                                          playerpos.y + self.player.image.get_height()/2),
-                                              self.player.projectile_image)
-                            self.scene.scene_controller.sound.play_sound("bubble_shot")
-                            # player just shoots straight ahead
-                            target = (playerpos.x + 1, playerpos.y - 1)
-                            shot.set_shot_direction(target, playerpos)
-                            shot.add(self.scene.projectiles_player)
-                        elif x == 3:
-                            shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
-                                                                          playerpos.y + self.player.image.get_height()/2),
-                                              self.player.projectile_image)
-                            self.scene.scene_controller.sound.play_sound("bubble_shot")
-                            # player just shoots straight ahead
-                            target = (playerpos.x + 5, playerpos.y + 3)
-                            shot.set_shot_direction(target, playerpos)
-                            shot.add(self.scene.projectiles_player)
-                        elif x == 4:
-                            shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
-                                                                          playerpos.y + self.player.image.get_height()/2),
-                                              self.player.projectile_image)
-                            self.scene.scene_controller.sound.play_sound("bubble_shot")
-                            # player just shoots straight ahead
-                            target = (playerpos.x + 5, playerpos.y - 3)
-                            shot.set_shot_direction(target, playerpos)
-                            shot.add(self.scene.projectiles_player)
-                        else:
-                            pass
+                    self.shooting = True
 
             #Get keyup
             elif event.type == pygame.KEYUP:
@@ -113,6 +66,8 @@ class PlayerController:
                     self.rising = False
                 elif event.key == pygame.K_DOWN:
                     self.falling = False
+                elif event.key == pygame.K_SPACE:
+                    self.shooting = False
 
                 # escape for start menu / pause
                 elif event.key == pygame.K_ESCAPE:
@@ -125,6 +80,41 @@ class PlayerController:
         self.rising = False
         self.falling = False
 
+    def shoot(self):
+        if self.shot_timer < 10:
+            self.shot_timer = self.shot_delay
+
+            for x in range(self.projectiles_per_shot):
+                if x == 0:
+                    self.bubble_shot(1,0)
+                elif x == 1:
+                    self.bubble_shot(1,1)
+                elif x == 2:
+                    self.bubble_shot(1, -1)
+                elif x == 3:
+                    self.bubble_shot(5, 3)
+                elif x == 4:
+                    self.bubble_shot(5, -3)
+                else:
+                    pass
+
+    def bubble_shot(self, x_offset, y_offset):
+        """
+        Method to spawn bubble projectiles for player
+        :param x_offset: shooting angles are controlled with these offsets, basically an imaginary target to calc with
+        :param y_offset: shooting angles are controlled with these offsets, basically an imaginary target to calc with
+        :return:
+        """
+        # player just shoots straight ahead usually, on upgrade starts branching out with offset
+        playerpos = self.player.get_pos()
+        shot = Projectile(self.scene.gameboard, 100, (playerpos.x + self.player.image.get_width(),
+                                                      playerpos.y + self.player.image.get_height() / 2),
+                          self.player.projectile_image)
+        self.scene.scene_controller.sound_control.play_sound("bubble_shot")
+        target = (playerpos.x + x_offset, playerpos.y + y_offset)
+        shot.set_shot_direction(target, playerpos)
+        shot.add(self.scene.projectiles_player)
+
     def update(self):
         """
         Movement is realized through a changing speed tuple variable
@@ -135,6 +125,10 @@ class PlayerController:
         if self.player.game_over:
             self.scene.game_over()
         speed = self.player.get_speed()
+        if self.shooting:
+            self.shoot()
+        if self.shot_timer > 0:
+            self.shot_timer -= 1
         #x movement
         if self.accelerating:
             if speed[0] < self.maxSpeed:

@@ -25,8 +25,9 @@
       "3":[
          "message",
          "Super. Einfach immer ausweichen.",
-         "Mit der Leertaste können Objekte auch abgeschossen werden.",
-         "Einfach ausprobieren. Da kommen wieder welche."
+         "Mit der Leertaste können Objekte auch abgeschossen",
+         "werden. Einfach ausprobieren.",
+         "Da kommen wieder welche."
       ],
       "4":[
          "encounter",
@@ -62,8 +63,8 @@
       ],
       "7":[
          "message",
-         "Manche Flugobjekte sind gut für das Korkodil.",
-		 "Man erkennt sie an der grünen Umrandung.",
+         "Manche Flugobjekte sind gut für das Krokodil.",
+		 "Man erkennt sie an dem Kreis, der sie umgibt.",
 		 "Am besten immer aufsammeln!"		 
       ],
 	  "8":[

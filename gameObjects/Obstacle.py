@@ -23,6 +23,8 @@ class Obstacle(GameObject):
         # init self as a GameObject
         super().__init__(surface)
         self.collision_damage = 2
+        self.image = pygame.transform.scale(pygame.image.load('assets/drawables/asteroid_brown.png').convert_alpha(), (80, 80))
+        self.rect = self.image.get_rect()
 
         # starting position
         if y_start == 'random':

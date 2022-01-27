@@ -6,16 +6,16 @@ from controllers.MenuController import MenuController
 
 
 class Startmenu(Scene):
-    pygame.font.init()
-    menu_font = pygame.font.get_default_font()  # getting default font for now just to render sth
-    font_renderer = pygame.font.SysFont(menu_font, 30)
-    item1 = 'Tutorial'
-    item2 = 'Play'
-    item3 = 'Endless'
-    item4 = 'Options'
-    item5 = 'Quit'
 
     def __init__(self, surface, color, selector_color, scene_controller):
+        pygame.font.init()
+        self.menu_font = pygame.font.get_default_font()  # getting default font for now just to render sth
+        self.font_renderer = pygame.font.SysFont(self.menu_font, 30)
+        self.item1 = 'Tutorial'
+        self.item2 = 'Play'
+        self.item3 = 'Endless'
+        self.item4 = 'Options'
+        self.item5 = 'Quit'
         # our scene controllers and surface get set in super
         super().__init__(surface, scene_controller)
 
@@ -25,7 +25,7 @@ class Startmenu(Scene):
         # menu needs a visible selector to show selected item
         # ball standing in as selector for now
         self.selector = MenuSelector(15, 15, self.selector_color)
-        self.menu_image = pygame.image.load('assets/drawables/croc_menu2.png').convert_alpha()
+        self.menu_image = pygame.image.load('assets/drawables/croc_menu3.png').convert_alpha()
 
         # creating all menu items as surfaces and rendering them on the main surface
         self.text_item1 = self.font_renderer.render(self.item1, True, self.main_color)

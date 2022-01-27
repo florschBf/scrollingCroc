@@ -1,5 +1,7 @@
 import pygame.sprite
 from scenes.handlers.UiHandler import UiHandler
+from scenes.handlers.TimeHandler import TimeHandler
+# collision handlers handled on scene basis
 
 class Scene:
     """
@@ -40,14 +42,19 @@ class Scene:
 
         # every scene has some sort of ui - this class here initialises it on demand in the respective scene
         self.ui_handler = UiHandler(self)
+        # most scenes need to keep track of time, so we all get a timehandler, even though it might not display time
+        self.time_handler = TimeHandler(self, True)
+
 
     def onpause(self):
         # call me when pausing the scene
         print("pause on scene " + str(self) + " called")
+        self.time_handler.pause_time()
 
     def onresume(self):
         # call me when returning to the scene
         print("resume on scene " + str(self) + " called")
+        self.time_handler.resume_time()
 
     def onreset(self):
         # call when scene should be ended (e.g. cleanup, send back to start)
@@ -58,12 +65,19 @@ class Scene:
         self.scene_controller.scene_switch(scene_to_go_to, self)
 
     def game_over_message(self):
-        self.ui_handler.create_message_to_player('Bam.', '', 'Mehr Glück beim nächsten Mal...', '', 'GAME OVER!')
+        self.ui_handler.create_highscore_input('Bam.', '', 'Mehr Glück beim nächsten Mal...', '', 'GAME OVER!')
 
     def game_over(self):
         print("cleaning up and leaving")
         self.onreset()
         self.new_scene('start_menu')
+
+    def get_score(self):
+        # implemented in scenes with score
+        try:
+            return self.my_player.score
+        except:
+            return 0
 
     def render(self):
         """
@@ -83,6 +97,9 @@ class Scene:
             pygame.sprite.Group.update(self.hidden_sprites)
             # run controllers update
             self.controller.update()
+
+        # always updating:
+
 
         # always draw the sprites if scene is rendering to prevent black screen...
         pygame.sprite.Group.draw(self.ui, self.gameboard)

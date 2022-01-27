@@ -18,6 +18,9 @@ class SoundController:
         self.play_music = pygame.mixer.Sound('assets/music/juhani_junkala_retro-game-music-pack_level2.ogg')
         self.endless_music = pygame.mixer.Sound('assets/music/juhani_junkala_retro-game-music-pack_level3.ogg')
 
+        self.sound = True
+        self.music = True
+
 
     def play_sound(self, sound_file):
         """
@@ -25,12 +28,13 @@ class SoundController:
         :param sound_file: String to name the desired effect
         :return:
         """
-        if sound_file == 'enemy_shot':
-            self.enemy_shot.play()
-        elif sound_file == 'exploding_enemy':
-            self.exploding_enemy.play()
-        elif sound_file == 'bubble_shot':
-            self.bubble_shot.play()
+        if self.sound:
+            if sound_file == 'enemy_shot':
+                self.enemy_shot.play()
+            elif sound_file == 'exploding_enemy':
+                self.exploding_enemy.play()
+            elif sound_file == 'bubble_shot':
+                self.bubble_shot.play()
 
     def loop_music(self, music):
         """
@@ -38,18 +42,19 @@ class SoundController:
         :param music_file:
         :return:
         """
-        if music == 0:
-            self.title_music.play(-1, 0, 500)
-            self.currently_playing = self.title_music
-        elif music == 1:
-            self.tut_music.play(-1, 0, 500)
-            self.currently_playing = self.tut_music
-        elif music == 2:
-            self.play_music.play(-1, 0, 500)
-            self.currently_playing = self.play_music
-        elif music == 3:
-            self.endless_music.play(-1, 0, 500)
-            self.currently_playing = self.endless_music
-        # elif music == 4:
-        #     self.tut_music.play(99)
-        #     self.currently_playing = self.tut_music
+        if self.music:
+            if music == 0:
+                self.title_music.play(-1, 0, 500)
+                self.currently_playing = self.title_music
+            elif music == 1:
+                self.tut_music.play(-1, 0, 500)
+                self.currently_playing = self.tut_music
+            elif music == 2:
+                self.play_music.play(-1, 0, 500)
+                self.currently_playing = self.play_music
+            elif music == 3:
+                self.endless_music.play(-1, 0, 500)
+                self.currently_playing = self.endless_music
+            # elif music == 4:
+            #     self.tut_music.play(99)
+            #     self.currently_playing = self.tut_music
