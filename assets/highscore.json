@@ -1,0 +1,24 @@
+{
+    "scores": [
+        {
+            "name": "dummy_name",
+            "score": 500
+        },
+        {
+            "name": "dummy_FXS",
+            "score": 350
+        },
+        {
+            "name": "dummy_3",
+            "score": 350
+        },
+        {
+            "name": "test",
+            "score": 80
+        },
+        {
+            "name": "lokj",
+            "score": 70
+        }
+    ]
+}

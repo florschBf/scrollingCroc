@@ -65,12 +65,19 @@ class Scene:
         self.scene_controller.scene_switch(scene_to_go_to, self)
 
     def game_over_message(self):
-        self.ui_handler.create_message_to_player('Bam.', '', 'Mehr Glück beim nächsten Mal...', '', 'GAME OVER!')
+        self.ui_handler.create_highscore_input('Bam.', '', 'Mehr Glück beim nächsten Mal...', '', 'GAME OVER!')
 
     def game_over(self):
         print("cleaning up and leaving")
         self.onreset()
         self.new_scene('start_menu')
+
+    def get_score(self):
+        # implemented in scenes with score
+        try:
+            return self.my_player.score
+        except:
+            return 0
 
     def render(self):
         """
@@ -90,6 +97,9 @@ class Scene:
             pygame.sprite.Group.update(self.hidden_sprites)
             # run controllers update
             self.controller.update()
+
+        # always updating:
+
 
         # always draw the sprites if scene is rendering to prevent black screen...
         pygame.sprite.Group.draw(self.ui, self.gameboard)

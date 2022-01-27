@@ -25,7 +25,7 @@ class Options(Scene):
         # menu needs a visible selector to show selected item
         # ball standing in as selector for now
         self.selector = MenuSelector(15, 15, self.selector_color)
-        self.menu_image = pygame.image.load('assets/drawables/croc_options_menu2.png').convert_alpha()
+        self.menu_image = pygame.image.load('assets/drawables/croc_menu3.png').convert_alpha()
         self.empty_check = pygame.transform.scale(pygame.image.load('assets/drawables/check_empty.png').convert(), (25, 25))
         self.full_check = pygame.transform.scale(pygame.image.load('assets/drawables/check_full.png').convert(), (25,25))
 

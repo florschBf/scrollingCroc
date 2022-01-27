@@ -2,6 +2,7 @@ import os
 
 import pygame
 import pygame.key
+import uiObjects.HighscoreInput
 
 from scenes.Tutorial import Tutorial
 from scenes.Startmenu import Startmenu
@@ -16,7 +17,6 @@ from controllers.SoundController import SoundController
 class SceneController:
 
     def __init__(self):
-
         # setting a few defaults for screen size, consider using a settings file later on
         width = 1280
         height = 720
@@ -242,6 +242,11 @@ class SceneController:
         self.frames.tick(self.FPS)
 
     def reset_me(self, scene):
+        """
+        Method to reload scenes from start
+        :param scene: the scene to delete and reload
+        :return:
+        """
         if scene == self.menu:
             del(scene)
             self.menu = Startmenu(self.gameBoard, new_menu_color, (255, 255, 255), self)
@@ -259,6 +264,14 @@ class SceneController:
             self.options = Options(self.gameBoard, self)
         else:
             pass
+
+    def compare_scores(self, score):
+        print("comparing scores")
+        print("player got " + str(score))
+        if score > self.highscore.highscore.get_lowest_score():
+            return True
+        else:
+            return False
 
     def handle(self, event):
         """
@@ -280,11 +293,29 @@ class SceneController:
             self.highscore.controller.handle(event)
         else:
             # current scene is interrupted, confirm key?
-            print("not doing anything else unless you confirm the message, sorry")
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_RETURN:
-                    current_scene = self.get_active_scene()
-                    ui_handler = current_scene.ui_handler
-                    current_scene.interrupted = False
-                    ui_handler.remove_ui_element(ui_handler.message_to_player)
+            current_scene = self.get_active_scene()
+            if current_scene.ui_handler.highscore_input_bool == True:
+                if isinstance(current_scene.ui_handler.highscore_input, uiObjects.HighscoreInput.HighscoreInput):
+                    if event.type == pygame.KEYDOWN and event.key != pygame.K_RETURN:
+                        print(event.unicode)
+                        current_scene.ui_handler.write_to_input(event.unicode)
+                        pygame.sprite.Group.update(current_scene.ui_on_top)
+                    elif event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
+                        current_scene.interrupted = False
+                        self.highscore.highscore.write_entry(current_scene.ui_handler.highscore_input.name_string[11:], current_scene.my_player.score)
+                        current_scene.ui_handler.remove_ui_element(current_scene.ui_handler.highscore_input)
+                        current_scene.ui_handler.highscore_input_bool = False
+                        self.highscore.update_highscores()
+                else:
+                    if event.type == pygame.KEYUP:
+                        if event.key == pygame.K_RETURN:
+                            ui_handler = current_scene.ui_handler
+                            current_scene.interrupted = False
+                            ui_handler.remove_ui_element(ui_handler.highscore_input)
+            else:
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_RETURN:
+                        ui_handler = current_scene.ui_handler
+                        current_scene.interrupted = False
+                        ui_handler.remove_ui_element(ui_handler.message_to_player)
 

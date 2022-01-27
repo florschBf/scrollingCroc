@@ -27,54 +27,53 @@ class MenuController:
         # Get keypress - TODO decide on keydown / up handling here in menu
         # TODO implement mouse support?
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP:
-                print('moving selector up')
-                self.selector.prev_item()
-                self.selectorNeedsMoving = True
+            if self.menu_state == "highscore":
+                self.menu.new_scene("options")
+            else:
+                if event.key == pygame.K_UP:
+                    print('moving selector up')
+                    self.selector.prev_item()
+                    self.selectorNeedsMoving = True
 
-            elif event.key == pygame.K_DOWN:
-                print('moving selector down')
-                self.selector.next_item()
-                self.selectorNeedsMoving = True
+                elif event.key == pygame.K_DOWN:
+                    print('moving selector down')
+                    self.selector.next_item()
+                    self.selectorNeedsMoving = True
 
-            elif event.key == pygame.K_RETURN:
-                selected = self.selector.get_selected()
+                elif event.key == pygame.K_RETURN:
+                    selected = self.selector.get_selected()
 
-                if self.menu_state == "start":
-                    if selected == 0:
-                        scene = "tutorial"
-                    elif selected == 1:
-                        scene = "play"
-                    elif selected == 2:
-                        scene = "endless"
-                    elif selected == 3:
-                        scene = "options"
-                    elif selected == 4:
-                        pygame.quit()
-                        sys.exit()
-                    if selected != 4:
-                        self.menu.new_scene(scene)
+                    if self.menu_state == "start":
+                        if selected == 0:
+                            scene = "tutorial"
+                        elif selected == 1:
+                            scene = "play"
+                        elif selected == 2:
+                            scene = "endless"
+                        elif selected == 3:
+                            scene = "options"
+                        elif selected == 4:
+                            pygame.quit()
+                            sys.exit()
+                        if selected != 4:
+                            self.menu.new_scene(scene)
 
-                elif self.menu_state == "options":
-                    if selected == 0:
-                        # toggle music
-                        self.menu.scene_controller.toggle_music()
-                    elif selected == 1:
-                        # toggle sound
-                        self.menu.scene_controller.toggle_sound()
-                    elif selected == 2:
-                        # toggle invulnerable
-                        self.menu.scene_controller.toggle_invulnerable()
-                    elif selected == 3:
-                        scene = "highscore"
-                        self.menu.new_scene(scene)
-                    elif selected == 4:
-                        scene = "start_menu"
-                        self.menu.new_scene(scene)
-
-                elif self.menu_state == "highscore":
-                    self.menu.new_scene("options")
-
+                    elif self.menu_state == "options":
+                        if selected == 0:
+                            # toggle music
+                            self.menu.scene_controller.toggle_music()
+                        elif selected == 1:
+                            # toggle sound
+                            self.menu.scene_controller.toggle_sound()
+                        elif selected == 2:
+                            # toggle invulnerable
+                            self.menu.scene_controller.toggle_invulnerable()
+                        elif selected == 3:
+                            scene = "highscore"
+                            self.menu.new_scene(scene)
+                        elif selected == 4:
+                            scene = "start_menu"
+                            self.menu.new_scene(scene)
 
     def update(self):
         if self.selectorNeedsMoving:

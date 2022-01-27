@@ -73,6 +73,8 @@ class Endless(Scene):
         amount_hunter = random.randint(0, 2) * self.wave_multiplier
         amount_powerup = random.randint(0, 2) # keeping them steady, not dividing
         amount_boss = random.randint(0, 1) * (self.wave_multiplier -1)
+
+        # spawning obstacles according to random amounts
         for x in range(0, amount_boss):
             if len(self.active_sprites.sprites()) > 300:
                 break
@@ -99,7 +101,7 @@ class Endless(Scene):
             self.relief()
             print("spawning powerup")
 
-
+    # spawn methods
     def relief(self):
         new_relief = PowerUp(self.gameboard, 'random')
         new_relief.add(self.powerups)
