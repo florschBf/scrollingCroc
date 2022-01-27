@@ -5,7 +5,7 @@ from uiObjects.UiObject import UiObject
 
 class ScoreDisplay(UiObject):
 
-    def __init__(self, player):
+    def __init__(self, player, infobar):
 
         pygame.font.init()
         self.menu_font = pygame.font.get_default_font()  # getting default font for now just to render sth
@@ -14,16 +14,15 @@ class ScoreDisplay(UiObject):
 
         # player object that holds the score value
         self.player = player
+        self.infobar = infobar
         self.score = self.player.score
 
         #text item
-        self.text = self.font_renderer.render("Punkte: ", True, self.default_color)
         self.value = self.font_renderer.render(str(self.score), True, self.default_color)
 
         # image and position
-        self.image = pygame.Surface ([100, 60])
-        self.image.fill((15, 15, 15))
-        self.image.blit(self.text, (0, 10, 100, 30))
+        # empty image cause we're just blitting crocs on infobar. kind of makes this a controller? too late to change
+        self.image = pygame.Surface ([0, 0])
         self.image.blit(self.value, (0, 40, 100, 30))
 
         # jetzt super callen, image ist initialisiert
@@ -37,6 +36,4 @@ class ScoreDisplay(UiObject):
         self.value = self.font_renderer.render(str(self.score), True, self.default_color)
 
         # clear and redraw the update
-        self.image.fill((15, 15, 15))
-        self.image.blit(self.text, (0, 10, 100, 30))
-        self.image.blit(self.value, (0, 38, 100, 30))
+        self.infobar.image.blit(self.value, (270, 65, 100, 30))

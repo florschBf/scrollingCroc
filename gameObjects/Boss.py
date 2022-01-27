@@ -12,11 +12,13 @@ class Boss(Obstacle):
     def __init__(self, surface, movement_pattern, target_player, scene):
         super().__init__(surface, movement_pattern)
         self.speed = [0, 6] # stays at right_side, only y movement
-        self.image = pygame.Surface([100, 300])
+        # self.image = pygame.Surface([100, 300])
+        # self.rect = self.image.get_rect()
+        # self.image.fill((203, 0, 0))
+        self.image = pygame.image.load('assets/drawables/boss1.png').convert_alpha()
         self.rect = self.image.get_rect()
-        self.image.fill((203, 0, 0))
-        self.set_pos(1280, 360 - 150)
         self.controller = BossController(self, movement_pattern, target_player, scene)
+        self.set_pos(1280, 360 - 75)
 
         self.health = 20000
         self.projectile_damage = 5

@@ -5,7 +5,7 @@ from uiObjects.UiObject import UiObject
 
 class TimeDisplay(UiObject):
 
-    def __init__(self, initial_value):
+    def __init__(self, initial_value, infobar):
 
         pygame.font.init()
         self.menu_font = pygame.font.get_default_font()  # getting default font for now just to render sth
@@ -13,16 +13,13 @@ class TimeDisplay(UiObject):
         self.default_color = (255, 255, 255)
 
         self.update_time_value(initial_value)
-
-        #text item
-        self.text = self.font_renderer.render("Zeit: ", True, self.default_color)
         self.value = self.font_renderer.render(str(self.time_value), True, self.default_color)
 
         # image and position
-        self.image = pygame.Surface ([100, 60])
-        self.image.fill((15, 15, 15))
-        self.image.blit(self.text, (0, 10, 100, 30))
-        self.image.blit(self.value, (0, 40, 100, 30))
+        # empty image cause we're just blitting crocs on infobar. kind of makes this a controller? too late to change
+        self.image = pygame.Surface ([0, 0])
+        self.infobar = infobar
+        self.infobar.image.blit(self.value, (165, 60, 100, 30))
 
         # jetzt super callen, image ist initialisiert
         super().__init__()
@@ -36,6 +33,4 @@ class TimeDisplay(UiObject):
         self.value = self.font_renderer.render(str(self.time_value), True, self.default_color)
 
         # clear and redraw the update
-        self.image.fill((15, 15, 15))
-        self.image.blit(self.text, (0, 10, 100, 30))
-        self.image.blit(self.value, (0, 38, 100, 30))
+        self.infobar.image.blit(self.value, (170, 65, 100, 30))

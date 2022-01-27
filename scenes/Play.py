@@ -23,7 +23,7 @@ class Play(Scene):
         super().__init__(surface, scene_controller)
 
         #we need a player
-        self.my_player = PlayerObject(self.gameboard, 25, 25, (350, 350))
+        self.my_player = PlayerObject(self.gameboard, 25, 25, (350, 225))
         self.my_player.add(self.player_sprite)
         # player needs to know game borders
         self.my_player.set_borderX(self.gameboard.get_width())
@@ -34,10 +34,11 @@ class Play(Scene):
 
         # we need a game UI
         self.ui_handler = UiHandler(self)
-        self.health_display = self.ui_handler.create_health_display()
-        self.time_display = self.ui_handler.create_time_display(300)
-        self.score_display = self.ui_handler.create_score_display()
-        self.life_display = self.ui_handler.create_life_display()
+        self.info_display = self.ui_handler.create_info_bar()
+        self.health_display = self.ui_handler.create_health_display(self.info_display)
+        self.time_display = self.ui_handler.create_time_display(300, self.info_display)
+        self.score_display = self.ui_handler.create_score_display(self.info_display)
+        self.life_display = self.ui_handler.create_life_display(self.info_display)
 
         # someone needs to watch for collisions of all kinds
         self.collision_handler = CollisionHandler(self.player_sprite, self.active_sprites, self)
