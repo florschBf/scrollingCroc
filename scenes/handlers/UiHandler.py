@@ -73,8 +73,20 @@ class UiHandler():
         return self.highscore_input
 
     def write_to_input(self, char):
-        self.highscore_input.name_string += char
-        print(self.highscore_input.name_string)
+        if len(self.highscore_input.name_string) < 26:
+            self.highscore_input.name_string += char
+            print(self.highscore_input.name_string)
+        else:
+            # string getting too long, sorry
+            pass
+
+    def delete_from_input(self):
+        if len(self.highscore_input.name_string) > 11:
+            self.highscore_input.name_string = self.highscore_input.name_string[:-1]
+            print("deleting last char")
+            print(self.highscore_input.name_string)
+        else:
+            print('not deleting "Dein Name: "')
 
     def position_new_toprow_element(self, element):
         """
