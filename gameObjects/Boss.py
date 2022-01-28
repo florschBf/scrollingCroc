@@ -7,11 +7,12 @@ from gameObjects.PowerUp import PowerUp
 from gameObjects.Enemy import Enemy
 from controllers.BossController import BossController
 
+
 class Boss(Obstacle):
 
     def __init__(self, surface, movement_pattern, target_player, scene):
         super().__init__(surface, movement_pattern)
-        self.speed = [0, 6] # stays at right_side, only y movement
+        self.speed = [0, 6]  # stays at right_side, only y movement
         # self.image = pygame.Surface([100, 300])
         # self.rect = self.image.get_rect()
         # self.image.fill((203, 0, 0))
@@ -30,7 +31,6 @@ class Boss(Obstacle):
         self.ultimate_timer = 0
         self.relief_timer = 0
 
-
     def base_move(self):
         """
         Method that spawns Projectile GameObjects and launches them at the screen in various directions
@@ -43,10 +43,10 @@ class Boss(Obstacle):
             shot.set_color((122, 12, 230))
             # need to aim at player
             if x == 0:
-                shot.set_shot_direction((600,0), my_pos)
+                shot.set_shot_direction((600, 0), my_pos)
                 shot.add(scene.projectiles_enemies)
             elif x == 1:
-                shot.set_shot_direction((300,144), my_pos)
+                shot.set_shot_direction((300, 144), my_pos)
                 shot.add(scene.projectiles_enemies)
             elif x == 2:
                 shot.set_shot_direction((0, 288), my_pos)
@@ -70,11 +70,10 @@ class Boss(Obstacle):
 
     def spawn_obstacles(self):
 
-        scene = self.controller.scene
-        amount_obs = random.randint(0,3)
+        amount_obs = random.randint(0, 3)
         amount_enemy = random.randint(0, 2)
         amount_hunter = random.randint(0, 1)
-        for x in range(0,amount_obs):
+        for x in range(0, amount_obs):
             print("spawning obstacle")
             self.spawn_obstacle()
         for x in range(0, amount_enemy):
@@ -92,18 +91,17 @@ class Boss(Obstacle):
         new_relief = PowerUp(self.controller.scene.gameboard, 'random')
         new_relief.add(self.controller.scene.powerups)
 
-    def spawn_obstacle(self, movement = 'random', y_start = 'random'):
+    def spawn_obstacle(self, movement='random', y_start='random'):
         new_obstacle = Obstacle(self.controller.scene.gameboard, movement, y_start)
         new_obstacle.add(self.controller.scene.active_sprites)
 
-    def spawn_enemy(self, movement = 'random', y_start = 'random'):
-        new_enemy = Enemy(self.controller.scene.gameboard, movement  , self.controller.player, self.controller.scene)
+    def spawn_enemy(self, movement='random', y_start='random'):
+        new_enemy = Enemy(self.controller.scene.gameboard, movement, self.controller.player, self.controller.scene)
         new_enemy.add(self.controller.scene.active_sprites)
 
     def spawn_hunter(self):
         new_enemy = Enemy(self.controller.scene.gameboard,  'hunter', self.controller.player, self.controller.scene)
         new_enemy.add(self.controller.scene.active_sprites)
-
 
     def update(self):
         super().update()

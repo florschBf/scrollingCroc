@@ -29,4 +29,3 @@ class UiObject(Sprite):
         """
         print("hide on UI Object called")
         print(self.groups())
-

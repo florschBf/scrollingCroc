@@ -27,7 +27,7 @@ class Options(Scene):
         self.selector = MenuSelector(15, 15, self.selector_color)
         self.menu_image = pygame.image.load('assets/drawables/croc_menu3.png').convert_alpha()
         self.empty_check = pygame.transform.scale(pygame.image.load('assets/drawables/check_empty.png').convert(), (25, 25))
-        self.full_check = pygame.transform.scale(pygame.image.load('assets/drawables/check_full.png').convert(), (25,25))
+        self.full_check = pygame.transform.scale(pygame.image.load('assets/drawables/check_full.png').convert(), (25, 25))
 
         # creating all menu items as surfaces and rendering them on the main surface
         self.text_item1 = self.font_renderer.render(self.item1, True, self.main_color)
@@ -53,24 +53,23 @@ class Options(Scene):
         self.gameboard.blit(self.text_item4, (550, 360, 30, 30))
         self.gameboard.blit(self.text_item5, (550, 390, 30, 30))
 
-        if self.scene_controller.music == True:
+        if self.scene_controller.music:
             self.gameboard.blit(self.full_check, (725, 265))
         else:
             self.gameboard.blit(self.empty_check, (725, 265))
 
-        if self.scene_controller.sound == True:
+        if self.scene_controller.sound:
             self.gameboard.blit(self.full_check, (725, 295))
         else:
             self.gameboard.blit(self.empty_check, (725, 295))
 
-        if self.scene_controller.invulnerable == True:
+        if self.scene_controller.invulnerable:
             self.gameboard.blit(self.full_check, (725, 325))
         else:
             self.gameboard.blit(self.empty_check, (725, 325))
 
         # call Scene render function for sprites and controllers
         super().render()
-
 
     def onresume(self):
         super().onresume()

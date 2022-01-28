@@ -1,28 +1,22 @@
-import pygame.draw
-
 from scenes.Scene import Scene
 from scenes.handlers.CollisionHandler import CollisionHandler
-from scenes.handlers.TimeHandler import TimeHandler
 from scenes.handlers.UiHandler import UiHandler
 from gameObjects.PlayerObject import PlayerObject
-from gameObjects.Obstacle import Obstacle
-from gameObjects.Enemy import Enemy
 from controllers.PlayerController import PlayerController
 from controllers.EncounterController import EncounterController
-from uiObjects.HealthDisplay import HealthDisplay
-from uiObjects.TimeDisplay import TimeDisplay
+
 
 class Play(Scene):
-    #testcolors
-    black = (0,0,0)
-    white = (255,255,255)
-    green = (14,237,0)
+    # testcolors
+    black = (0, 0, 0)
+    white = (255, 255, 255)
+    green = (14, 237, 0)
 
     def __init__(self, surface, scene_controller):
-        #call scene constructor
+        # call scene constructor
         super().__init__(surface, scene_controller)
 
-        #we need a player
+        # we need a player
         self.my_player = PlayerObject(self.gameboard, 25, 25, (350, 225))
         self.my_player.add(self.player_sprite)
         # player needs to know game borders
@@ -62,7 +56,6 @@ class Play(Scene):
             # make sure the level proceeds as planned
             self.time_handler.update()
             self.encounters.update()
-
 
             # handle collisions of different sprites, first player with active_sprites
             # then active_sprites with player shots

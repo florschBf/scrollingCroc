@@ -1,5 +1,4 @@
 import pygame.font
-import sqlite3
 
 from scenes.Scene import Scene
 from uiObjects.MenuSelector import MenuSelector
@@ -18,7 +17,7 @@ class Highscore(Scene):
         super().__init__(surface, scene_controller)
 
         # json for keeping highscores
-        self.highscore = HighscoreController("/assets/highscore.json", self)
+        self.highscore = HighscoreController("assets/highscore.json")
 
         # main color for font - consider color schemes or accents for later
         self.main_color = color
@@ -27,7 +26,6 @@ class Highscore(Scene):
         # ball standing in as selector for now
         self.selector = MenuSelector(15, 15, self.selector_color)
         self.menu_image = pygame.image.load('assets/drawables/highscore.png').convert_alpha()
-
 
         # creating all menu items as surfaces and rendering them on the main surface
         self.text_item1a = self.font_renderer.render(self.highscore.return_position_name(0), True, self.main_color)
@@ -49,7 +47,6 @@ class Highscore(Scene):
 
         # selector not needed for highscore, not drawing and updating
         # self.selector.add(self.active_sprites)
-
 
     def render(self):
         # rendering menu items to surface

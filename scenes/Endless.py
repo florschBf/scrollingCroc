@@ -1,9 +1,7 @@
-import pygame.draw
 import random
 
 from scenes.Scene import Scene
 from scenes.handlers.CollisionHandler import CollisionHandler
-from scenes.handlers.TimeHandler import TimeHandler
 from scenes.handlers.UiHandler import UiHandler
 from gameObjects.PlayerObject import PlayerObject
 from gameObjects.Obstacle import Obstacle
@@ -11,21 +9,19 @@ from gameObjects.Enemy import Enemy
 from gameObjects.PowerUp import PowerUp
 from gameObjects.Boss import Boss
 from controllers.PlayerController import PlayerController
-from controllers.EncounterController import EncounterController
-from uiObjects.HealthDisplay import HealthDisplay
-from uiObjects.TimeDisplay import TimeDisplay
+
 
 class Endless(Scene):
-    #testcolors
-    black = (0,0,0)
-    white = (255,255,255)
-    green = (14,237,0)
+    # testcolors
+    black = (0, 0, 0)
+    white = (255, 255, 255)
+    green = (14, 237, 0)
 
     def __init__(self, surface, scene_controller):
-        #call scene constructor
+        # call scene constructor
         super().__init__(surface, scene_controller)
 
-        #we need a player
+        # we need a player
         self.my_player = PlayerObject(self.gameboard, 25, 25, (350, 225))
         self.my_player.add(self.player_sprite)
         # player needs to know game borders
@@ -63,7 +59,7 @@ class Endless(Scene):
 
     def endless_waves(self):
         self.wave_multiplier = 0
-        for x in range (0, self.wave_counter):
+        for x in range(0, self.wave_counter):
             if x % 5 == 0:
                 self.wave_multiplier += 1
         if self.wave_multiplier == 0:
@@ -71,8 +67,8 @@ class Endless(Scene):
         amount_obs = random.randint(0, 3) * self.wave_multiplier
         amount_enemy = random.randint(0, 3) * self.wave_multiplier
         amount_hunter = random.randint(0, 2) * self.wave_multiplier
-        amount_powerup = random.randint(0, 2) # keeping them steady, not dividing
-        amount_boss = random.randint(0, 1) * (self.wave_multiplier -1)
+        amount_powerup = random.randint(0, 2)  # // keeping them steady, not dividing anymore
+        amount_boss = random.randint(0, 1) * (self.wave_multiplier - 1)
 
         # spawning obstacles according to random amounts
         for x in range(0, amount_boss):
@@ -106,16 +102,16 @@ class Endless(Scene):
         new_relief = PowerUp(self.gameboard, 'random')
         new_relief.add(self.powerups)
 
-    def spawn_obstacle(self, movement = 'random', y_start = 'random'):
+    def spawn_obstacle(self, movement='random', y_start='random'):
         new_obstacle = Obstacle(self.gameboard, movement, y_start)
         new_obstacle.add(self.active_sprites)
 
-    def spawn_enemy(self, movement = 'random', y_start = 'random'):
-        new_enemy = Enemy(self.gameboard, movement  , self.my_player, self)
+    def spawn_enemy(self, movement='random', y_start='random'):
+        new_enemy = Enemy(self.gameboard, movement, self.my_player, self)
         new_enemy.add(self.active_sprites)
 
     def spawn_hunter(self):
-        new_enemy = Enemy(self.gameboard,  'hunter', self.my_player, self)
+        new_enemy = Enemy(self.gameboard, 'hunter', self.my_player, self)
         new_enemy.add(self.active_sprites)
 
     def spawn_boss(self):

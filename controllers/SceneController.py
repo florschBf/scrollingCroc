@@ -20,8 +20,8 @@ class SceneController:
         # setting a few defaults for screen size, consider using a settings file later on
         width = 1280
         height = 720
-        old_menu_color = (150, 60, 255)
-        new_menu_color = (255, 78, 225)
+
+        self.new_menu_color = (255, 78, 225)
 
         # game settings
         # self.game_speed = 10
@@ -44,12 +44,12 @@ class SceneController:
 
         # preloading scenes - is that smart?
         # hard-coding colors here, consider themes / settings file
-        self.menu = Startmenu(self.gameBoard, new_menu_color, (255, 255, 255), self)
+        self.menu = Startmenu(self.gameBoard, self.new_menu_color, (255, 255, 255), self)
         self.tut = Tutorial(self.gameBoard, self)
         self.play = Play(self.gameBoard, self)
         self.endless = Endless(self.gameBoard, self)
-        self.options = Options(self.gameBoard, new_menu_color, (255, 255, 255), self)
-        self.highscore = Highscore(self.gameBoard, new_menu_color, (255, 255, 255), self)
+        self.options = Options(self.gameBoard, self.new_menu_color, (255, 255, 255), self)
+        self.highscore = Highscore(self.gameBoard, self.new_menu_color, (255, 255, 255), self)
 
         # starting state is menu
         self.state = 0
@@ -84,7 +84,7 @@ class SceneController:
             pass
 
     def toggle_music(self):
-        if self.music == True:
+        if self.music:
             self.music = False
             self.sound_control.music = False
             self.sound_control.currently_playing.fadeout(500)
@@ -95,7 +95,7 @@ class SceneController:
             self.sound_control.loop_music(0)
 
     def toggle_sound(self):
-        if self.sound == True:
+        if self.sound:
             self.sound = False
             self.sound_control.sound = False
         else:
@@ -169,7 +169,7 @@ class SceneController:
         Identifies the scene we come from when launching a new scene
         :return: the scene we came from so we can call "onpause" or "onreset" on it or sth
         """
-        scene = null;
+        scene = None
         if scene_number == 0:
             scene = self.menu
         elif scene_number == 1:
@@ -199,14 +199,14 @@ class SceneController:
             print("active scene is: " + str(self.play))
             return self.play
         elif self.state == 3:
-            return self.endless
             print("active scene is: " + str(self.endless))
+            return self.endless
         elif self.state == 4:
             print("active scene is: " + str(self.options))
             return self.options
         elif self.state == 5:
             print("active scene is: " + str(self.highscore))
-            return self.highscore()
+            return self.highscore
 
     def update(self):
         """
@@ -218,7 +218,6 @@ class SceneController:
         self.gameBoard.fill((15, 15, 15))
         # running space as default background
         self.background.start_parallax("space")
-
 
         # check state and call render
         if self.state == 0:
@@ -248,20 +247,23 @@ class SceneController:
         :return:
         """
         if scene == self.menu:
-            del(scene)
-            self.menu = Startmenu(self.gameBoard, new_menu_color, (255, 255, 255), self)
+            del scene
+            self.menu = Startmenu(self.gameBoard, self.new_menu_color, (255, 255, 255), self)
         elif scene == self.tut:
-            del(scene)
+            del scene
             self.tut = Tutorial(self.gameBoard, self)
         elif scene == self.play:
-            del(scene)
+            del scene
             self.play = Play(self.gameBoard, self)
         elif scene == self.endless:
-            del(scene)
+            del scene
             self.endless = Endless(self.gameBoard, self)
         elif scene == self.options:
-            del(scene)
-            self.options = Options(self.gameBoard, self)
+            del scene
+            self.options = Options(self.gameBoard, self.new_menu_color, (255, 255, 255), self)
+        elif scene == self.highscore:
+            del scene
+            self.highscore = Highscore(self.gameBoard, self.new_menu_color, (255, 255, 255), self)
         else:
             pass
 
@@ -294,7 +296,7 @@ class SceneController:
         else:
             # current scene is interrupted, confirm key?
             current_scene = self.get_active_scene()
-            if current_scene.ui_handler.highscore_input_bool == True:
+            if current_scene.ui_handler.highscore_input_bool:
                 if isinstance(current_scene.ui_handler.highscore_input, uiObjects.HighscoreInput.HighscoreInput):
                     if event.type == pygame.KEYDOWN and event.key != pygame.K_RETURN:
                         print(event.unicode)
@@ -322,4 +324,3 @@ class SceneController:
                         ui_handler = current_scene.ui_handler
                         current_scene.interrupted = False
                         ui_handler.remove_ui_element(ui_handler.message_to_player)
-

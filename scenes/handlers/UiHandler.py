@@ -6,9 +6,11 @@ from uiObjects.LifeDisplay import LifeDisplay
 from uiObjects.InfoBar import InfoBar
 from uiObjects.HighscoreInput import HighscoreInput
 
-class UiHandler():
+
+class UiHandler:
 
     def __init__(self, scene):
+        self.info_bar = InfoBar()
         self.scene = scene
         # ui sprite group to manage
         self.ui_sprites = self.scene.ui
@@ -16,9 +18,8 @@ class UiHandler():
         self.highscore_input_bool = False
 
     def create_info_bar(self):
-        self.info_bar = InfoBar()
         self.info_bar.add(self.ui_sprites)
-        self.info_bar.set_pos(0,0)
+        self.info_bar.set_pos(0, 0)
         return self.info_bar
 
     def create_health_display(self, infobar):

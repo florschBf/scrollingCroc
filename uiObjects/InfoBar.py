@@ -1,6 +1,7 @@
 import pygame.image
 from uiObjects.UiObject import UiObject
 
+
 class InfoBar(UiObject):
 
     def __init__(self):

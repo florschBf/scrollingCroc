@@ -2,6 +2,7 @@ import pygame.font
 import pygame.sprite
 from uiObjects.UiObject import UiObject
 
+
 class HighscoreInput(UiObject):
     """
     Class to send messages to the player - for explanation, story whatever.
@@ -43,4 +44,3 @@ class HighscoreInput(UiObject):
             self.image.blit(line, (25, line_offset_from_top, 100, 30))
         if self.score_high_enough:
             self.image.blit(self.name_renderer, (25, 200, 100, 30))
-

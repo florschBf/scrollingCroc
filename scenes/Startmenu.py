@@ -53,7 +53,6 @@ class Startmenu(Scene):
         # call Scene render function for sprites and controllers
         super().render()
 
-
     def onresume(self):
         super().onresume()
 

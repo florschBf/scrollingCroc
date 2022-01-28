@@ -1,5 +1,6 @@
 from controllers.ObstacleController import ObstacleController
 
+
 class BossController(ObstacleController):
 
     def __init__(self, boss, move_pattern, target_player, scene):
@@ -35,12 +36,10 @@ class BossController(ObstacleController):
             self.boss.relief()
             self.boss.relief_timer = 0
 
-
     def moving(self):
         # handling different move patterns
         self.update_pos()
         print(self.boss.return_health())
-
 
     def update_pos(self):
         # overwriting Obstacle movement, not calling super()
@@ -67,10 +66,9 @@ class BossController(ObstacleController):
                 pos[0] = new_pos_x
             if self.boss.border_y:
                 # constantly triggering reversal on y border though
-                if new_pos_y > 0 and new_pos_y < self.boss.surface.get_height() - self.boss.image.get_height():
+                if 0 < new_pos_y < self.boss.surface.get_height() - self.boss.image.get_height():
                     pos[1] = new_pos_y
                 else:
                     self.boss.speed[1] *= -1
             else:
                 pos[1] = new_pos_y
-

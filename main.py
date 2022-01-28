@@ -23,5 +23,5 @@ while True:
             sys.exit()
         else:
             # handing over all other event handling to the SceneController
-            # - knows someone who can handle the event depening on scene and potentially state the game is in
+            # - knows someone who can handle the event depending on scene and potentially state the game is in
             scene.handle(event)

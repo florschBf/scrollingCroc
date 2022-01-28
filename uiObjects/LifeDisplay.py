@@ -13,14 +13,13 @@ class LifeDisplay(UiObject):
         self.default_color = (255, 255, 255)
         self.infobar = infobar
         # empty image cause we're just blitting crocs on infobar. kind of makes this a controller? too late to change
-        self.image = pygame.Surface ([0, 0])
-
+        self.image = pygame.Surface([0, 0])
 
         # player object that holds the score value
         self.player = player
         self.lives = self.player.lives
 
-        #croc image to represent lives
+        # croc image to represent lives
         self.croc = pygame.image.load('assets/drawables/croc_lives.png').convert_alpha()
 
         # image and position
@@ -36,7 +35,7 @@ class LifeDisplay(UiObject):
     def blit_crocs(self):
         offset = 400
         print(self.lives)
-        for x in range(0,self.lives):
+        for x in range(0, self.lives):
             if x > 8:
                 pass
             else:

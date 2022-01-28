@@ -1,9 +1,10 @@
 import random
 
+
 class ObstacleController:
     """
     Class that realizes movement patterns for all kinds of non-player game objects
-    patterns are straigt, zigzag, random and hunter
+    patterns are straight, zigzag, random and hunter
     straight: goes in a line without changing y
     zigzag: goes diagonally and reverts on screen border
     random: sets random directions and speeds on an interval
@@ -30,9 +31,8 @@ class ObstacleController:
                 self.randomize_speed()
                 self.random_counter = 0
 
-
     def update_pos(self):
-        #updating position according to speed
+        # updating position according to speed
         pos = self.obstacle.get_pos()
         current_x = pos[0]
         current_y = pos[1]
@@ -47,7 +47,7 @@ class ObstacleController:
             else:
                 pos[0] = new_pos_x
             if self.obstacle.border_y:
-                if new_pos_y > 0 and new_pos_y < self.obstacle.surface.get_height():
+                if 0 < new_pos_y < self.obstacle.surface.get_height():
                     pos[1] = new_pos_y
                 else:
                     self.obstacle.speed[1] *= -1
@@ -65,6 +65,6 @@ class ObstacleController:
         else:
             self.obstacle.speed[0] = random.randint(0, 10)
         if self.obstacle.speed[1] < 0:
-            self.obstacle.speed[1] = random.randint(0,10)*-1
+            self.obstacle.speed[1] = random.randint(0, 10)*-1
         else:
             self.obstacle.speed[1] = random.randint(0, 10)

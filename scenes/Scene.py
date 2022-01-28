@@ -3,6 +3,7 @@ from scenes.handlers.UiHandler import UiHandler
 from scenes.handlers.TimeHandler import TimeHandler
 # collision handlers handled on scene basis
 
+
 class Scene:
     """
     Parent class for all game scenes
@@ -21,21 +22,25 @@ class Scene:
         self.scene_controller = scene_controller
         self.interrupted = False
 
+        # init in scenes according to needs
+        self.my_player = None
+        self.controller = None
+
         # every scene has a collection of active sprites to render
         # hidden sprites dont get rendered atm but may be brought back (dont want them killed)
         # e.g. hiding UI / messages / stuff like that
         # player_sprite might not be present, but usually is
         # establishing different groups as kind of "layers" to work with, also regarding collision rules btw each other
         self.player_sprite = pygame.sprite.GroupSingle()
-        self.active_sprites = pygame.sprite.Group() # enemy obstacles
+        self.active_sprites = pygame.sprite.Group()  # enemy obstacles
         self.powerups = pygame.sprite.Group()
 
         # active game scenes require additional sprite categories
-        self.projectiles_player = pygame.sprite.Group() # player projectiles
-        self.projectiles_enemies = pygame.sprite.Group() # enemy projectiles
+        self.projectiles_player = pygame.sprite.Group()  # player projectiles
+        self.projectiles_enemies = pygame.sprite.Group()  # enemy projectiles
         # UI + UI OnTop Layer
-        self.ui = pygame.sprite.Group() # base ui
-        self.ui_on_top = pygame.sprite.Group() # ui thats always on top
+        self.ui = pygame.sprite.Group()  # base ui
+        self.ui_on_top = pygame.sprite.Group()  # ui thats always on top
 
         # layer to keep hidden game objects in the scene, like spawn points, ui, whatever else could come up
         self.hidden_sprites = pygame.sprite.Group()
@@ -44,7 +49,6 @@ class Scene:
         self.ui_handler = UiHandler(self)
         # most scenes need to keep track of time, so we all get a timehandler, even though it might not display time
         self.time_handler = TimeHandler(self, True)
-
 
     def onpause(self):
         # call me when pausing the scene
@@ -76,7 +80,7 @@ class Scene:
         # implemented in scenes with score
         try:
             return self.my_player.score
-        except:
+        except Exception:
             return 0
 
     def render(self):
@@ -85,7 +89,7 @@ class Scene:
         super NEEDS to be called by the scenes in addition to their own logic for this step
         :return:
         """
-        #update only if scene is not interrupted
+        # update only if scene is not interrupted
         if not self.interrupted:
             pygame.sprite.GroupSingle.update(self.player_sprite)
             pygame.sprite.Group.update(self.active_sprites)
@@ -100,7 +104,6 @@ class Scene:
 
         # always updating:
 
-
         # always draw the sprites if scene is rendering to prevent black screen...
         pygame.sprite.Group.draw(self.ui, self.gameboard)
         pygame.sprite.Group.draw(self.active_sprites, self.gameboard)
@@ -111,4 +114,3 @@ class Scene:
         pygame.sprite.Group.draw(self.ui_on_top, self.gameboard)
 
         # not drawing hidden sprites
-

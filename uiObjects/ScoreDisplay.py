@@ -17,12 +17,12 @@ class ScoreDisplay(UiObject):
         self.infobar = infobar
         self.score = self.player.score
 
-        #text item
+        # text item
         self.value = self.font_renderer.render(str(self.score), True, self.default_color)
 
         # image and position
         # empty image cause we're just blitting crocs on infobar. kind of makes this a controller? too late to change
-        self.image = pygame.Surface ([0, 0])
+        self.image = pygame.Surface([0, 0])
         self.image.blit(self.value, (0, 40, 100, 30))
 
         # jetzt super callen, image ist initialisiert

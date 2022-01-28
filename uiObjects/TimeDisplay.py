@@ -17,12 +17,14 @@ class TimeDisplay(UiObject):
 
         # image and position
         # empty image cause we're just blitting crocs on infobar. kind of makes this a controller? too late to change
-        self.image = pygame.Surface ([0, 0])
+        self.image = pygame.Surface([0, 0])
         self.infobar = infobar
         self.infobar.image.blit(self.value, (165, 60, 100, 30))
 
         # jetzt super callen, image ist initialisiert
         super().__init__()
+
+        self.time_value = 0
 
     def update_time_value(self, value):
         # value is in ms, need to divide for seconds

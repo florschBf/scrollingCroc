@@ -16,18 +16,18 @@ class HealthDisplay(UiObject):
         self.infobar = infobar
 
         # colors for health bar
-        self.feeling_good_color = (0,204,34)
-        self.hurt_color = (255,170,0)
-        self.hurt_badly_color = (230,38,0)
+        self.feeling_good_color = (0, 204, 34)
+        self.hurt_color = (255, 170, 0)
+        self.hurt_badly_color = (230, 38, 0)
 
         # player health value
         self.player_health = self.my_player.return_health()
 
-        #bar instead of text to give some more visual indication
-        self.healthbar = pygame.Surface([self.player_health,30])
+        # bar instead of text to give some more visual indication
+        self.healthbar = pygame.Surface([self.player_health, 30])
         self.healthbar.fill(self.feeling_good_color)
         # empty image cause we're just blitting crocs on infobar. kind of makes this a controller? too late to change
-        self.image = pygame.Surface ([0, 0])
+        self.image = pygame.Surface([0, 0])
 
         self.infobar.image.blit(self.healthbar, (18, 60, 100, 30))
 
@@ -41,11 +41,10 @@ class HealthDisplay(UiObject):
             self.healthbar = pygame.Surface([int(self.player_health), 30])
             if self.player_health > 80:
                 self.healthbar.fill(self.feeling_good_color)
-            elif self.player_health < 80 and self.player_health > 40:
+            elif 80 > self.player_health > 40:
                 self.healthbar.fill(self.hurt_color)
             elif self.player_health < 40:
                 self.healthbar.fill(self.hurt_badly_color)
 
-        #erase healthbar and redraw the update
+        # erase healthbar and redraw the update
         self.infobar.image.blit(self.healthbar, (18, 60, 100, 30))
-

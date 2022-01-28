@@ -2,6 +2,7 @@ import pygame.font
 import pygame.sprite
 from uiObjects.UiObject import UiObject
 
+
 class PlayerReadMe(UiObject):
     """
     Class to send messages to the player - for explanation, story whatever.
@@ -33,4 +34,3 @@ class PlayerReadMe(UiObject):
         for line in self.message_lines:
             line_offset_from_top += 25
             self.image.blit(line, (25, line_offset_from_top, 100, 30))
-

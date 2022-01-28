@@ -2,6 +2,7 @@ import pygame.key
 
 from gameObjects.Projectile import Projectile
 
+
 class PlayerController:
     """
     Class that controls all input for the playerobject, e.g. movement and shooting
@@ -38,7 +39,7 @@ class PlayerController:
             # message to player being displayed. on input, remove and proceed with game
             self.scene.ui_handler.remove_ui_element(self.scene.ui_handler.message_to_player)
         else:
-            #Get keypress
+            # Get keypress
             if event.type == pygame.KEYDOWN:
                 # arrows for movement
                 if event.key == pygame.K_LEFT:
@@ -55,7 +56,7 @@ class PlayerController:
                     # shooting
                     self.shooting = True
 
-            #Get keyup
+            # Get keyup
             elif event.type == pygame.KEYUP:
                 # arrow up = stop movement
                 if event.key == pygame.K_LEFT:
@@ -86,9 +87,9 @@ class PlayerController:
 
             for x in range(self.projectiles_per_shot):
                 if x == 0:
-                    self.bubble_shot(1,0)
+                    self.bubble_shot(1, 0)
                 elif x == 1:
-                    self.bubble_shot(1,1)
+                    self.bubble_shot(1, 1)
                 elif x == 2:
                     self.bubble_shot(1, -1)
                 elif x == 3:
@@ -129,7 +130,7 @@ class PlayerController:
             self.shoot()
         if self.shot_timer > 0:
             self.shot_timer -= 1
-        #x movement
+        # x movement
         if self.accelerating:
             if speed[0] < self.maxSpeed:
                 self.player.accelerate(self.responsiveness)
@@ -137,13 +138,13 @@ class PlayerController:
             if speed[0] > -self.maxSpeed:
                 self.player.decelerate(self.responsiveness)
         else:
-            #no movement, apply default drag
+            # no movement, apply default drag
             if speed[0] > 0:
                 self.player.decelerate(self.drag)
             elif speed[0] < 0:
                 self.player.accelerate(self.drag)
 
-        #y movement
+        # y movement
         if self.rising:
             if speed[1] < self.maxSpeed:
                 self.player.rise(self.responsiveness/2)
@@ -151,14 +152,14 @@ class PlayerController:
             if speed[1] > -self.maxSpeed:
                 self.player.fall(self.responsiveness/2)
         else:
-            #no movement, apply default drag
+            # no movement, apply default drag
             if speed[1] < 0:
                 self.player.fall(self.drag)
             elif speed[1] > 0:
                 self.player.rise(self.drag)
 
         # Handle movement every frame
-        new_pos_x = self.player.rect.x + self.player.movement[0] # upper left corner x and y
+        new_pos_x = self.player.rect.x + self.player.movement[0]  # upper left corner x and y
         new_pos_y = self.player.rect.y + self.player.movement[1]
 
         if self.player.borderX[0] < new_pos_x < self.player.borderX[1] - self.player.image.get_width():

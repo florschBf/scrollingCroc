@@ -3,9 +3,9 @@ from uiObjects.UiObject import UiObject
 
 
 class MenuSelector(UiObject):
-    '''
+    """
     UI Object that represents the players selection in a menu (think of an arrow or a ball infront of a text
-    '''
+    """
 
     def __init__(self, height, width, color):
         self.position = 0
@@ -32,7 +32,6 @@ class MenuSelector(UiObject):
             elif self.menu_type == 'options':
                 self.position = 4
 
-
     def get_selected(self):
         # return currently selected item
         return self.position
@@ -44,5 +43,5 @@ class MenuSelector(UiObject):
         self.rect.x = x
         self.rect.y = y
 
-    def set_color (self, color):
+    def set_color(self, color):
         self.image.fill(color)

@@ -1,6 +1,6 @@
 import pygame.image
 import pygame.surface
-import os
+
 
 class BackgroundController:
     def __init__(self, main_surface):
@@ -22,12 +22,11 @@ class BackgroundController:
         self.back_speed = .15
         self.far_speed = .01
 
-
     def start_parallax(self, location):
         screen_w = self.screen.get_width()
         screen_h = self.screen.get_height()
         if location == 'space':
-            self.screen.blit(self.space_bg, (0,0,screen_w, screen_h))
+            self.screen.blit(self.space_bg, (0, 0, screen_w, screen_h))
             self.screen.blit(self.space_stars, (self.space_stars_location[0], 0, screen_w, screen_h))
             self.screen.blit(self.space_far_planets, (self.space_far_planets_location[0], 100, screen_w, screen_h))
             self.screen.blit(self.space_ring_planet, (self.space_ring_planet_location[0], 180, screen_w, screen_h))
@@ -55,4 +54,3 @@ class BackgroundController:
             if image_pos[0] < 0 - image.get_width():
                 image_pos[0] = self.screen.get_width() + image.get_width()
             image_pos[0] -= self.far_speed
-

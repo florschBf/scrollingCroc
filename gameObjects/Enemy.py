@@ -3,9 +3,10 @@ import random
 from gameObjects.Obstacle import Obstacle
 from controllers.EnemyController import EnemyController
 
+
 class Enemy(Obstacle):
 
-    def __init__(self, surface, movement_pattern, target_player, scene, y_start = 'random'):
+    def __init__(self, surface, movement_pattern, target_player, scene, y_start='random'):
         super().__init__(surface, movement_pattern)
         self.projectile_damage = 8
         self.controller = EnemyController(self, movement_pattern, target_player, scene)

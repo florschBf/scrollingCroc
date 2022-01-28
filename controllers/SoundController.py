@@ -1,5 +1,5 @@
 import pygame.mixer
-from pygame import mixer
+
 
 class SoundController:
 
@@ -21,7 +21,6 @@ class SoundController:
         self.sound = True
         self.music = True
 
-
     def play_sound(self, sound_file):
         """
         Method to trigger sound effects
@@ -39,7 +38,7 @@ class SoundController:
     def loop_music(self, music):
         """
         Method to loop music for the scene
-        :param music_file:
+        :param music: integer that selects a music file from the available tracks
         :return:
         """
         if self.music:

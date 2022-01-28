@@ -2,12 +2,13 @@ import pygame.sprite
 from pygame.math import Vector2
 from gameObjects.GameObject import GameObject
 
+
 class Projectile(GameObject):
 
-    def __init__(self, surface, damage, starting_pos, image = None):
+    def __init__(self, surface, damage, starting_pos, image=None):
         GameObject.__init__(self, surface)
 
-        #movement related attributes
+        # movement related attributes
         self.velocity = 15
         self.target_vector = None
         self.border_x = False
@@ -18,10 +19,9 @@ class Projectile(GameObject):
         # hardcoding for the moment
         self.collision_damage = damage
 
-
-        if image == None:
+        if image is None:
             self.image = pygame.Surface([15, 15])
-            self.image.fill((125,125,200))
+            self.image.fill((125, 125, 200))
         else:
             self.image = image
 
@@ -32,13 +32,13 @@ class Projectile(GameObject):
         :param origin_pos: whichever gameobject is responsible for the projectile
         :return: nth
         """
-        print ("aiming at: " + str(target_pos))
-        print ("shot coming from: " + str(origin_pos))
+        print("aiming at: " + str(target_pos))
+        print("shot coming from: " + str(origin_pos))
         target_distance = (target_pos[0] - origin_pos[0]), (target_pos[1] - origin_pos[1])
         try:
             self.target_vector = Vector2(target_distance).normalize()
             print("target vector: " + str(self.target_vector))
-        except:
+        except Exception:
             # distance was 0, cant normalize vector, setting a standard
             self.target_vector = Vector2([1, origin_pos[1]]).normalize()
             print("error, new target vector: " + str(self.target_vector))
