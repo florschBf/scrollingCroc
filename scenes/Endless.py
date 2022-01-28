@@ -53,7 +53,7 @@ class Endless(Scene):
         # tell the handler to display time on our UI element time_display from above
         self.time_handler.set_time_display(self.time_display)
         self.wave_timer = 300
-        self.wave_threshold = 600
+        self.wave_threshold = 850
         self.wave_counter = 0
         self.wave_multiplier = 0
 
@@ -135,8 +135,8 @@ class Endless(Scene):
             # make sure the level proceeds as planned
             self.time_handler.update()
             self.wave_timer += 1
-            if len(self.active_sprites.sprites()) == 0 and self.wave_timer < 300:
-                self.wave_timer = 300
+            if len(self.active_sprites.sprites()) == 0 and self.wave_timer < 750:
+                self.wave_timer = 750
             if self.wave_timer > self.wave_threshold:
                 self.endless_waves()
                 self.wave_counter += 1

@@ -14,6 +14,8 @@ class HighscoreInput(UiObject):
         self.menu_font = pygame.font.get_default_font()  # getting default font for now just to render sth
         self.font_renderer = pygame.font.SysFont(self.menu_font, 30)
         self.default_color = (255, 255, 255)
+        self.filler = pygame.Surface([565, 150])
+        self.filler.fill((23, 23, 23))
         self.name_string = 'Dein Name: '
         self.name_renderer = self.font_renderer.render(self.name_string, True, self.default_color)
         self.score_high_enough = False
@@ -31,6 +33,8 @@ class HighscoreInput(UiObject):
             self.message_lines.append(self.font_renderer.render(line, True, self.default_color))
 
     def update(self):
+        # fill the textbox before each rendering so text input and deletion works correctly
+        self.image.blit(self.filler, (20, 80, 565, 150))
         line_offset_from_top = 60
         self.name_renderer = self.font_renderer.render(self.name_string, True, self.default_color)
         # clear and redraw the message

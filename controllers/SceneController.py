@@ -298,8 +298,12 @@ class SceneController:
                 if isinstance(current_scene.ui_handler.highscore_input, uiObjects.HighscoreInput.HighscoreInput):
                     if event.type == pygame.KEYDOWN and event.key != pygame.K_RETURN:
                         print(event.unicode)
-                        current_scene.ui_handler.write_to_input(event.unicode)
-                        pygame.sprite.Group.update(current_scene.ui_on_top)
+                        if event.key == pygame.K_BACKSPACE:
+                            current_scene.ui_handler.delete_from_input()
+                            pygame.sprite.Group.update(current_scene.ui_on_top)
+                        else:
+                            current_scene.ui_handler.write_to_input(event.unicode)
+                            pygame.sprite.Group.update(current_scene.ui_on_top)
                     elif event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
                         current_scene.interrupted = False
                         self.highscore.highscore.write_entry(current_scene.ui_handler.highscore_input.name_string[11:], current_scene.my_player.score)
