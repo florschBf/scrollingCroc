@@ -2,7 +2,7 @@
 Scroll Shoot Evade with PyGame and a Crocodile
 
 # Semesterprojekt für Objektorientierte Skriptsprachen
-TH Brandenburg, Winter 21/22
+TH Brandenburg, Winter 21/22, 
 Dozent: Prof. Dr. Thomas Preuss
 
 ## dependencies
@@ -11,11 +11,14 @@ pygame==2.1.0
 
 ## Steuerung
 Pfeiltasten zur Auswahl im Menu und zum Bewegen
+
 Return zur Auswahl und Bestätigung im Spiel
+
 Space im Spiel für Bubbles
 
 ## genutzte Grafiken und Sound-Assets im Spiel
 Krokodil, Menü, Powerups etc. selbst erstellt
+
 Gegner-Grafiken und Sound von https://opengameart.org, alle Creative Commons oder Public Domain
 
 ### Creative Commons Urheber-Nennungen:
